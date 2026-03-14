@@ -16,7 +16,7 @@ html {
   bottom: 0;
   width: 36px;
   z-index: 9999;
-  opacity: 0.6;
+  opacity: 1.0;
   transition: opacity 0.3s ease;
 }
 
@@ -60,12 +60,12 @@ html {
       rgba(255, 100, 20, 0.2) 40%,
       rgba(255, 60, 10, 0.05) 80%,
       transparent);
-  opacity: 0.2;
+  opacity: 0.8;
   transition: opacity 0.3s ease;
 }
 
 .exhaust-trail.active {
-  opacity: 0.8;
+  opacity: 1.0;
 }
 
 /* Rocket thumb */
@@ -127,7 +127,7 @@ html {
   height: 85%;
   background: linear-gradient(to bottom, #ffa500, #ff4500, #ff0000, transparent);
   border-radius: 0 0 50% 50%;
-  opacity: 0.65;
+  opacity: 0.8;
   animation: flicker 0.12s ease-in-out infinite alternate-reverse;
 }
 
@@ -136,11 +136,11 @@ html {
 }
 
 .idle .flame-core {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .idle .flame-outer {
-  opacity: 0.25;
+  opacity: 0.5;
 }
 
 @keyframes flicker {

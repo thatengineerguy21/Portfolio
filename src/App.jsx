@@ -1,20 +1,25 @@
 import SpaceBackground from './components/SpaceBackground'
+import Navbar from './components/Navbar'
 import RocketScrollbar from './components/RocketScrollbar'
 import DotRing from './components/DotRing/DotRing'
+import GlassPanel from './components/GlassPanel'
 
 function App() {
   return (
     <>
       <SpaceBackground />
+      <Navbar />
       <DotRing />
       <RocketScrollbar />
 
-      <div className="title" >
+      {/* <div className="title" >
         <h1 data-cursor-hover>thatengineerguy</h1>
-      </div>
+      </div> */}
 
-      {/* Temporary spacer to test scrolling, need to remove later */}
-      <div style={{ height: '200vh' }}></div>
+      <GlassPanel>
+        {/* All portfolio content goes here */}
+      </GlassPanel>
+
     </>
   )
 }

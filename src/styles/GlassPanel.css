@@ -1,0 +1,94 @@
+/* ── Glass Panel – Center Content Container ── */
+
+.glass-panel-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 6rem 1rem 2rem 1rem;
+    /* 6rem top so it starts below the fixed Navbar */
+    box-sizing: border-box;
+}
+
+.glass-panel {
+    width: 100%;
+    max-width: 1300px;
+    min-height: 100vh;
+    padding: 3rem 2.5rem;
+
+    /* ── Glassmorphism Core ── */
+    background: linear-gradient(160deg,
+            rgba(140, 160, 255, 0.07) 0%,
+            rgba(200, 200, 255, 0.04) 40%,
+            rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 12px;
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+        0 0 1px rgba(255, 255, 255, 0.15),
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+        inset 0 0 20px 4px rgba(180, 200, 255, 0.04);
+
+    /* ── Layout ── */
+    position: relative;
+    overflow: hidden;
+    z-index: 3;
+
+    /* ── Fade-in entrance ── */
+    animation: panelFadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* ── Top highlight edge ── */
+.glass-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.6),
+            transparent);
+    pointer-events: none;
+}
+
+/* ── Left highlight edge ── */
+.glass-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.6),
+            transparent,
+            rgba(255, 255, 255, 0.2));
+    pointer-events: none;
+}
+
+/* ── Entrance Animation ── */
+@keyframes panelFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .glass-panel {
+        padding: 2rem 1.25rem;
+        border-radius: 18px;
+        min-height: 50vh;
+    }
+}
