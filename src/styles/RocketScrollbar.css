@@ -1,0 +1,244 @@
+/* Hide Native Scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Scrollbar Container*/
+.rocket-scrollbar {
+  position: fixed;
+  right: 4px;
+  top: 0;
+  bottom: 0;
+  width: 36px;
+  z-index: 9999;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.rocket-scrollbar:hover {
+  opacity: 1;
+}
+
+/* Track */
+.rocket-track {
+  position: absolute;
+  top: 16px;
+  bottom: 48px;
+  left: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+/* Thin visual track line */
+.rocket-track::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 1px;
+}
+
+/* Exhaust trail (rocket → launch pad) */
+.exhaust-trail {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: linear-gradient(to bottom,
+      rgba(255, 160, 50, 0.5),
+      rgba(255, 100, 20, 0.2) 40%,
+      rgba(255, 60, 10, 0.05) 80%,
+      transparent);
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.exhaust-trail.active {
+  opacity: 0.8;
+}
+
+/* Rocket thumb */
+.rocket-thumb {
+  position: absolute;
+  left: 50%;
+  cursor: grab;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: filter 0.3s ease;
+  will-change: top, transform;
+}
+
+.rocket-thumb:active {
+  cursor: grabbing;
+}
+
+.rocket-thumb:hover {
+  filter: drop-shadow(0 0 6px rgba(255, 160, 50, 0.6));
+}
+
+.rocket-svg {
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Flame effects */
+.rocket-flame {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 16px;
+  height: 10px;
+  margin-top: -2px;
+  transition: height 0.2s ease;
+}
+
+.thrusting .rocket-flame {
+  height: 22px;
+}
+
+.flame-core {
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, #ffffff, #ffd700, #ff8c00, transparent);
+  border-radius: 0 0 50% 50%;
+  animation: flicker 0.08s ease-in-out infinite alternate;
+}
+
+.flame-outer {
+  position: absolute;
+  top: 0;
+  width: 7px;
+  height: 85%;
+  background: linear-gradient(to bottom, #ffa500, #ff4500, #ff0000, transparent);
+  border-radius: 0 0 50% 50%;
+  opacity: 0.65;
+  animation: flicker 0.12s ease-in-out infinite alternate-reverse;
+}
+
+.idle .rocket-flame {
+  height: 6px;
+}
+
+.idle .flame-core {
+  opacity: 0.5;
+}
+
+.idle .flame-outer {
+  opacity: 0.25;
+}
+
+@keyframes flicker {
+  from {
+    transform: scaleX(1) scaleY(1);
+  }
+
+  to {
+    transform: scaleX(0.6) scaleY(1.15);
+  }
+}
+
+/* Launch pad */
+.launch-pad {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+}
+
+.pad-base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  background: #555;
+  border-radius: 1px;
+  box-shadow: 0 0 4px rgba(100, 100, 100, 0.3);
+}
+
+.pad-support {
+  position: absolute;
+  bottom: 3px;
+  width: 2px;
+  height: 10px;
+  background: linear-gradient(to top, #555, #444);
+  border-radius: 1px 1px 0 0;
+}
+
+.pad-left {
+  left: 5px;
+  transform: rotate(-8deg);
+}
+
+.pad-right {
+  right: 5px;
+  transform: rotate(8deg);
+}
+
+.pad-light {
+  position: absolute;
+  bottom: 1px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+.pad-light-l {
+  left: 2px;
+  background: #e74c3c;
+  box-shadow: 0 0 4px #e74c3c;
+}
+
+.pad-light-r {
+  right: 2px;
+  background: #2ecc71;
+  box-shadow: 0 0 4px #2ecc71;
+  animation-delay: 0.75s;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* Hide on mobile (touch scrolling) */
+@media (max-width: 768px) {
+  .rocket-scrollbar {
+    display: none;
+  }
+
+  ::-webkit-scrollbar {
+    display: initial;
+  }
+
+  html {
+    scrollbar-width: auto;
+  }
+}
