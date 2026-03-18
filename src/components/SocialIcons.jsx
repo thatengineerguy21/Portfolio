@@ -15,10 +15,10 @@ const SocialIcons = () => {
 
   return (
     <section id="social" style={{ padding: '2rem', paddingTop: '0', color: 'white' }}>
-      <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 400 }}>Connect with me</h2>
+      <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 500 }}>Connect with me</h2>
       <GlassHoverCardContainer>
         {socials.map((social) => (
-          <GlassHoverCard key={social.name} hoverColor={social.hoverColor} data-cursor-hover>
+          <GlassHoverCard key={social.name} hoverColor={social.hoverColor} data-cursor-hover >
             <a
               href={social.link}
               target="_blank"
@@ -27,14 +27,14 @@ const SocialIcons = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '0.5rem',
+                padding: 0,
                 textDecoration: 'none',
                 color: 'rgb(240, 240, 240)',
                 minWidth: '80px',
                 fontFamily: '"Exo 2", sans-serif'
               }}
             >
-              <span style={{ marginRight: '16px', display: 'flex', alignItems: 'center' }}>
+              <span style={{ marginRight: '4px', display: 'flex', alignItems: 'center' }}>
                 <img
                   src={social.icon}
                   alt={`${social.name} icon`}

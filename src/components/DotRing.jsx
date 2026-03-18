@@ -80,8 +80,8 @@ const DotRing = () => {
                 dot.style.opacity = "0";
             } else {
                 // Default cursor — follow mouse
-                ring.style.width = "22px";
-                ring.style.height = "22px";
+                ring.style.width = "32px";
+                ring.style.height = "32px";
                 ring.style.borderRadius = "100%";
                 ring.style.borderColor = "rgb(255, 253, 253)";
                 ring.style.borderWidth = "2px";
@@ -92,7 +92,7 @@ const DotRing = () => {
             // Lerp positions
             ringX += (targetRingX - ringX) * 0.2;
             ringY += (targetRingY - ringY) * 0.2;
-            
+
             dotX += (mouseX - dotX) * 0.5;
             dotY += (mouseY - dotY) * 0.5;
 

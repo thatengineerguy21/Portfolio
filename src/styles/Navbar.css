@@ -116,7 +116,8 @@
 
 /* BREADCRUMB (left pill) */
 
-.nav-breadcrumb, .nav-breadcrumb * {
+.nav-breadcrumb,
+.nav-breadcrumb * {
     cursor: none !important;
 }
 
@@ -253,7 +254,7 @@
     overflow: hidden;
 
     /* Size will be calculated, but set a max dimension */
-    height: 20px;
+    height: 40px;
     width: auto;
     transition:
         opacity var(--nav-transition),

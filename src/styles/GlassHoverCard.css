@@ -15,13 +15,20 @@
 
 /* ── Card shell ── */
 .glass-hover-card {
-    border-radius: 12px;
+    border-radius: 32px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     position: relative;
     /* Entrance animation inherited from GlassPanel */
     animation: glassCardFadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-hover-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* ── Pseudo-layer shared rules ── */
@@ -46,18 +53,22 @@
 }
 
 .glass-hover-card::before {
-    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
-            var(--hover-surface-color, rgba(180, 200, 255, 0.10)),
-            transparent 40%);
+    background:
+        radial-gradient(350px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-surface-color, rgba(180, 200, 255, 0.08)),
+            transparent 60%),
+        radial-gradient(150px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-surface-color, rgba(200, 220, 255, 0.05)),
+            transparent 50%);
     z-index: 3;
     pointer-events: none;
 }
 
 /* Border glow — activates across all cards when container is hovered */
 .glass-hover-card::after {
-    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
-            var(--hover-border-color, rgba(255, 255, 255, 0.258)),
-            transparent 25%);
+    background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-border-color, rgba(255, 255, 255, 0.20)),
+            transparent 50%);
     z-index: 1;
     pointer-events: none;
 }
@@ -93,34 +104,35 @@
     padding: 1.5rem;
 }
 
-/* ── Top highlight edge (from GlassPanel::before) ── */
+/* ── Top highlight edge — subtle light catch along the top ── */
 .glass-hover-card>.glass-hover-card-content::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    left: 10%;
+    right: 10%;
     height: 1px;
     background: linear-gradient(90deg,
             transparent,
-            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.25) 30%,
+            rgba(255, 255, 255, 0.35) 50%,
+            rgba(255, 255, 255, 0.25) 70%,
             transparent);
     pointer-events: none;
     z-index: 4;
 }
 
-/* ── Left highlight edge (from GlassPanel::after) ── */
+/* ── Left highlight edge — fading top-corner light ── */
 .glass-hover-card>.glass-hover-card-content::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 1px;
-    height: 100%;
+    height: 50%;
     background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.6),
-            transparent,
-            rgba(255, 255, 255, 0.2));
+            rgba(255, 255, 255, 0.30),
+            transparent);
     pointer-events: none;
     z-index: 4;
 }
