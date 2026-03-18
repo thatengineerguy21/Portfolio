@@ -15,7 +15,7 @@
 
 /* ── Card shell ── */
 .glass-hover-card {
-    border-radius: 32px;
+    border-radius: 24px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
