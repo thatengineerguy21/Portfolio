@@ -2,6 +2,7 @@ import React from 'react';
 import { GlassHoverCardContainer, GlassHoverCard } from './GlassHoverCard';
 import resumePdf from '../assets/documents/Vedant_Chaudhari_DYPCOE.pdf';
 import downloadIcon from '../assets/icons/download-file.svg';
+import profilePhoto from '../assets/images/profile-casual.jpg'
 
 const About = () => {
   return (
@@ -14,7 +15,7 @@ const About = () => {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center', maxWidth: '950px', cursor: 'pointer', padding: '1rem' }}>
               <div style={{ flex: '1 1 300px', display: 'flex', justifyContent: 'center' }}>
                 <img
-                  src="src/assets/images/profile-casual.jpg"
+                  src={profilePhoto}
                   alt="Profile Photo"
                   style={{
                     width: '100%',
