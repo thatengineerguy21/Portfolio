@@ -1,0 +1,172 @@
+/* ── GlassHoverCard.css ── */
+/* Merges GlassPanel glassmorphism visuals with HoverCard mouse-tracking spotlight effect */
+
+/* ── Container ── */
+.glass-hover-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* When hovering the container, reveal the border glow (::after) on all sibling cards */
+.glass-hover-cards-container:hover>.glass-hover-card::after {
+    opacity: 1;
+}
+
+/* ── Card shell ── */
+.glass-hover-card {
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* Entrance animation inherited from GlassPanel */
+    animation: glassCardFadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* ── Pseudo-layer shared rules ── */
+/* ::before = surface spotlight (inner highlight that follows the cursor) */
+/* ::after  = border glow (edge light that activates when any card in container is hovered) */
+.glass-hover-card::before,
+.glass-hover-card::after {
+    border-radius: inherit;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 500ms;
+    width: 100%;
+}
+
+/* Surface spotlight — follows mouse, reveals on individual card hover */
+.glass-hover-card:hover::before {
+    opacity: 1;
+}
+
+.glass-hover-card::before {
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-surface-color, rgba(180, 200, 255, 0.10)),
+            transparent 40%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Border glow — activates across all cards when container is hovered */
+.glass-hover-card::after {
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-border-color, rgba(255, 255, 255, 0.258)),
+            transparent 25%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ── Inner content pane — carries all GlassPanel visuals ── */
+/* The 1px margin creates the "border" slice that lets ::after show through as a glow ring */
+.glass-hover-card>.glass-hover-card-content {
+    border-radius: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin: 1px;
+    /* exposes ::after glow as border */
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+
+    /* ── Glassmorphism Core (from GlassPanel) ── */
+    background: linear-gradient(160deg,
+            rgba(140, 160, 255, 0.07) 0%,
+            rgba(200, 200, 255, 0.04) 40%,
+            rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 0.5px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+        0 0 1px rgba(255, 255, 255, 0.15),
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.30),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+        inset 0 0 20px 4px rgba(180, 200, 255, 0.04);
+
+    padding: 1.5rem;
+}
+
+/* ── Top highlight edge (from GlassPanel::before) ── */
+.glass-hover-card>.glass-hover-card-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.6),
+            transparent);
+    pointer-events: none;
+    z-index: 4;
+}
+
+/* ── Left highlight edge (from GlassPanel::after) ── */
+.glass-hover-card>.glass-hover-card-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.6),
+            transparent,
+            rgba(255, 255, 255, 0.2));
+    pointer-events: none;
+    z-index: 4;
+}
+
+/* ── Entrance animation ── */
+@keyframes glassCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ── Stagger children for a cascade entrance ── */
+.glass-hover-card:nth-child(1) {
+    animation-delay: 0ms;
+}
+
+.glass-hover-card:nth-child(2) {
+    animation-delay: 80ms;
+}
+
+.glass-hover-card:nth-child(3) {
+    animation-delay: 160ms;
+}
+
+.glass-hover-card:nth-child(4) {
+    animation-delay: 240ms;
+}
+
+.glass-hover-card:nth-child(5) {
+    animation-delay: 320ms;
+}
+
+.glass-hover-card:nth-child(6) {
+    animation-delay: 400ms;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .glass-hover-card>.glass-hover-card-content {
+        padding: 1.25rem;
+        border-radius: 18px;
+    }
+}
