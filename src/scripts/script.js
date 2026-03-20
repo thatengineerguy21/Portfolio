@@ -94,6 +94,13 @@ export default function initParticleCanvas(text) {
             }
             this.vx *= 0.99;
             this.vy *= 0.99;
+            // Keep particles drifting – re-boost if speed drops too low
+            const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            if (speed < 0.2) {
+                const angle = Math.atan2(this.vy, this.vx) || (Math.random() * Math.PI * 2);
+                this.vx = Math.cos(angle) * 0.3;
+                this.vy = Math.sin(angle) * 0.3;
+            }
             this.x += this.vx;
             this.y += this.vy;
             // Wrap around edges
@@ -140,7 +147,7 @@ export default function initParticleCanvas(text) {
             const gradient = this.context.createLinearGradient(0, 0, this.canvasWidth, this.canvasHeight);
             gradient.addColorStop(0.3, 'red');
             gradient.addColorStop(0.5, 'fuchsia');
-            gradient.addColorStop(0.7, 'purple');
+            gradient.addColorStop(0.7, 'blue');
             this.context.fillStyle = gradient;
             this.context.font = this.fontSize + 'px "Exo 2", sans-serif';
             this.context.textAlign = 'center';
@@ -235,10 +242,10 @@ export default function initParticleCanvas(text) {
             const p = particles[i];
             let cx = Math.floor(p.x / CONNECT_DIST);
             let cy = Math.floor(p.y / CONNECT_DIST);
-            
+
             if (cx < 0) cx = 0; else if (cx >= cols) cx = cols - 1;
             if (cy < 0) cy = 0; else if (cy >= rows) cy = rows - 1;
-            
+
             const cellIndex = cy * cols + cx;
             gridNext[i] = gridHead[cellIndex];
             gridHead[cellIndex] = i;
@@ -257,7 +264,7 @@ export default function initParticleCanvas(text) {
                 for (let dx = -1; dx <= 1; dx++) {
                     const nx = cx + dx;
                     if (nx < 0 || nx >= cols) continue;
-                    
+
                     let currIndex = gridHead[ny * cols + nx];
                     while (currIndex !== -1) {
                         if (currIndex > i) {

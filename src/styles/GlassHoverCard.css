@@ -1,5 +1,5 @@
 /* ── GlassHoverCard.css ── */
-/* Merges GlassPanel glassmorphism visuals with HoverCard mouse-tracking spotlight effect */
+/* Premium glassmorphism + BorderGlow conic edge glow + SpotlightCard spotlight */
 
 /* ── Container ── */
 .glass-hover-cards-container {
@@ -8,85 +8,218 @@
     gap: 8px;
 }
 
-/* When hovering the container, reveal the border glow (::after) on all sibling cards */
-.glass-hover-cards-container:hover>.glass-hover-card::after {
-    opacity: 1;
+/* When hovering the container, reveal the border glow layers on all sibling cards */
+.glass-hover-cards-container:hover>.glass-hover-card::before,
+.glass-hover-cards-container:hover>.glass-hover-card::after,
+.glass-hover-cards-container:hover>.glass-hover-card>.edge-light {
+    pointer-events: none;
 }
 
 /* ── Card shell ── */
 .glass-hover-card {
+    --edge-proximity: 0;
+    --cursor-angle: 45deg;
+    --edge-sensitivity: 30;
+    --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+    --glow-padding: 40px;
+    --cone-spread: 25;
+    --fill-opacity: 0.5;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --spotlight-color: rgba(255, 255, 255, 0.05);
+
     border-radius: 24px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     position: relative;
-    /* Entrance animation inherited from GlassPanel */
+    isolation: isolate;
+    overflow: visible;
+
+    /* Entrance animation */
     animation: glassCardFadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
     transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
         box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Layered depth shadow (from BorderGlow) */
+    box-shadow:
+        rgba(0, 0, 0, 0.08) 0px 1px 2px,
+        rgba(0, 0, 0, 0.08) 0px 2px 4px,
+        rgba(0, 0, 0, 0.08) 0px 4px 8px,
+        rgba(0, 0, 0, 0.06) 0px 8px 16px,
+        rgba(0, 0, 0, 0.04) 0px 16px 32px;
 }
 
 .glass-hover-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow:
+        rgba(0, 0, 0, 0.10) 0px 1px 2px,
+        rgba(0, 0, 0, 0.10) 0px 2px 4px,
+        rgba(0, 0, 0, 0.10) 0px 4px 8px,
+        rgba(0, 0, 0, 0.08) 0px 8px 16px,
+        rgba(0, 0, 0, 0.06) 0px 16px 32px,
+        rgba(0, 0, 0, 0.04) 0px 32px 64px,
+        0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* ── Pseudo-layer shared rules ── */
-/* ::before = surface spotlight (inner highlight that follows the cursor) */
-/* ::after  = border glow (edge light that activates when any card in container is hovered) */
-.glass-hover-card::before,
-.glass-hover-card::after {
-    border-radius: inherit;
+
+/* ══════════════════════════════════════════════════════
+   LAYER 1: Colored mesh-gradient border (::before)
+   From BorderGlow — conic-masked, edge-sensitive
+   ══════════════════════════════════════════════════════ */
+
+.glass-hover-card::before {
     content: "";
-    height: 100%;
-    left: 0;
-    opacity: 0;
     position: absolute;
-    top: 0;
-    transition: opacity 500ms;
-    width: 100%;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+
+    border: 2px solid transparent;
+    background:
+        linear-gradient(rgba(10, 10, 30, 1) 0 100%) padding-box,
+        linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+        var(--gradient-one, radial-gradient(at 80% 55%, hsla(268, 100%, 76%, 1) 0px, transparent 50%)) border-box,
+        var(--gradient-two, radial-gradient(at 69% 34%, hsla(349, 100%, 74%, 1) 0px, transparent 50%)) border-box,
+        var(--gradient-three, radial-gradient(at 8% 6%, hsla(136, 100%, 78%, 1) 0px, transparent 50%)) border-box,
+        var(--gradient-four, radial-gradient(at 41% 38%, hsla(192, 100%, 64%, 1) 0px, transparent 50%)) border-box,
+        var(--gradient-five, radial-gradient(at 86% 85%, hsla(186, 100%, 74%, 1) 0px, transparent 50%)) border-box,
+        var(--gradient-six, radial-gradient(at 82% 18%, hsla(52, 100%, 65%, 1) 0px, transparent 50%)) border-box,
+        var(--gradient-seven, radial-gradient(at 51% 4%, hsla(12, 100%, 72%, 1) 0px, transparent 50%)) border-box,
+        var(--gradient-base, linear-gradient(#c299ff 0 100%)) border-box;
+
+    opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+    transition: opacity 0.25s ease-out;
+
+    mask-image:
+        conic-gradient(from var(--cursor-angle) at center,
+            black calc(var(--cone-spread) * 1%),
+            transparent calc((var(--cone-spread) + 15) * 1%),
+            transparent calc((100 - var(--cone-spread) - 15) * 1%),
+            black calc((100 - var(--cone-spread)) * 1%));
 }
 
-/* Surface spotlight — follows mouse, reveals on individual card hover */
-.glass-hover-card:hover::before {
+/* Hide mesh-gradient when not hovering */
+.glass-hover-card:not(:hover)::before {
+    opacity: 0;
+    transition: opacity 0.75s ease-in-out;
+}
+
+
+/* LAYER 2 (mesh fill) removed — it floods the interior on transparent glass cards */
+
+
+/* ══════════════════════════════════════════════════════
+   LAYER 3: Edge-light outer glow (span.edge-light)
+   From BorderGlow — layered box-shadow, conic-masked
+   ══════════════════════════════════════════════════════ */
+
+.glass-hover-card>.edge-light {
+    position: absolute;
+    inset: calc(var(--glow-padding) * -1);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -1;
+    transition: opacity 0.25s ease-out;
+
+    mask-image:
+        conic-gradient(from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+
+    opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+    mix-blend-mode: plus-lighter;
+}
+
+.glass-hover-card:not(:hover)>.edge-light {
+    opacity: 0;
+    transition: opacity 0.75s ease-in-out;
+}
+
+.glass-hover-card>.edge-light::before {
+    content: "";
+    position: absolute;
+    inset: var(--glow-padding);
+    border-radius: inherit;
+    box-shadow:
+        inset 0 0 0 1px var(--glow-color, hsl(40deg 80% 80% / 100%)),
+        inset 0 0 1px 0 var(--glow-color-60, hsl(40deg 80% 80% / 60%)),
+        inset 0 0 3px 0 var(--glow-color-50, hsl(40deg 80% 80% / 50%)),
+        inset 0 0 6px 0 var(--glow-color-40, hsl(40deg 80% 80% / 40%)),
+        inset 0 0 15px 0 var(--glow-color-30, hsl(40deg 80% 80% / 30%)),
+        inset 0 0 25px 2px var(--glow-color-20, hsl(40deg 80% 80% / 20%)),
+        inset 0 0 50px 2px var(--glow-color-10, hsl(40deg 80% 80% / 10%)),
+        0 0 1px 0 var(--glow-color-60, hsl(40deg 80% 80% / 60%)),
+        0 0 3px 0 var(--glow-color-50, hsl(40deg 80% 80% / 50%)),
+        0 0 6px 0 var(--glow-color-40, hsl(40deg 80% 80% / 40%)),
+        0 0 15px 0 var(--glow-color-30, hsl(40deg 80% 80% / 30%)),
+        0 0 25px 2px var(--glow-color-20, hsl(40deg 80% 80% / 20%)),
+        0 0 50px 2px var(--glow-color-10, hsl(40deg 80% 80% / 10%));
+}
+
+
+/* ══════════════════════════════════════════════════════
+   LAYER 4: Surface spotlight (radial follow-cursor)
+   Multi-layer luminous spotlight — simulates light on glass
+   ══════════════════════════════════════════════════════ */
+
+.glass-hover-card>.glass-hover-card-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+        /* 1 — Specular hot-spot: tight bright center, the "light source" */
+        radial-gradient(100px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-surface-color, rgba(255, 255, 255, 0.18)),
+            transparent 70%),
+
+        /* 2 — Inner glow: brighter ring around the hot-spot */
+        radial-gradient(250px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-surface-color, var(--spotlight-color, rgba(180, 210, 255, 0.12))),
+            transparent 60%),
+
+        /* 3 — Medium diffuse: wide ambient light spread */
+        radial-gradient(450px circle at var(--mouse-x) var(--mouse-y),
+            var(--hover-surface-color, rgba(160, 190, 255, 0.06)),
+            transparent 55%),
+
+        /* 4 — Atmospheric halo: very subtle, very wide glow */
+        radial-gradient(700px circle at var(--mouse-x) var(--mouse-y),
+            rgba(140, 170, 255, 0.025),
+            transparent 50%),
+
+        /* 5 — Reflective sheen: faint light catch on the opposite side */
+        radial-gradient(300px circle at calc(100% - var(--mouse-x)) calc(100% - var(--mouse-y)),
+            rgba(255, 255, 255, 0.015),
+            transparent 60%);
+
+    opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+    z-index: 4;
+}
+
+.glass-hover-card:hover>.glass-hover-card-content::before {
     opacity: 1;
 }
 
-.glass-hover-card::before {
-    background:
-        radial-gradient(350px circle at var(--mouse-x) var(--mouse-y),
-            var(--hover-surface-color, rgba(180, 200, 255, 0.08)),
-            transparent 60%),
-        radial-gradient(150px circle at var(--mouse-x) var(--mouse-y),
-            var(--hover-surface-color, rgba(200, 220, 255, 0.05)),
-            transparent 50%);
-    z-index: 3;
-    pointer-events: none;
-}
 
-/* Border glow — activates across all cards when container is hovered */
-.glass-hover-card::after {
-    background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y),
-            var(--hover-border-color, rgba(255, 255, 255, 0.20)),
-            transparent 50%);
-    z-index: 1;
-    pointer-events: none;
-}
+/* ══════════════════════════════════════════════════════
+   Inner content pane — full glassmorphism
+   ══════════════════════════════════════════════════════ */
 
-/* ── Inner content pane — carries all GlassPanel visuals ── */
-/* The 1px margin creates the "border" slice that lets ::after show through as a glow ring */
 .glass-hover-card>.glass-hover-card-content {
     border-radius: inherit;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     margin: 1px;
-    /* exposes ::after glow as border */
+    /* exposes border glow through the 1px gap */
     position: relative;
     z-index: 2;
     overflow: hidden;
 
-    /* ── Glassmorphism Core (from GlassPanel) ── */
+    /* ── Glassmorphism Core ── */
     background: linear-gradient(160deg,
             rgba(140, 160, 255, 0.07) 0%,
             rgba(200, 200, 255, 0.04) 40%,
@@ -104,8 +237,8 @@
     padding: 1.5rem;
 }
 
-/* ── Top highlight edge — subtle light catch along the top ── */
-.glass-hover-card>.glass-hover-card-content::before {
+/* ── Top highlight edge — subtle light catch ── */
+.glass-hover-card>.glass-hover-card-content::after {
     content: '';
     position: absolute;
     top: 0;
@@ -122,20 +255,6 @@
     z-index: 4;
 }
 
-/* ── Left highlight edge — fading top-corner light ── */
-.glass-hover-card>.glass-hover-card-content::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 50%;
-    background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.30),
-            transparent);
-    pointer-events: none;
-    z-index: 4;
-}
 
 /* ── Entrance animation ── */
 @keyframes glassCardFadeIn {
