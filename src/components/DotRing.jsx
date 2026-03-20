@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/DotRing.css";
 
 const DotRing = () => {
@@ -6,8 +6,25 @@ const DotRing = () => {
     const dotRef = useRef(null);
     const hoveredElRef = useRef(null);
     const isHoveredRef = useRef(false);
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
 
     useEffect(() => {
+        const mediaQuery = window.matchMedia("(pointer: coarse)");
+        setIsTouchDevice(mediaQuery.matches);
+        
+        const changeHandler = (e) => setIsTouchDevice(e.matches);
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener("change", changeHandler);
+            return () => mediaQuery.removeEventListener("change", changeHandler);
+        } else if (mediaQuery.addListener) {
+            mediaQuery.addListener(changeHandler);
+            return () => mediaQuery.removeListener(changeHandler);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isTouchDevice) return;
+
         let animationFrameId;
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
@@ -114,7 +131,9 @@ const DotRing = () => {
             document.removeEventListener("mouseout", onMouseOut);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [isTouchDevice]);
+
+    if (isTouchDevice) return null;
 
     return (
         <>

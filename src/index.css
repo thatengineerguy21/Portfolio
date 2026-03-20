@@ -1,7 +1,12 @@
 * {
   margin: 0;
   padding: 0;
-  cursor: none;
+}
+
+@media (pointer: fine) {
+  * {
+    cursor: none;
+  }
 }
 
 body {
@@ -27,6 +32,7 @@ body {
   color: white;
   background: -webkit-linear-gradient(#eee, #333);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 
   display: inline-block;
@@ -42,4 +48,42 @@ body {
 #root {
   position: relative;
   z-index: 3;
+}
+
+/* ── About Section ── */
+.about-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: center;
+  max-width: 950px;
+  padding: 1rem;
+}
+
+.about-image-wrapper {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.about-text-wrapper {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    gap: 1.5rem;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  
+  .about-text-wrapper h3 {
+    font-size: 1.8rem !important;
+  }
+  
+  .about-text-wrapper p {
+    font-size: 1rem !important;
+  }
 }
