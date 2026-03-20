@@ -127,12 +127,16 @@ export default function initParticleCanvas(text) {
             this.canvasHeight = canvasHeight;
             this.textX = this.canvasWidth / 2;
             this.textY = this.canvasHeight / 2;
-            this.fontSize = 150;
-            this.lineHeight = this.fontSize * 1.1;
             this.maxTextWidth = this.canvasWidth * 0.8;
+            this.fontSize = Math.max(30, Math.min(150, this.canvasWidth * 0.12));
+            if (this.canvasWidth < 600) {
+                this.fontSize = Math.max(24, this.canvasWidth * 0.08);
+            }
+            this.lineHeight = this.fontSize * 1.1;
             this.verticalOffset = 0;
             this.particles = [];
-            this.gap = 10;
+            this.isMobile = window.innerWidth < 768;
+            this.gap = this.isMobile ? 20 : 10;
             this.mouse = {
                 radius: 20000,
                 x: 0,
@@ -207,6 +211,13 @@ export default function initParticleCanvas(text) {
             this.textX = this.canvasWidth / 2;
             this.textY = this.canvasHeight / 2;
             this.maxTextWidth = this.canvasWidth * 0.8;
+            this.fontSize = Math.max(30, Math.min(150, this.canvasWidth * 0.12));
+            if (this.canvasWidth < 600) {
+                this.fontSize = Math.max(24, this.canvasWidth * 0.08);
+            }
+            this.lineHeight = this.fontSize * 1.1;
+            this.isMobile = window.innerWidth < 768;
+            this.gap = this.isMobile ? 20 : 10;
         }
     }
 
@@ -320,13 +331,13 @@ export default function initParticleCanvas(text) {
         } else if (phase === 'connecting') {
             effect.render(false);
             linesOpacity = Math.min(1, linesOpacity + LINE_FADE_SPEED);
-            connect(linesOpacity);
+            if (!effect.isMobile) connect(linesOpacity);
             if (linesOpacity >= 1) phase = 'physics';
 
         } else if (phase === 'physics') {
             // Full interactive loop for 5 seconds
             effect.render(true);
-            connect(1);
+            if (!effect.isMobile) connect(1);
             physicsFrame++;
             if (physicsFrame >= PHYSICS_DURATION) {
                 // Kick each particle into a random direction
@@ -340,7 +351,7 @@ export default function initParticleCanvas(text) {
                 particle.updateFree();
                 particle.draw();
             });
-            connect(1);
+            if (!effect.isMobile) connect(1);
         }
 
         requestAnimationFrame(animate);

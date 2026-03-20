@@ -12,8 +12,8 @@ const About = () => {
         <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 400 }}>Full Stack Developer & Machine Learning Enthusiast</h2>
         <GlassHoverCardContainer>
           <GlassHoverCard contentClassName="about-content">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center', maxWidth: '950px', cursor: 'pointer', padding: '1rem' }}>
-              <div style={{ flex: '1 1 300px', display: 'flex', justifyContent: 'center' }}>
+            <div className="about-container cursor-pointer">
+              <div className="about-image-wrapper">
                 <img
                   src={profilePhoto}
                   alt="Profile Photo"
@@ -31,7 +31,7 @@ const About = () => {
                   onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 />
               </div>
-              <div style={{ flex: '2 1 400px', display: 'flex', flexDirection: 'column' }}>
+              <div className="about-text-wrapper">
                 <h3 style={{ fontFamily: '"Exo 2", sans-serif', fontSize: '2.5rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.95)', marginBottom: '1rem', letterSpacing: '-0.5px' }}>
                   Hello, I'm
                   <br />
