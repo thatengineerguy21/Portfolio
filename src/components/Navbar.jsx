@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import '../styles/Navbar.css'
 
 const NAV_ITEMS = [
-  { label: 'Projects', href: '#projects' },
+  { label: 'Projects', to: '/projects' },
   { label: 'Career', href: '#career' },
   { label: 'Skills', href: '#skills' },
   { label: 'Socials', href: '#socials' },
@@ -11,7 +12,9 @@ const NAV_ITEMS = [
 const BREADCRUMB_SEGMENTS = ['~', 'thatengineerguy', 'portfolio']
 
 function Navbar() {
+  const location = useLocation()
   const [scrolled, setScrolled] = useState(false)
+  const [currentSection, setCurrentSection] = useState('')
   const breadcrumbRef = useRef(null)
   const linksRef = useRef(null)
   const mergedBarRef = useRef(null)
@@ -25,6 +28,33 @@ function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // ── Scroll Spy using Intersection Observer ──
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setCurrentSection('')
+      return
+    }
+
+    const sectionIds = ['about', 'socials', 'projects', 'skills', 'career']
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setCurrentSection(entry.target.id)
+          }
+        })
+      },
+      { rootMargin: '-20% 0px -70% 0px' }
+    )
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [location.pathname])
 
   // ── Resize merged bar to wrap both children ──
   useEffect(() => {
@@ -45,6 +75,19 @@ function Navbar() {
     return () => window.removeEventListener('resize', updateMergedSize)
   }, [scrolled])
 
+  // ── Determine Dynamic Breadcrumb Segments ──
+  let dynamicSegment = ''
+  if (location.pathname === '/projects') {
+    dynamicSegment = 'projects'
+  } else if (location.pathname === '/') {
+    dynamicSegment = currentSection
+  }
+
+  const currentSegments = [...BREADCRUMB_SEGMENTS]
+  if (dynamicSegment) {
+    currentSegments.push(dynamicSegment)
+  }
+
   return (
     <nav className={`navbar-container ${scrolled ? 'scrolled' : ''}`}>
       {/* Merged bar background (visible only when scrolled) */}
@@ -53,11 +96,11 @@ function Navbar() {
       {/* Left: Command-line breadcrumb */}
       <div className="nav-breadcrumb" ref={breadcrumbRef} data-cursor-hover>
         <span className="breadcrumb-prompt">❯</span>
-        {BREADCRUMB_SEGMENTS.map((segment, i) => (
+        {currentSegments.map((segment, i) => (
           <span key={i}>
             {i > 0 && <span className="breadcrumb-separator">/</span>}
             <span
-              className={`breadcrumb-segment ${i === BREADCRUMB_SEGMENTS.length - 1 ? 'current' : ''}`}
+              className={`breadcrumb-segment ${i === currentSegments.length - 1 ? 'current' : ''}`}
             >
               {segment}
             </span>
@@ -72,13 +115,23 @@ function Navbar() {
       <div className="nav-links" ref={linksRef}>
         {NAV_ITEMS.map((item, i) => (
           <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-            <a
-              className="nav-link"
-              href={item.href}
-              data-cursor-hover
-            >
-              {item.label}
-            </a>
+            {item.to ? (
+              <Link
+                className="nav-link"
+                to={item.to}
+                data-cursor-hover
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                className="nav-link"
+                href={item.href}
+                data-cursor-hover
+              >
+                {item.label}
+              </a>
+            )}
             {i < NAV_ITEMS.length - 1 && <span className="nav-divider" />}
           </span>
         ))}

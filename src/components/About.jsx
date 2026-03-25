@@ -9,7 +9,7 @@ const About = () => {
     <>
       <h1 style={{ color: 'white', fontFamily: '"Exo 2", sans-serif', fontWeight: 900, textAlign: 'center' }}>Vedant Chaudhari</h1>
       <section id="about" style={{ padding: '2rem', color: 'white' }}>
-        <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 400 }}>Full Stack Developer & Machine Learning Enthusiast</h2>
+        <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 400, textAlign: 'center' }}>Full Stack Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
         <GlassHoverCardContainer>
           <GlassHoverCard contentClassName="about-content">
             <div className="about-container cursor-pointer">
@@ -38,7 +38,7 @@ const About = () => {
                   Vedant Chaudhari
                 </h3>
                 <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontFamily: '"Exo 2", sans-serif' }}>
-                  I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based out of <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
+                  I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based in <img src="src/assets/icons/locationpin.svg" alt="Location Pin" style={{ width: '15px', height: '15px' }} /> <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
                   <br /><br />
                   <strong style={{ color: 'rgba(255, 241, 118, 1)', fontWeight: 700 }}>Interests:</strong> Data Structures and Algorithms, Computer Networks, Operating Systems, Cloud Computing, Data Science, Machine Learning Algorithms, Statistics, Artificial Intelligence.
                 </p>

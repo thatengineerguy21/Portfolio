@@ -1,6 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/DotRing.css";
 
+// Global state to persist cursor position across route transitions
+let globalMouseX = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+let globalMouseY = typeof window !== 'undefined' ? window.innerHeight / 2 : 0;
+
+if (typeof window !== 'undefined') {
+    window.addEventListener('mousemove', (e) => {
+        globalMouseX = e.clientX;
+        globalMouseY = e.clientY;
+    }, { passive: true });
+}
+
 const DotRing = () => {
     const ringRef = useRef(null);
     const dotRef = useRef(null);
@@ -26,8 +37,8 @@ const DotRing = () => {
         if (isTouchDevice) return;
 
         let animationFrameId;
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
+        let mouseX = globalMouseX;
+        let mouseY = globalMouseY;
         let ringX = mouseX;
         let ringY = mouseY;
         let dotX = mouseX;
@@ -36,6 +47,8 @@ const DotRing = () => {
         const onMouseMove = (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
+            globalMouseX = mouseX;
+            globalMouseY = mouseY;
         };
 
         // Find the closest ancestor (or self) with [data-cursor-hover]
@@ -78,24 +91,32 @@ const DotRing = () => {
             let targetRingY = mouseY;
 
             if (isHoveredRef.current && hoveredElRef.current) {
-                const rect = hoveredElRef.current.getBoundingClientRect();
-                const computedStyle = getComputedStyle(hoveredElRef.current);
-                const borderRadius = computedStyle.borderRadius || "15px";
-                const padding = 8; // extra breathing room around the element
+                // If the element was removed from the DOM (e.g., during a route transition), reset hover state
+                if (!document.body.contains(hoveredElRef.current)) {
+                    isHoveredRef.current = false;
+                    hoveredElRef.current = null;
+                } else {
+                    const rect = hoveredElRef.current.getBoundingClientRect();
+                    const computedStyle = getComputedStyle(hoveredElRef.current);
+                    const borderRadius = computedStyle.borderRadius || "15px";
+                    const padding = 8; // extra breathing room around the element
 
-                targetRingX = rect.left + rect.width / 2;
-                targetRingY = rect.top + rect.height / 2;
+                    targetRingX = rect.left + rect.width / 2;
+                    targetRingY = rect.top + rect.height / 2;
 
-                // Morph ring to element shape
-                ring.style.width = `${rect.width + padding * 2}px`;
-                ring.style.height = `${rect.height + padding * 2}px`;
-                ring.style.borderRadius = borderRadius;
-                ring.style.borderColor = "rgba(255, 255, 255, 0.6)";
-                ring.style.borderWidth = "2px";
+                    // Morph ring to element shape
+                    ring.style.width = `${rect.width + padding * 2}px`;
+                    ring.style.height = `${rect.height + padding * 2}px`;
+                    ring.style.borderRadius = borderRadius;
+                    ring.style.borderColor = "rgba(255, 255, 255, 0.6)";
+                    ring.style.borderWidth = "2px";
 
-                // Hide the dot when hovering
-                dot.style.opacity = "0";
-            } else {
+                    // Hide the dot when hovering
+                    dot.style.opacity = "0";
+                }
+            } 
+            
+            if (!isHoveredRef.current || !hoveredElRef.current) {
                 // Default cursor — follow mouse
                 ring.style.width = "32px";
                 ring.style.height = "32px";

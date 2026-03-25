@@ -1,0 +1,491 @@
+diff --git a/package-lock.json b/package-lock.json
+index 5ee8361..691a7bb 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -9,7 +9,8 @@
+       "version": "1.0.0",
+       "dependencies": {
+         "react": "^19.0.0",
+-        "react-dom": "^19.0.0"
++        "react-dom": "^19.0.0",
++        "react-router-dom": "^7.13.1"
+       },
+       "devDependencies": {
+         "@eslint/js": "^9.22.0",
+@@ -1925,6 +1926,19 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/cookie": {
++      "version": "1.1.1",
++      "resolved": "https://registry.npmjs.org/cookie/-/cookie-1.1.1.tgz",
++      "integrity": "sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=18"
++      },
++      "funding": {
++        "type": "opencollective",
++        "url": "https://opencollective.com/express"
++      }
++    },
+     "node_modules/cross-spawn": {
+       "version": "7.0.6",
+       "resolved": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz",
+@@ -3104,6 +3118,44 @@
+         "node": ">=0.10.0"
+       }
+     },
++    "node_modules/react-router": {
++      "version": "7.13.1",
++      "resolved": "https://registry.npmjs.org/react-router/-/react-router-7.13.1.tgz",
++      "integrity": "sha512-td+xP4X2/6BJvZoX6xw++A2DdEi++YypA69bJUV5oVvqf6/9/9nNlD70YO1e9d3MyamJEBQFEzk6mbfDYbqrSA==",
++      "license": "MIT",
++      "dependencies": {
++        "cookie": "^1.0.1",
++        "set-cookie-parser": "^2.6.0"
++      },
++      "engines": {
++        "node": ">=20.0.0"
++      },
++      "peerDependencies": {
++        "react": ">=18",
++        "react-dom": ">=18"
++      },
++      "peerDependenciesMeta": {
++        "react-dom": {
++          "optional": true
++        }
++      }
++    },
++    "node_modules/react-router-dom": {
++      "version": "7.13.1",
++      "resolved": "https://registry.npmjs.org/react-router-dom/-/react-router-dom-7.13.1.tgz",
++      "integrity": "sha512-UJnV3Rxc5TgUPJt2KJpo1Jpy0OKQr0AjgbZzBFjaPJcFOb2Y8jA5H3LT8HUJAiRLlWrEXWHbF1Z4SCZaQjWDHw==",
++      "license": "MIT",
++      "dependencies": {
++        "react-router": "7.13.1"
++      },
++      "engines": {
++        "node": ">=20.0.0"
++      },
++      "peerDependencies": {
++        "react": ">=18",
++        "react-dom": ">=18"
++      }
++    },
+     "node_modules/resolve-from": {
+       "version": "4.0.0",
+       "resolved": "https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz",
+@@ -3175,6 +3227,12 @@
+         "semver": "bin/semver.js"
+       }
+     },
++    "node_modules/set-cookie-parser": {
++      "version": "2.7.2",
++      "resolved": "https://registry.npmjs.org/set-cookie-parser/-/set-cookie-parser-2.7.2.tgz",
++      "integrity": "sha512-oeM1lpU/UvhTxw+g3cIfxXHyJRc/uidd3yK1P242gzHds0udQBYzs3y8j4gCCW+ZJ7ad0yctld8RYO+bdurlvw==",
++      "license": "MIT"
++    },
+     "node_modules/shebang-command": {
+       "version": "2.0.0",
+       "resolved": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
+diff --git a/package.json b/package.json
+index 9e47672..56ec903 100644
+--- a/package.json
++++ b/package.json
+@@ -11,7 +11,8 @@
+   },
+   "dependencies": {
+     "react": "^19.0.0",
+-    "react-dom": "^19.0.0"
++    "react-dom": "^19.0.0",
++    "react-router-dom": "^7.13.1"
+   },
+   "devDependencies": {
+     "@eslint/js": "^9.22.0",
+diff --git a/src/App.jsx b/src/App.jsx
+index 0013d62..6f76359 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -1,9 +1,9 @@
++import { Routes, Route } from 'react-router-dom'
+ import Navbar from './components/Navbar'
+ import RocketScrollbar from './components/RocketScrollbar'
+ import DotRing from './components/DotRing'
+-import GlassPanel from './components/GlassPanel'
+-import About from './components/About'
+-import SocialIcons from './components/SocialIcons'
++import HomePage from './pages/HomePage'
++import ProjectsPage from './pages/ProjectsPage'
+ 
+ function App() {
+   return (
+@@ -12,11 +12,10 @@ function App() {
+       <DotRing />
+       <RocketScrollbar />
+ 
+-      <GlassPanel>
+-        <About />
+-        <SocialIcons />
+-      </GlassPanel>
+-
++      <Routes>
++        <Route path="/" element={<HomePage />} />
++        <Route path="/projects" element={<ProjectsPage />} />
++      </Routes>
+     </>
+   )
+ }
+diff --git a/src/assets/icons/x.svg b/src/assets/icons/x.svg
+index e11b03b..833aedf 100644
+--- a/src/assets/icons/x.svg
++++ b/src/assets/icons/x.svg
+@@ -1,11 +1 @@
+-<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 100 100" viewBox="0 0 100 100" id="x">
+-  <g>
+-    <path d="M69.7,8.7H30.4c-11.7,0-21.3,9.5-21.3,21.3v41.2c0,11.7,9.5,21.3,21.3,21.3h39.4c11.7,0,21.3-9.5,21.3-21.3V29.9
+-		C91,18.2,81.5,8.7,69.7,8.7z M76.8,78.3l-15.4,0c-0.1,0-0.2,0-0.2-0.1L46.8,57.3c0,0-0.1,0-0.1,0C40.9,64,35.2,70.6,29.6,77.1
+-		c-0.3,0.4-0.7,0.7-1,1c-0.1,0.1-0.2,0.1-0.3,0.1l-4.2,0c-0.1,0-0.2,0-0.1-0.1l20.5-23.8c0.1-0.1,0.1-0.2,0-0.3L24.1,24.3
+-		c0,0,0-0.1,0-0.1h15.5c0.1,0,0.1,0,0.2,0.1L53.4,44c0,0,0,0,0.1,0l16.9-19.7c0.1-0.1,0.2-0.1,0.3-0.1l4.2,0c0.2,0,0.2,0.1,0.1,0.2
+-		L55.6,46.9c-0.1,0.1-0.1,0.2,0,0.3l21.3,31C76.9,78.2,76.9,78.3,76.8,78.3z"></path>
+-    <path d="M37.8,27.8C37.8,27.8,37.8,27.8,37.8,27.8l-6.7,0c-0.1,0-0.1,0.1-0.1,0.2l32.2,46.7c0,0,0,0,0.1,0h6.6
+-		c0.1,0,0.1-0.1,0.1-0.2L37.8,27.8z"></path>
+-  </g>
+-</svg>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#1d9bf0" d="M114.896 37.888c.078 1.129.078 2.257.078 3.396 0 34.7-26.417 74.72-74.72 74.72v-.02A74.343 74.343 0 0 1 0 104.21c2.075.25 4.16.375 6.25.38a52.732 52.732 0 0 0 32.615-11.263A26.294 26.294 0 0 1 14.331 75.09c3.937.76 7.993.603 11.857-.453-12.252-2.475-21.066-13.239-21.066-25.74v-.333a26.094 26.094 0 0 0 11.919 3.287C5.5 44.139 1.945 28.788 8.913 16.787a74.535 74.535 0 0 0 54.122 27.435 26.277 26.277 0 0 1 7.598-25.09c10.577-9.943 27.212-9.433 37.154 1.139a52.696 52.696 0 0 0 16.677-6.376A26.359 26.359 0 0 1 112.92 28.42 52.227 52.227 0 0 0 128 24.285a53.35 53.35 0 0 1-13.104 13.603z"/></svg>
+diff --git a/src/components/About.jsx b/src/components/About.jsx
+index 987e63b..8c133ca 100644
+--- a/src/components/About.jsx
++++ b/src/components/About.jsx
+@@ -9,7 +9,7 @@ const About = () => {
+     <>
+       <h1 style={{ color: 'white', fontFamily: '"Exo 2", sans-serif', fontWeight: 900, textAlign: 'center' }}>Vedant Chaudhari</h1>
+       <section id="about" style={{ padding: '2rem', color: 'white' }}>
+-        <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 400 }}>Full Stack Developer & Machine Learning Enthusiast</h2>
++        <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 400, textAlign: 'center' }}>Full Stack Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
+         <GlassHoverCardContainer>
+           <GlassHoverCard contentClassName="about-content">
+             <div className="about-container cursor-pointer">
+@@ -38,7 +38,7 @@ const About = () => {
+                   Vedant Chaudhari
+                 </h3>
+                 <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontFamily: '"Exo 2", sans-serif' }}>
+-                  I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based out of <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
++                  I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based in <img src="src/assets/icons/locationpin.svg" alt="Location Pin" style={{ width: '15px', height: '15px' }} /> <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
+                   <br /><br />
+                   <strong style={{ color: 'rgba(255, 241, 118, 1)', fontWeight: 700 }}>Interests:</strong> Data Structures and Algorithms, Computer Networks, Operating Systems, Cloud Computing, Data Science, Machine Learning Algorithms, Statistics, Artificial Intelligence.
+                 </p>
+diff --git a/src/components/DotRing.jsx b/src/components/DotRing.jsx
+index 722c274..ad3d146 100644
+--- a/src/components/DotRing.jsx
++++ b/src/components/DotRing.jsx
+@@ -1,6 +1,17 @@
+ import React, { useEffect, useRef, useState } from "react";
+ import "../styles/DotRing.css";
+ 
++// Global state to persist cursor position across route transitions
++let globalMouseX = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
++let globalMouseY = typeof window !== 'undefined' ? window.innerHeight / 2 : 0;
++
++if (typeof window !== 'undefined') {
++    window.addEventListener('mousemove', (e) => {
++        globalMouseX = e.clientX;
++        globalMouseY = e.clientY;
++    }, { passive: true });
++}
++
+ const DotRing = () => {
+     const ringRef = useRef(null);
+     const dotRef = useRef(null);
+@@ -26,8 +37,8 @@ const DotRing = () => {
+         if (isTouchDevice) return;
+ 
+         let animationFrameId;
+-        let mouseX = window.innerWidth / 2;
+-        let mouseY = window.innerHeight / 2;
++        let mouseX = globalMouseX;
++        let mouseY = globalMouseY;
+         let ringX = mouseX;
+         let ringY = mouseY;
+         let dotX = mouseX;
+@@ -36,6 +47,8 @@ const DotRing = () => {
+         const onMouseMove = (e) => {
+             mouseX = e.clientX;
+             mouseY = e.clientY;
++            globalMouseX = mouseX;
++            globalMouseY = mouseY;
+         };
+ 
+         // Find the closest ancestor (or self) with [data-cursor-hover]
+@@ -78,24 +91,32 @@ const DotRing = () => {
+             let targetRingY = mouseY;
+ 
+             if (isHoveredRef.current && hoveredElRef.current) {
+-                const rect = hoveredElRef.current.getBoundingClientRect();
+-                const computedStyle = getComputedStyle(hoveredElRef.current);
+-                const borderRadius = computedStyle.borderRadius || "15px";
+-                const padding = 8; // extra breathing room around the element
+-
+-                targetRingX = rect.left + rect.width / 2;
+-                targetRingY = rect.top + rect.height / 2;
+-
+-                // Morph ring to element shape
+-                ring.style.width = `${rect.width + padding * 2}px`;
+-                ring.style.height = `${rect.height + padding * 2}px`;
+-                ring.style.borderRadius = borderRadius;
+-                ring.style.borderColor = "rgba(255, 255, 255, 0.6)";
+-                ring.style.borderWidth = "2px";
+-
+-                // Hide the dot when hovering
+-                dot.style.opacity = "0";
+-            } else {
++                // If the element was removed from the DOM (e.g., during a route transition), reset hover state
++                if (!document.body.contains(hoveredElRef.current)) {
++                    isHoveredRef.current = false;
++                    hoveredElRef.current = null;
++                } else {
++                    const rect = hoveredElRef.current.getBoundingClientRect();
++                    const computedStyle = getComputedStyle(hoveredElRef.current);
++                    const borderRadius = computedStyle.borderRadius || "15px";
++                    const padding = 8; // extra breathing room around the element
++
++                    targetRingX = rect.left + rect.width / 2;
++                    targetRingY = rect.top + rect.height / 2;
++
++                    // Morph ring to element shape
++                    ring.style.width = `${rect.width + padding * 2}px`;
++                    ring.style.height = `${rect.height + padding * 2}px`;
++                    ring.style.borderRadius = borderRadius;
++                    ring.style.borderColor = "rgba(255, 255, 255, 0.6)";
++                    ring.style.borderWidth = "2px";
++
++                    // Hide the dot when hovering
++                    dot.style.opacity = "0";
++                }
++            } 
++            
++            if (!isHoveredRef.current || !hoveredElRef.current) {
+                 // Default cursor — follow mouse
+                 ring.style.width = "32px";
+                 ring.style.height = "32px";
+diff --git a/src/components/Navbar.jsx b/src/components/Navbar.jsx
+index 6594a8c..f00e911 100644
+--- a/src/components/Navbar.jsx
++++ b/src/components/Navbar.jsx
+@@ -1,8 +1,9 @@
+ import { useState, useEffect, useRef } from 'react'
++import { Link, useLocation } from 'react-router-dom'
+ import '../styles/Navbar.css'
+ 
+ const NAV_ITEMS = [
+-  { label: 'Projects', href: '#projects' },
++  { label: 'Projects', to: '/projects' },
+   { label: 'Career', href: '#career' },
+   { label: 'Skills', href: '#skills' },
+   { label: 'Socials', href: '#socials' },
+@@ -11,7 +12,9 @@ const NAV_ITEMS = [
+ const BREADCRUMB_SEGMENTS = ['~', 'thatengineerguy', 'portfolio']
+ 
+ function Navbar() {
++  const location = useLocation()
+   const [scrolled, setScrolled] = useState(false)
++  const [currentSection, setCurrentSection] = useState('')
+   const breadcrumbRef = useRef(null)
+   const linksRef = useRef(null)
+   const mergedBarRef = useRef(null)
+@@ -26,6 +29,33 @@ function Navbar() {
+     return () => window.removeEventListener('scroll', handleScroll)
+   }, [])
+ 
++  // ── Scroll Spy using Intersection Observer ──
++  useEffect(() => {
++    if (location.pathname !== '/') {
++      setCurrentSection('')
++      return
++    }
++
++    const sectionIds = ['about', 'socials', 'projects', 'skills', 'career']
++    const observer = new IntersectionObserver(
++      (entries) => {
++        entries.forEach((entry) => {
++          if (entry.isIntersecting) {
++            setCurrentSection(entry.target.id)
++          }
++        })
++      },
++      { rootMargin: '-20% 0px -70% 0px' }
++    )
++
++    sectionIds.forEach((id) => {
++      const el = document.getElementById(id)
++      if (el) observer.observe(el)
++    })
++
++    return () => observer.disconnect()
++  }, [location.pathname])
++
+   // ── Resize merged bar to wrap both children ──
+   useEffect(() => {
+     if (!mergedBarRef.current || !breadcrumbRef.current || !linksRef.current) return
+@@ -45,6 +75,19 @@ function Navbar() {
+     return () => window.removeEventListener('resize', updateMergedSize)
+   }, [scrolled])
+ 
++  // ── Determine Dynamic Breadcrumb Segments ──
++  let dynamicSegment = ''
++  if (location.pathname === '/projects') {
++    dynamicSegment = 'projects'
++  } else if (location.pathname === '/') {
++    dynamicSegment = currentSection
++  }
++
++  const currentSegments = [...BREADCRUMB_SEGMENTS]
++  if (dynamicSegment) {
++    currentSegments.push(dynamicSegment)
++  }
++
+   return (
+     <nav className={`navbar-container ${scrolled ? 'scrolled' : ''}`}>
+       {/* Merged bar background (visible only when scrolled) */}
+@@ -53,11 +96,11 @@ function Navbar() {
+       {/* Left: Command-line breadcrumb */}
+       <div className="nav-breadcrumb" ref={breadcrumbRef} data-cursor-hover>
+         <span className="breadcrumb-prompt">❯</span>
+-        {BREADCRUMB_SEGMENTS.map((segment, i) => (
++        {currentSegments.map((segment, i) => (
+           <span key={i}>
+             {i > 0 && <span className="breadcrumb-separator">/</span>}
+             <span
+-              className={`breadcrumb-segment ${i === BREADCRUMB_SEGMENTS.length - 1 ? 'current' : ''}`}
++              className={`breadcrumb-segment ${i === currentSegments.length - 1 ? 'current' : ''}`}
+             >
+               {segment}
+             </span>
+@@ -72,13 +115,23 @@ function Navbar() {
+       <div className="nav-links" ref={linksRef}>
+         {NAV_ITEMS.map((item, i) => (
+           <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+-            <a
+-              className="nav-link"
+-              href={item.href}
+-              data-cursor-hover
+-            >
+-              {item.label}
+-            </a>
++            {item.to ? (
++              <Link
++                className="nav-link"
++                to={item.to}
++                data-cursor-hover
++              >
++                {item.label}
++              </Link>
++            ) : (
++              <a
++                className="nav-link"
++                href={item.href}
++                data-cursor-hover
++              >
++                {item.label}
++              </a>
++            )}
+             {i < NAV_ITEMS.length - 1 && <span className="nav-divider" />}
+           </span>
+         ))}
+diff --git a/src/components/SocialIcons.jsx b/src/components/SocialIcons.jsx
+index 2f3f292..f015fac 100644
+--- a/src/components/SocialIcons.jsx
++++ b/src/components/SocialIcons.jsx
+@@ -1,47 +1,37 @@
+ import React from 'react';
+ import { GlassHoverCardContainer, GlassHoverCard } from './GlassHoverCard';
++import '../styles/Sections.css';
+ import githubIcon from '../assets/icons/GitHub.svg';
+ import linkedinIcon from '../assets/icons/linkedin.svg';
+-import twitterIcon from '../assets/icons/x.svg';
++import twitterIcon from '../assets/icons/x.png';
+ import instagramIcon from '../assets/icons/instagram.svg';
+ 
+-const SocialIcons = () => {
+-  const socials = [
+-    { name: 'GitHub', link: 'https://github.com/thatengineerguy21', icon: githubIcon, hoverColor: { surface: 'rgba(108, 198, 68, 0.12)', border: 'rgba(108, 198, 68, 0.30)' } },
+-    { name: 'LinkedIn', link: 'https://linkedin.com/in/thatengineerguy13', icon: linkedinIcon, hoverColor: { surface: 'rgba(10, 102, 194, 0.12)', border: 'rgba(40, 130, 220, 0.30)' } },
+-    { name: 'Twitter', link: 'https://twitter.com/thisengineerguy', icon: twitterIcon, hoverColor: { surface: 'rgba(200, 200, 200, 0.10)', border: 'rgba(255, 255, 255, 0.25)' } },
+-    { name: 'Instagram', link: 'https://instagram.com/thatengineerguy13', icon: instagramIcon, hoverColor: { surface: 'rgba(231, 68, 86, 0.5)', border: 'rgba(231, 68, 86, 0.25)' } },
+-  ];
++const socials = [
++  { name: 'GitHub', link: 'https://github.com/thatengineerguy21', icon: githubIcon, hoverColor: { surface: 'rgba(108, 198, 68, 0.12)', border: 'rgba(108, 198, 68, 0.30)' } },
++  { name: 'LinkedIn', link: 'https://linkedin.com/in/thatengineerguy13', icon: linkedinIcon, hoverColor: { surface: 'rgba(10, 102, 194, 0.12)', border: 'rgba(40, 130, 220, 0.30)' } },
++  { name: 'Twitter', link: 'https://twitter.com/thisengineerguy', icon: twitterIcon, hoverColor: { surface: 'rgba(200, 200, 200, 0.10)', border: 'rgba(255, 255, 255, 0.25)' } },
++  { name: 'Instagram', link: 'https://instagram.com/thatengineerguy13', icon: instagramIcon, hoverColor: { surface: 'rgba(231, 68, 86, 0.5)', border: 'rgba(224, 38, 60, 0.85)' } },
++];
+ 
++const SocialIcons = () => {
+   return (
+-    <section id="social" style={{ padding: '2rem', paddingTop: '0', color: 'white' }}>
+-      <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 500 }}>Connect with me</h2>
+-      <GlassHoverCardContainer>
++    <section id="socials" className="section-block">
++      <h2 className="section-heading">Connect with me !</h2>
++      <GlassHoverCardContainer className="social-grid">
+         {socials.map((social) => (
+-          <GlassHoverCard key={social.name} hoverColor={social.hoverColor} data-cursor-hover >
++          <GlassHoverCard key={social.name} hoverColor={social.hoverColor} data-cursor-hover>
+             <a
+               href={social.link}
+               target="_blank"
+               rel="noopener noreferrer"
+-              style={{
+-                display: 'flex',
+-                alignItems: 'center',
+-                justifyContent: 'center',
+-                padding: 0,
+-                textDecoration: 'none',
+-                color: 'rgb(240, 240, 240)',
+-                minWidth: '80px',
+-                fontFamily: '"Exo 2", sans-serif'
+-              }}
++              className="social-card-link"
+             >
+-              <span style={{ marginRight: '4px', display: 'flex', alignItems: 'center' }}>
+-                <img
+-                  src={social.icon}
+-                  alt={`${social.name} icon`}
+-                  style={{ width: '40px', height: '40px', filter: 'brightness(1)' }}
+-                />
+-              </span>
+-              {social.name}
++              <img
++                src={social.icon}
++                alt={`${social.name} icon`}
++                className="social-card-icon"
++              />
++              <span className="social-card-name">{social.name}</span>
+             </a>
+           </GlassHoverCard>
+         ))}
+diff --git a/src/main.jsx b/src/main.jsx
+index 7041f24..5d29571 100644
+--- a/src/main.jsx
++++ b/src/main.jsx
+@@ -1,13 +1,16 @@
+ import { createRoot } from 'react-dom/client'
++import { BrowserRouter } from 'react-router-dom'
+ import './index.css'
+ import App from './App.jsx'
+ import MouseContextProvider from './context/mouse-context'
+ import initParticleCanvas from './scripts/script.js'
+ 
+ createRoot(document.getElementById('root')).render(
+-  <MouseContextProvider>
+-    <App />
+-  </MouseContextProvider>
++  <BrowserRouter>
++    <MouseContextProvider>
++      <App />
++    </MouseContextProvider>
++  </BrowserRouter>
+ )
+ 
+ // Initialise the particle canvas background after fonts are loaded
