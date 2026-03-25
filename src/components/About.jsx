@@ -2,7 +2,8 @@ import React from 'react';
 import { GlassHoverCardContainer, GlassHoverCard } from './GlassHoverCard';
 import resumePdf from '../assets/documents/Vedant_Chaudhari_DYPCOE.pdf';
 import downloadIcon from '../assets/icons/download-file.svg';
-import profilePhoto from '../assets/images/profile-casual.jpg'
+import profilePhoto from '../assets/images/profile-casual.jpg';
+import locationPinIcon from '../assets/icons/locationpin.svg';
 
 const About = () => {
   return (
@@ -38,7 +39,7 @@ const About = () => {
                   Vedant Chaudhari
                 </h3>
                 <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontFamily: '"Exo 2", sans-serif' }}>
-                  I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based in <img src="src/assets/icons/locationpin.svg" alt="Location Pin" style={{ width: '15px', height: '15px' }} /> <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
+                  I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based in <img src={locationPinIcon} alt="Location Pin" style={{ width: '15px', height: '15px' }} /> <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
                   <br /><br />
                   <strong style={{ color: 'rgba(255, 241, 118, 1)', fontWeight: 700 }}>Interests:</strong> Data Structures and Algorithms, Computer Networks, Operating Systems, Cloud Computing, Data Science, Machine Learning Algorithms, Statistics, Artificial Intelligence.
                 </p>

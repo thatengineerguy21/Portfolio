@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { GlassHoverCardContainer, GlassHoverCard } from '../components/GlassHoverCard';
 import GlassPanel from '../components/GlassPanel';
 import '../styles/Sections.css';
+import portfolioImg from '../assets/images/portfolio.png';
 
 /* ──────────────────────────────────────────────────────
    ALL PROJECTS
@@ -20,7 +21,7 @@ const ALL_PROJECTS = [
     name: 'Portfolio',
     description: 'Interactive particle canvas portfolio with glassmorphism UI',
     tags: ['React', 'Vite', 'Canvas API'],
-    image: '/src/assets/images/portfolio.png',
+    image: portfolioImg,
     liveUrl: 'https://www.thatengineerguy.in',
     repoUrl: null,
     hoverColor: { surface: 'rgba(120, 180, 255, 0.10)', border: 'rgba(120, 180, 255, 0.25)' },
