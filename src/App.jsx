@@ -1,9 +1,9 @@
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import RocketScrollbar from './components/RocketScrollbar'
 import DotRing from './components/DotRing'
-import GlassPanel from './components/GlassPanel'
-import About from './components/About'
-import SocialIcons from './components/SocialIcons'
+import HomePage from './pages/HomePage'
+import ProjectsPage from './pages/ProjectsPage'
 
 function App() {
   return (
@@ -12,11 +12,10 @@ function App() {
       <DotRing />
       <RocketScrollbar />
 
-      <GlassPanel>
-        <About />
-        <SocialIcons />
-      </GlassPanel>
-
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+      </Routes>
     </>
   )
 }
