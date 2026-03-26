@@ -13,7 +13,7 @@ const socials = [
   { name: 'Instagram', link: 'https://instagram.com/thatengineerguy13', icon: instagramIcon, hoverColor: { surface: 'rgba(231, 68, 86, 0.5)', border: 'rgba(224, 38, 60, 0.85)' } },
 ];
 
-const SocialIcons = () => {
+const SocialIcons = React.memo(() => {
   return (
     <section id="socials" className="section-block">
       <h2 className="section-heading">Connect with me !</h2>
@@ -38,6 +38,6 @@ const SocialIcons = () => {
       </GlassHoverCardContainer>
     </section>
   );
-};
+});
 
 export default SocialIcons;

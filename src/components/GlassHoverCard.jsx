@@ -76,6 +76,9 @@ export const GlassHoverCardContainer = ({ children, className = '' }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
+    // Skip hover tracking entirely on touch devices
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
     const handleMouseMove = (e) => {
       if (!containerRef.current) return;
 
@@ -99,7 +102,7 @@ export const GlassHoverCardContainer = ({ children, className = '' }) => {
 
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
+      container.addEventListener('mousemove', handleMouseMove, { passive: true });
     }
 
     return () => {
@@ -142,7 +145,7 @@ export const GlassHoverCardContainer = ({ children, className = '' }) => {
  *   glowRadius       – outer-glow padding in px (default 40)
  *   fillOpacity      – opacity of the mesh background fill (default 0.5)
  */
-export const GlassHoverCard = ({
+export const GlassHoverCard = React.memo(({
   children,
   className = '',
   contentClassName = '',
@@ -198,4 +201,4 @@ export const GlassHoverCard = ({
       </div>
     </div>
   );
-};
+});

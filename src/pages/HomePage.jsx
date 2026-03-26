@@ -6,6 +6,7 @@ import About from '../components/About';
 import SocialIcons from '../components/SocialIcons';
 import Skills from '../components/Skills';
 import Career from '../components/Career';
+import Education from '../components/Education';
 import '../styles/Sections.css';
 
 /* ──────────────────────────────────────────────────────
@@ -87,6 +88,7 @@ const HomePage = () => {
 
       <Skills />
       <Career />
+      <Education />
     </GlassPanel>
   );
 };

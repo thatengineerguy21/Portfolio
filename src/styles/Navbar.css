@@ -161,7 +161,7 @@
 .nav-link {
     position: relative;
     padding: 0.35rem 1rem;
-    font-family: "Exo 2", sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 0.82rem;
     font-weight: 500;
     letter-spacing: 0.03em;
@@ -377,4 +377,16 @@
         font-size: 0.75rem;
         padding: 0.35rem 0.6rem;
     }
+}
+
+/* ── Low-perf fallbacks ── */
+html.low-perf .nav-breadcrumb::after,
+html.low-perf .nav-links::after {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+html.low-perf .navbar-merged-bar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }

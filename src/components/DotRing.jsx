@@ -141,9 +141,9 @@ const DotRing = () => {
             animationFrameId = requestAnimationFrame(render);
         };
 
-        document.addEventListener("mousemove", onMouseMove);
-        document.addEventListener("mouseover", onMouseOver);
-        document.addEventListener("mouseout", onMouseOut);
+        document.addEventListener("mousemove", onMouseMove, { passive: true });
+        document.addEventListener("mouseover", onMouseOver, { passive: true });
+        document.addEventListener("mouseout", onMouseOut, { passive: true });
         animationFrameId = requestAnimationFrame(render);
 
         return () => {

@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, memo } from 'react';
 import '../styles/BorderGlow.css';
 function parseHSL(hslStr) {
     const match = hslStr.match(/([\d.]+)\s*([\d.]+)%?\s*([\d.]+)%?/);
@@ -47,7 +47,7 @@ function animateValue({ start = 0, end = 100, duration = 1000, delay = 0, ease =
     setTimeout(() => requestAnimationFrame(tick), delay);
 }
 
-const BorderGlow = ({
+const BorderGlow = memo(({
     children,
     className = '',
     edgeSensitivity = 30,
@@ -155,7 +155,7 @@ const BorderGlow = ({
             </div>
         </div>
     );
-};
+});
 
 export default BorderGlow;
 

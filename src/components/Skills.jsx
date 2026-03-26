@@ -97,7 +97,7 @@ const SKILL_CATEGORIES = [
   },
 ];
 
-const Skills = () => {
+const Skills = React.memo(() => {
   return (
     <section id="skills" className="section-block">
       <h2 className="section-heading">Skills</h2>
@@ -120,6 +120,6 @@ const Skills = () => {
       </div>
     </section>
   );
-};
+});
 
 export default Skills;
