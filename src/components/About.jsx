@@ -5,12 +5,12 @@ import downloadIcon from '../assets/icons/download-file.svg';
 import profilePhoto from '../assets/images/profile-casual.jpg';
 import locationPinIcon from '../assets/icons/locationpin.svg';
 
-const About = () => {
+const About = React.memo(() => {
   return (
     <>
-      <h1 style={{ color: 'white', fontFamily: '"Exo 2", sans-serif', fontWeight: 900, textAlign: 'center' }}>Vedant Chaudhari</h1>
+      <h1 style={{ color: 'white', fontFamily: '"Montserrat", sans-serif', fontWeight: 900, textAlign: 'center' }}>Vedant Chaudhari</h1>
       <section id="about" style={{ padding: '2rem', color: 'white' }}>
-        <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Exo 2", sans-serif', fontWeight: 400, textAlign: 'center' }}>Full Stack Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
+        <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Inter", sans-serif', fontWeight: 400, textAlign: 'center' }}>Full Stack Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
         <GlassHoverCardContainer>
           <GlassHoverCard contentClassName="about-content">
             <div className="about-container cursor-pointer">
@@ -33,12 +33,12 @@ const About = () => {
                 />
               </div>
               <div className="about-text-wrapper">
-                <h3 style={{ fontFamily: '"Exo 2", sans-serif', fontSize: '2.5rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.95)', marginBottom: '1rem', letterSpacing: '-0.5px' }}>
+                <h3 style={{ fontFamily: '"Montserrat", sans-serif', fontSize: '2.5rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.95)', marginBottom: '1rem', letterSpacing: '-0.5px' }}>
                   Hello, I'm
                   <br />
                   Vedant Chaudhari
                 </h3>
-                <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontFamily: '"Exo 2", sans-serif' }}>
+                <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontFamily: '"Inter", sans-serif' }}>
                   I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based in <img src={locationPinIcon} alt="Location Pin" style={{ width: '15px', height: '15px' }} /> <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
                   <br /><br />
                   <strong style={{ color: 'rgba(255, 241, 118, 1)', fontWeight: 700 }}>Interests:</strong> Data Structures and Algorithms, Computer Networks, Operating Systems, Cloud Computing, Data Science, Machine Learning Algorithms, Statistics, Artificial Intelligence.
@@ -62,7 +62,7 @@ const About = () => {
                 textDecoration: 'none',
                 color: 'rgb(240, 240, 240)',
                 minWidth: '80px',
-                fontFamily: '"Exo 2", sans-serif',
+                fontFamily: '"Montserrat", sans-serif',
                 fontSize: '1rem',
                 fontWeight: 500,
               }}
@@ -75,7 +75,7 @@ const About = () => {
       </section>
     </>
   );
-};
+});
 
 export default About;
 

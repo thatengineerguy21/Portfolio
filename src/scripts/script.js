@@ -2,6 +2,8 @@
  * Particle text canvas – ES module.
  * Call initParticleCanvas(text) after DOM is ready.
  */
+import { performanceManager } from './performanceManager.js';
+
 export default function initParticleCanvas(text) {
     // Create canvas and append to body so it sits behind #root
     let canvas = document.getElementById('canvas1');
@@ -26,12 +28,19 @@ export default function initParticleCanvas(text) {
     let linesOpacity = 0;          // 0 → 1 during 'connecting'
     const LINE_FADE_SPEED = 0.015; // ease-in speed for line opacity
     const SETTLE_THRESHOLD = 1.5;  // px distance considered "settled"
-    const CONNECT_DIST = 40;       // max px between connected particles
+    const CONNECT_DIST = 50;       // max px between connected particles
     const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
     const SCATTER_FRAMES = 60;     // frames to stay in scatter phase
     const PHYSICS_DURATION = 600;  // ~10 seconds at 60fps before dissolve
     let scatterFrame = 0;
     let physicsFrame = 0;
+
+    // ─── Performance degradation state ───────────────────────────────────────
+    let particleRenderRatio = 1.0;  // 1.0 = all particles, 0.3 = 30%
+    let linesEnabled = true;
+    let skipFrame = false;
+    let frameSkipCounter = 0;
+    let canvasHidden = false;
 
     class Particle {
         constructor(effect, x, y, color) {
@@ -316,48 +325,100 @@ export default function initParticleCanvas(text) {
         return settled / particles.length >= fraction;
     }
 
+    // ─── Performance-aware rendering helpers ─────────────────────────────────
+    function renderPartial(applyMouse) {
+        const particles = effect.particles;
+        const count = Math.ceil(particles.length * particleRenderRatio);
+        for (let i = 0; i < count; i++) {
+            particles[i].update(applyMouse);
+            particles[i].draw();
+        }
+    }
+
+    function renderFreePart() {
+        const particles = effect.particles;
+        const count = Math.ceil(particles.length * particleRenderRatio);
+        for (let i = 0; i < count; i++) {
+            particles[i].updateFree();
+            particles[i].draw();
+        }
+    }
+
     function animate() {
+        // Skip every other frame in low-perf frame-skip mode
+        if (skipFrame) {
+            frameSkipCounter++;
+            if (frameSkipCounter % 2 !== 0) {
+                requestAnimationFrame(animate);
+                return;
+            }
+        }
+
+        // If canvas is completely hidden, just keep the loop alive for recovery
+        if (canvasHidden) {
+            requestAnimationFrame(animate);
+            return;
+        }
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         if (phase === 'scatter') {
-            effect.render(false);
+            renderPartial(false);
             scatterFrame++;
             if (scatterFrame >= SCATTER_FRAMES) phase = 'forming';
 
         } else if (phase === 'forming') {
-            effect.render(false);
+            renderPartial(false);
             if (checkSettled(0.90)) phase = 'connecting';
 
         } else if (phase === 'connecting') {
-            effect.render(false);
+            renderPartial(false);
             linesOpacity = Math.min(1, linesOpacity + LINE_FADE_SPEED);
-            if (!effect.isMobile) connect(linesOpacity);
+            if (!effect.isMobile && linesEnabled) connect(linesOpacity);
             if (linesOpacity >= 1) phase = 'physics';
 
         } else if (phase === 'physics') {
-            // Full interactive loop for 5 seconds
-            effect.render(true);
-            if (!effect.isMobile) connect(1);
+            renderPartial(true);
+            if (!effect.isMobile && linesEnabled) connect(1);
             physicsFrame++;
             if (physicsFrame >= PHYSICS_DURATION) {
-                // Kick each particle into a random direction
                 effect.particles.forEach(p => p.scatter());
                 phase = 'dissolve';
             }
 
         } else {
             // 'dissolve' – free-floating particles, mouse + lines still active
-            effect.particles.forEach(particle => {
-                particle.updateFree();
-                particle.draw();
-            });
-            if (!effect.isMobile) connect(1);
+            renderFreePart();
+            if (!effect.isMobile && linesEnabled) connect(1);
         }
 
         requestAnimationFrame(animate);
     }
 
     animate();
+
+    // ─── PerformanceManager integration ──────────────────────────────────────
+    performanceManager.onLowPerformance(() => {
+        particleRenderRatio = 0.3;  // render only 30% of particles
+        linesEnabled = false;       // disable connecting lines
+        skipFrame = true;           // skip every other frame
+    });
+
+    performanceManager.onRecovered(() => {
+        particleRenderRatio = 1.0;
+        linesEnabled = true;
+        skipFrame = false;
+        frameSkipCounter = 0;
+        canvasHidden = false;
+        canvas.style.display = '';
+    });
+
+    performanceManager.onCritical(() => {
+        canvasHidden = true;
+        canvas.style.display = 'none';
+    });
+
+    performanceManager.start();
 
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;

@@ -30,7 +30,7 @@ const CAREER_ENTRIES = [
   // },
 ];
 
-const Career = () => {
+const Career = React.memo(() => {
   return (
     <section id="career" className="section-block">
       <h2 className="section-heading">Career</h2>
@@ -54,6 +54,6 @@ const Career = () => {
       </GlassHoverCardContainer>
     </section>
   );
-};
+});
 
 export default Career;

@@ -242,3 +242,9 @@ html {
     scrollbar-width: auto;
   }
 }
+
+/* ── Low-perf fallbacks ── */
+html.low-perf .flame-core,
+html.low-perf .flame-outer {
+    animation: none;
+}

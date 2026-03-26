@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { label: 'Career', href: '#career' },
   { label: 'Skills', href: '#skills' },
   { label: 'Socials', href: '#socials' },
+  { label: 'Education', href: '#education' },
 ]
 
 const BREADCRUMB_SEGMENTS = ['~', 'thatengineerguy', 'portfolio']
@@ -19,10 +20,17 @@ function Navbar() {
   const linksRef = useRef(null)
   const mergedBarRef = useRef(null)
 
-  // ── Scroll listener ──
+  // ── Scroll listener (rAF-gated to prevent layout thrashing) ──
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      setScrolled(window.scrollY > 0)
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 0)
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -36,7 +44,7 @@ function Navbar() {
       return
     }
 
-    const sectionIds = ['about', 'socials', 'projects', 'skills', 'career']
+    const sectionIds = ['about', 'socials', 'projects', 'skills', 'career', 'education']
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -70,9 +78,18 @@ function Navbar() {
       }
     }
 
+    let resizeTimer
+    const debouncedResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(updateMergedSize, 150)
+    }
+
     updateMergedSize()
-    window.addEventListener('resize', updateMergedSize)
-    return () => window.removeEventListener('resize', updateMergedSize)
+    window.addEventListener('resize', debouncedResize, { passive: true })
+    return () => {
+      window.removeEventListener('resize', debouncedResize)
+      clearTimeout(resizeTimer)
+    }
   }, [scrolled])
 
   // ── Determine Dynamic Breadcrumb Segments ──

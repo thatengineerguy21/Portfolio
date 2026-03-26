@@ -11,28 +11,42 @@ function RocketScrollbar() {
   const scrollTimer = useRef(null)
 
   useEffect(() => {
+    let scrollTicking = false
     const onScroll = () => {
-      if (isDragging.current) return
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      setHasOverflow(max > 0)
-      if (max <= 0) return
-      setScrollPercent(Math.min(Math.max(window.scrollY / max, 0), 1))
-      setIsScrolling(true)
-      clearTimeout(scrollTimer.current)
-      scrollTimer.current = setTimeout(() => setIsScrolling(false), 200)
+      if (scrollTicking) return
+      scrollTicking = true
+      requestAnimationFrame(() => {
+        if (isDragging.current) { scrollTicking = false; return }
+        const max = document.documentElement.scrollHeight - window.innerHeight
+        setHasOverflow(max > 0)
+        if (max > 0) {
+          setScrollPercent(Math.min(Math.max(window.scrollY / max, 0), 1))
+        }
+        setIsScrolling(true)
+        clearTimeout(scrollTimer.current)
+        scrollTimer.current = setTimeout(() => setIsScrolling(false), 200)
+        scrollTicking = false
+      })
     }
 
     const onResize = () => {
       setHasOverflow(document.documentElement.scrollHeight > window.innerHeight)
     }
 
+    let resizeTimer
+    const debouncedResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(onResize, 150)
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onResize)
+    window.addEventListener('resize', debouncedResize, { passive: true })
     onResize()
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onResize)
+      window.removeEventListener('resize', debouncedResize)
       clearTimeout(scrollTimer.current)
+      clearTimeout(resizeTimer)
     }
   }, [])
 

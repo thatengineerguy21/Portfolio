@@ -4,7 +4,7 @@
 
 /* ── Section Headings ── */
 .section-heading {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     font-size: 1.6rem;
     color: rgba(255, 255, 255, 0.90);
@@ -40,7 +40,7 @@
 }
 
 .section-view-all {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 500;
     color: rgba(120, 180, 255, 0.8);
@@ -54,7 +54,7 @@
 
 /* ── Back link ── */
 .back-link {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     font-weight: 500;
     color: rgba(120, 180, 255, 0.8);
@@ -114,7 +114,7 @@
 }
 
 .social-card-name {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.72rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.6);
@@ -162,7 +162,7 @@
 }
 
 .project-name {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 1.15rem;
     color: rgba(255, 255, 255, 0.95);
@@ -170,7 +170,7 @@
 }
 
 .project-description {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.88rem;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.6);
@@ -185,7 +185,7 @@
 }
 
 .project-tag {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.7rem;
     font-weight: 500;
     color: rgba(120, 180, 255, 0.9);
@@ -214,7 +214,7 @@
 }
 
 .project-btn {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
     text-decoration: none;
@@ -276,7 +276,7 @@
 }
 
 .skill-category-label {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.78rem;
     font-weight: 500;
     color: rgba(255, 241, 118, 0.85);
@@ -291,7 +291,7 @@
 }
 
 .skill-pill {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.82rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.80);
@@ -409,7 +409,7 @@
 }
 
 .career-role {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: 1.05rem;
     color: rgba(255, 255, 255, 0.95);
@@ -423,14 +423,14 @@
 }
 
 .career-company {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.85rem;
     font-weight: 500;
     color: rgba(120, 180, 255, 0.85);
 }
 
 .career-date {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.75rem;
     font-weight: 400;
     color: rgba(255, 255, 255, 0.45);
@@ -445,7 +445,124 @@
 }
 
 .career-desc {
-    font-family: 'Exo 2', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 400;
+    margin-top: 0.15rem;
+    white-space: pre-line;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   EDUCATION — Vertical timeline (mirrors Career)
+   ══════════════════════════════════════════════════════ */
+
+.education-timeline {
+    position: relative;
+    padding-left: 2rem;
+    flex-direction: column;
+}
+
+.education-entry {
+    width: 100%;
+}
+
+/* Vertical line */
+.education-timeline::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 7px;
+    width: 1px;
+    background: linear-gradient(180deg,
+            rgba(120, 180, 255, 0.3),
+            rgba(120, 180, 255, 0.08));
+}
+
+.education-entry {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.education-entry:last-child {
+    margin-bottom: 0;
+}
+
+/* Dot marker */
+.education-dot {
+    position: absolute;
+    left: -2rem;
+    top: 1.6rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(120, 180, 255, 0.7);
+    border: 2px solid rgba(120, 180, 255, 0.3);
+    box-shadow: 0 0 8px rgba(120, 180, 255, 0.2);
+    transform: translateX(3px);
+}
+
+/* Active dot (first entry) */
+.education-entry:first-child .education-dot {
+    background: rgba(120, 180, 255, 1);
+    border-color: rgba(120, 180, 255, 0.5);
+    box-shadow: 0 0 12px rgba(120, 180, 255, 0.35);
+}
+
+.education-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.education-degree {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.education-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.education-institution {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(120, 180, 255, 0.85);
+}
+
+.education-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.education-grade {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.education-meta-divider {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.education-desc {
+    font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.55);
@@ -487,6 +604,18 @@
     }
 
     .career-timeline::before {
+        left: 5px;
+    }
+
+    .education-timeline {
+        padding-left: 1.5rem;
+    }
+
+    .education-dot {
+        left: -1.5rem;
+    }
+
+    .education-timeline::before {
         left: 5px;
     }
 
