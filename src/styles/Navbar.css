@@ -1,18 +1,12 @@
-/* ── Navbar ── */
+/* ══════════════════════════════════════════════════════
+   Navbar.css — Premium Minimalism
+   Clean pills, no blur, refined typography
+   ══════════════════════════════════════════════════════ */
 
-/* ── Shared glass styling mixin via custom properties ── */
 :root {
-    --nav-glass-bg: linear-gradient(160deg,
-            rgba(140, 160, 255, 0.08) 0%,
-            rgba(200, 200, 255, 0.04) 40%,
-            rgba(255, 255, 255, 0.02) 100%);
-    --nav-glass-border: 0.5px solid rgba(255, 255, 255, 0.2);
-    --nav-glass-shadow:
-        0 0 1px rgba(255, 255, 255, 0.1),
-        0 4px 24px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.05);
-    --nav-blur: blur(28px) saturate(180%);
+    --nav-glass-bg: var(--bg-surface);
+    --nav-glass-border: 1px solid var(--border-subtle);
+    --nav-glass-shadow: var(--shadow-sm);
     --nav-transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -42,43 +36,37 @@
 .nav-links {
     pointer-events: auto;
     background: var(--nav-glass-bg);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
     border: var(--nav-glass-border);
     box-shadow: var(--nav-glass-shadow);
-    border-radius: 50px;
+    border-radius: var(--radius-pill);
     padding: 0.6rem 1.5rem;
     min-height: 40px;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
-    position: relative;
     z-index: 0;
     transform: translateZ(0);
     transition:
-        transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+        transform 0.3s var(--ease-spring),
         opacity var(--nav-transition),
         border-radius var(--nav-transition),
         padding var(--nav-transition),
-        background 0.3s ease,
-        box-shadow 0.3s ease,
-        border-color 0.3s ease;
+        background var(--duration-normal) ease,
+        box-shadow var(--duration-normal) ease,
+        border-color var(--duration-normal) ease;
 }
 
 /* ── Pill hover ── */
 .nav-breadcrumb:hover,
 .nav-links:hover {
-    border-color: rgba(255, 255, 255, 0.35);
-    box-shadow:
-        0 0 1px rgba(255, 255, 255, 0.2),
-        0 6px 28px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.35),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+    background: var(--bg-surface-hover);
     transform: translateY(-1px);
 }
 
-/* ── Top highlight shimmer on each pill ── */
+/* ── Shimmer — very subtle top highlight ── */
 .nav-breadcrumb::before,
 .nav-links::before {
     content: '';
@@ -88,30 +76,23 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0) 60%);
+            rgba(255, 255, 255, 0.03) 0%,
+            rgba(255, 255, 255, 0) 50%);
     pointer-events: none;
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
+    opacity: 1;
     border-radius: inherit;
 }
 
-/* ── Intensify shimmer on hover ── */
-.nav-breadcrumb:hover::before,
-.nav-links:hover::before {
-    opacity: 1;
-}
-
+/* ── Backdrop pseudo-element — solid bg for readability ── */
 .nav-breadcrumb::after,
 .nav-links::after {
     content: "";
     position: absolute;
     inset: 0;
-    backdrop-filter: var(--nav-blur);
-    -webkit-backdrop-filter: var(--nav-blur);
-
+    background: var(--bg-primary);
     border-radius: inherit;
     z-index: -1;
+    opacity: 0.85;
 }
 
 /* BREADCRUMB (left pill) */
@@ -123,31 +104,31 @@
 
 .nav-breadcrumb {
     gap: 0.35rem;
-    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-family: var(--font-mono);
     font-size: 0.8rem;
     letter-spacing: 0.02em;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-tertiary);
     white-space: nowrap;
-    animation: slideInLeft 1s cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation: slideInLeft 0.8s var(--ease-spring) both;
 }
 
 .breadcrumb-prompt {
-    color: rgba(120, 180, 255, 0.9);
+    color: var(--accent);
     font-weight: 600;
 }
 
 .breadcrumb-separator {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.18);
     margin: 0 0.1rem;
 }
 
 .breadcrumb-segment {
-    color: rgba(200, 210, 255, 0.85);
-    transition: color 0.3s ease;
+    color: var(--text-secondary);
+    transition: color var(--duration-normal) ease;
 }
 
 .breadcrumb-segment.current {
-    color: rgba(160, 220, 255, 1);
+    color: var(--text-primary);
     font-weight: 500;
 }
 
@@ -155,30 +136,30 @@
 
 .nav-links {
     gap: 0.25rem;
-    animation: slideInRight 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation: slideInRight 0.6s var(--ease-spring) both;
 }
 
 .nav-link {
     position: relative;
     padding: 0.35rem 1rem;
-    font-family: "Montserrat", sans-serif;
+    font-family: var(--font-display);
     font-size: 0.82rem;
     font-weight: 500;
-    letter-spacing: 0.03em;
-    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.02em;
+    color: var(--text-tertiary);
     text-decoration: none;
     border-radius: 30px;
     transition:
-        color 0.3s ease,
-        background 0.3s ease,
-        transform 0.2s ease;
+        color var(--duration-normal) ease,
+        background var(--duration-normal) ease,
+        transform var(--duration-fast) ease;
     cursor: pointer;
     white-space: nowrap;
 }
 
 .nav-link:hover {
-    color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
     transform: translateY(-1px);
 }
 
@@ -193,18 +174,18 @@
     bottom: 4px;
     left: 50%;
     width: 0;
-    height: 1.5px;
+    height: 1px;
     background: linear-gradient(90deg,
-            rgba(120, 180, 255, 0),
-            rgba(120, 180, 255, 0.8),
-            rgba(120, 180, 255, 0));
-    transition: width 0.3s ease, left 0.3s ease;
+            transparent,
+            var(--accent),
+            transparent);
+    transition: width var(--duration-normal) ease, left var(--duration-normal) ease;
     border-radius: 1px;
 }
 
 .nav-link:hover::after {
-    width: 60%;
-    left: 20%;
+    width: 50%;
+    left: 25%;
 }
 
 /* ── Link divider dot ── */
@@ -212,7 +193,7 @@
     width: 3px;
     height: 3px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
     flex-shrink: 0;
 }
 
@@ -221,11 +202,9 @@
 .navbar-container.scrolled .nav-breadcrumb,
 .navbar-container.scrolled .nav-links {
     background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
     border-color: transparent;
     box-shadow: none;
-    border-radius: 50px;
+    border-radius: var(--radius-pill);
     padding: 0.4rem 1rem;
 }
 
@@ -234,7 +213,12 @@
     opacity: 0;
 }
 
-/* ── Merged bar (pseudo on container) ── */
+.navbar-container.scrolled .nav-breadcrumb::after,
+.navbar-container.scrolled .nav-links::after {
+    opacity: 0;
+}
+
+/* ── Merged bar ── */
 .navbar-merged-bar {
     position: absolute;
     top: 50%;
@@ -242,18 +226,14 @@
     transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
-    background: var(--nav-glass-bg);
-    backdrop-filter: var(--nav-blur);
-    -webkit-backdrop-filter: var(--nav-blur);
-    border: var(--nav-glass-border);
-    box-shadow: var(--nav-glass-shadow);
-    border-radius: 50px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-pill);
     padding: 0.8rem 1rem;
     pointer-events: none;
     opacity: 0;
     overflow: hidden;
-
-    /* Size will be calculated, but set a max dimension */
     height: 40px;
     width: auto;
     transition:
@@ -271,10 +251,9 @@
     height: 1px;
     background: linear-gradient(90deg,
             transparent,
-            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.10),
             transparent);
     pointer-events: none;
-
 }
 
 .navbar-container.scrolled .navbar-merged-bar {
@@ -288,7 +267,7 @@
     height: 20px;
     background: linear-gradient(180deg,
             transparent,
-            rgba(255, 255, 255, 0.25),
+            rgba(255, 255, 255, 0.12),
             transparent);
     margin: 0 0.25rem;
     opacity: 0;
@@ -305,7 +284,7 @@
 @keyframes slideInLeft {
     from {
         opacity: 0;
-        transform: translateX(-30px) translateY(-8px);
+        transform: translateX(-20px) translateY(-6px);
     }
 
     to {
@@ -317,7 +296,7 @@
 @keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translateX(30px) translateY(-8px);
+        transform: translateX(20px) translateY(-6px);
     }
 
     to {
@@ -377,16 +356,4 @@
         font-size: 0.75rem;
         padding: 0.35rem 0.6rem;
     }
-}
-
-/* ── Low-perf fallbacks ── */
-html.low-perf .nav-breadcrumb::after,
-html.low-perf .nav-links::after {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-}
-
-html.low-perf .navbar-merged-bar {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
 }

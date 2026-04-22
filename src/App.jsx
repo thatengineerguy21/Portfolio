@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import RocketScrollbar from './components/RocketScrollbar'
+// ── RocketScrollbar disabled — premium minimalism refactor ──
+// import RocketScrollbar from './components/RocketScrollbar'
 import DotRing from './components/DotRing'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
@@ -10,7 +11,8 @@ function App() {
     <>
       <Navbar />
       <DotRing />
-      <RocketScrollbar />
+      {/* RocketScrollbar disabled — premium minimalism refactor */}
+      {/* <RocketScrollbar /> */}
 
       <Routes>
         <Route path="/" element={<HomePage />} />

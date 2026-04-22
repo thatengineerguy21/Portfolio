@@ -1,6 +1,68 @@
+/* ══════════════════════════════════════════════════════
+   Design System — Premium Minimalism
+   ══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Background ── */
+  --bg-primary: #08080d;
+  --bg-surface: rgba(255, 255, 255, 0.022);
+  --bg-surface-hover: rgba(255, 255, 255, 0.04);
+  --bg-elevated: rgba(255, 255, 255, 0.035);
+
+  /* ── Borders ── */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.10);
+  --border-hover: rgba(255, 255, 255, 0.16);
+
+  /* ── Text ── */
+  --text-primary: rgba(255, 255, 255, 0.93);
+  --text-secondary: rgba(255, 255, 255, 0.62);
+  --text-tertiary: rgba(255, 255, 255, 0.38);
+
+  /* ── Accents ── */
+  --accent: rgba(155, 175, 255, 0.85);
+  --accent-solid: #9bafff;
+  --accent-warm: rgba(255, 215, 140, 0.85);
+  --accent-warm-solid: #ffd78c;
+
+  /* ── Shadows ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.14), 0 1px 2px rgba(0, 0, 0, 0.10);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.10);
+
+  /* ── Typography ── */
+  --font-display: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'General Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* ── Spacing ── */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+
+  /* ── Radii ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 50px;
+
+  /* ── Transitions ── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.2s;
+  --duration-normal: 0.35s;
+  --duration-slow: 0.5s;
+}
+
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 @media (pointer: fine) {
@@ -9,40 +71,28 @@
   }
 }
 
+/* ── Body — Premium static background ── */
 body {
   overflow-x: hidden;
   min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Title ── */
-.title {
-  display: flex;
-  justify-content: center;
-  margin-top: 10em;
+/* ── Subtle fixed gradient overlay for depth ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(100, 120, 200, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(80, 100, 180, 0.04) 0%, transparent 50%);
 }
-
-.title h1 {
-  font-size: 36px;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  text-align: center;
-  padding: 12px 32px;
-
-  color: white;
-  background: -webkit-linear-gradient(#eee, #333);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  display: inline-block;
-  position: relative;
-  z-index: 3;
-
-  border: 3px solid white;
-  border-radius: 15px;
-}
-
 
 /* ── App Content Layer ── */
 #root {
@@ -50,18 +100,42 @@ body {
   z-index: 3;
 }
 
+/* ── Scrollbar — Minimal ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(155, 175, 255, 0.25);
+  color: var(--text-primary);
+}
+
 /* ── About Section ── */
 .about-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 3rem;
+  gap: var(--space-2xl);
   align-items: center;
   max-width: 950px;
-  padding: 1rem;
+  padding: var(--space-md);
 }
 
 .about-image-wrapper {
-  flex: 1 1 300px;
+  flex: 1 1 280px;
   display: flex;
   justify-content: center;
 }
@@ -74,15 +148,15 @@ body {
 
 @media (max-width: 768px) {
   .about-container {
-    gap: 1.5rem;
-    padding: 0.5rem;
+    gap: var(--space-lg);
+    padding: var(--space-sm);
     text-align: center;
   }
-  
+
   .about-text-wrapper h3 {
     font-size: 1.8rem !important;
   }
-  
+
   .about-text-wrapper p {
     font-size: 1rem !important;
   }

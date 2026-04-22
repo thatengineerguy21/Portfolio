@@ -151,18 +151,19 @@ export const GlassHoverCard = React.memo(({
   contentClassName = '',
   hoverColor,
   spotlightColor,
-  glowColor = '40 80 80',
-  glowIntensity = 1.0,
-  colors = ['#c084fc', '#f472b6', '#38bdf8'],
-  coneSpread = 25,
-  edgeSensitivity = 30,
-  glowRadius = 40,
-  fillOpacity = 0.5,
+  // ── Glow props preserved but unused — premium minimalism refactor ──
+  // glowColor = '40 80 80',
+  // glowIntensity = 1.0,
+  // colors = ['#c084fc', '#f472b6', '#38bdf8'],
+  // coneSpread = 25,
+  // edgeSensitivity = 30,
+  // glowRadius = 40,
+  // fillOpacity = 0.5,
   ...props
 }) => {
   const colorStyle = {};
 
-  // Legacy hoverColor support
+  // Legacy hoverColor support — kept for spotlight tinting
   if (hoverColor) {
     if (typeof hoverColor === 'object') {
       if (hoverColor.surface) colorStyle['--hover-surface-color'] = hoverColor.surface;
@@ -173,24 +174,23 @@ export const GlassHoverCard = React.memo(({
     }
   }
 
-  // SpotlightCard spotlight color
   if (spotlightColor) {
     colorStyle['--spotlight-color'] = spotlightColor;
   }
 
-  // BorderGlow variables
-  const glowVars = buildGlowVars(glowColor, glowIntensity);
-  const gradientVars = buildGradientVars(colors);
+  // ── Glow/gradient variable generation disabled — premium minimalism refactor ──
+  // const glowVars = buildGlowVars(glowColor, glowIntensity);
+  // const gradientVars = buildGradientVars(colors);
 
   const mergedStyle = {
     ...colorStyle,
-    ...glowVars,
-    ...gradientVars,
-    '--edge-sensitivity': edgeSensitivity,
-    '--color-sensitivity': edgeSensitivity + 20,
-    '--glow-padding': `${glowRadius}px`,
-    '--cone-spread': coneSpread,
-    '--fill-opacity': fillOpacity,
+    // ...glowVars,
+    // ...gradientVars,
+    // '--edge-sensitivity': edgeSensitivity,
+    // '--color-sensitivity': edgeSensitivity + 20,
+    // '--glow-padding': `${glowRadius}px`,
+    // '--cone-spread': coneSpread,
+    // '--fill-opacity': fillOpacity,
   };
 
   return (
