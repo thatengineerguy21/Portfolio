@@ -3,7 +3,9 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import MouseContextProvider from './context/mouse-context'
-import initParticleCanvas from './scripts/script.js'
+
+// ── Particle canvas disabled — premium minimalism refactor ──
+// import initParticleCanvas from './scripts/script.js'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -13,7 +15,7 @@ createRoot(document.getElementById('root')).render(
   </BrowserRouter>
 )
 
-// Initialise the particle canvas background after fonts are loaded
-document.fonts.ready.then(() => {
-  initParticleCanvas("thatengineerguy's portfolio")
-})
+// ── Particle canvas init disabled — premium minimalism refactor ──
+// document.fonts.ready.then(() => {
+//   initParticleCanvas()
+// })

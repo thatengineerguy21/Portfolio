@@ -3,7 +3,7 @@ import { GlassHoverCardContainer, GlassHoverCard } from './GlassHoverCard';
 import '../styles/Sections.css';
 import githubIcon from '../assets/icons/GitHub.svg';
 import linkedinIcon from '../assets/icons/linkedin.svg';
-import twitterIcon from '../assets/icons/x.png';
+import twitterIcon from '../assets/icons/x.svg';
 import instagramIcon from '../assets/icons/instagram.svg';
 
 const socials = [

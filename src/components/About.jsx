@@ -8,9 +8,9 @@ import locationPinIcon from '../assets/icons/locationpin.svg';
 const About = React.memo(() => {
   return (
     <>
-      <h1 style={{ color: 'white', fontFamily: '"Montserrat", sans-serif', fontWeight: 900, textAlign: 'center' }}>Vedant Chaudhari</h1>
-      <section id="about" style={{ padding: '2rem', color: 'white' }}>
-        <h2 style={{ marginBottom: '1.5rem', fontFamily: '"Inter", sans-serif', fontWeight: 400, textAlign: 'center' }}>Full Stack Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
+      <h1 style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)', fontWeight: 900, textAlign: 'center', letterSpacing: '-0.03em' }}>Vedant Chaudhari</h1>
+      <section id="about" style={{ padding: '2rem', color: 'var(--text-secondary)' }}>
+        <h2 style={{ marginBottom: '1.5rem', fontFamily: 'var(--font-body)', fontWeight: 400, textAlign: 'center', fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-secondary)' }}>Full Stack Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
         <GlassHoverCardContainer>
           <GlassHoverCard contentClassName="about-content">
             <div className="about-container cursor-pointer">
@@ -23,31 +23,31 @@ const About = React.memo(() => {
                     maxWidth: '350px',
                     aspectRatio: '4/5',
                     objectFit: 'cover',
-                    borderRadius: '24px',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    transition: 'transform 0.3s ease'
+                    borderRadius: 'var(--radius-xl)',
+                    boxShadow: 'var(--shadow-lg)',
+                    border: '1px solid var(--border-subtle)',
+                    transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)'
                   }}
                   onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                   onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 />
               </div>
               <div className="about-text-wrapper">
-                <h3 style={{ fontFamily: '"Montserrat", sans-serif', fontSize: '2.5rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.95)', marginBottom: '1rem', letterSpacing: '-0.5px' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem', letterSpacing: '-0.03em' }}>
                   Hello, I'm
                   <br />
                   Vedant Chaudhari
                 </h3>
-                <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontFamily: '"Inter", sans-serif' }}>
-                  I'm a <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based in <img src={locationPinIcon} alt="Location Pin" style={{ width: '15px', height: '15px' }} /> <strong style={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}>Pune, India</strong>.
+                <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}>
+                  I'm a <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>21 y/o Full Stack Developer</strong> based in <img src={locationPinIcon} alt="Location Pin" style={{ width: '14px', height: '14px', opacity: 0.7 }} /> <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Pune, India</strong>.
                   <br /><br />
-                  <strong style={{ color: 'rgba(255, 241, 118, 1)', fontWeight: 700 }}>Interests:</strong> Data Structures and Algorithms, Computer Networks, Operating Systems, Cloud Computing, Data Science, Machine Learning Algorithms, Statistics, Artificial Intelligence.
+                  <strong style={{ color: 'var(--accent-warm-solid)', fontWeight: 600 }}>Interests:</strong> Data Structures and Algorithms, Computer Networks, Operating Systems, Cloud Computing, Data Science, Machine Learning Algorithms, Statistics, Artificial Intelligence.
                 </p>
               </div>
             </div>
           </GlassHoverCard>
           <GlassHoverCard
-            hoverColor={{ surface: 'rgba(220, 50, 50, 0.12)', border: 'rgba(220, 50, 50, 0.30)' }}
+            hoverColor={{ surface: 'rgba(220, 50, 50, 0.08)', border: 'rgba(220, 50, 50, 0.20)' }}
             data-cursor-hover
           >
             <a
@@ -60,14 +60,14 @@ const About = React.memo(() => {
                 gap: '10px',
                 padding: 0,
                 textDecoration: 'none',
-                color: 'rgb(240, 240, 240)',
+                color: 'var(--text-primary)',
                 minWidth: '80px',
-                fontFamily: '"Montserrat", sans-serif',
-                fontSize: '1rem',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.9rem',
                 fontWeight: 500,
               }}
             >
-              <span style={{ display: 'flex', alignItems: 'center', fontSize: '1.4rem' }}><img src={downloadIcon} alt="Download Resume" style={{ width: '20px', height: '20px', filter: 'invert(1)' }} /></span>
+              <span style={{ display: 'flex', alignItems: 'center', fontSize: '1.2rem' }}><img src={downloadIcon} alt="Download Resume" style={{ width: '18px', height: '18px', filter: 'invert(1)', opacity: 0.8 }} /></span>
               Download Resume
             </a>
           </GlassHoverCard>
@@ -78,4 +78,3 @@ const About = React.memo(() => {
 });
 
 export default About;
-
