@@ -1,12 +1,16 @@
 /* ══════════════════════════════════════════════════════
-   Navbar.css — Premium Minimalism
-   Clean pills, no blur, refined typography
+   Navbar.css — Premium Glassmorphism
+   Transparent pills with frosted glass blur,
+   refined borders, and subtle inner luminance.
    ══════════════════════════════════════════════════════ */
 
 :root {
-    --nav-glass-bg: var(--bg-surface);
-    --nav-glass-border: 1px solid var(--border-subtle);
-    --nav-glass-shadow: var(--shadow-sm);
+    --nav-glass-bg: rgba(8, 8, 13, 0.45);
+    --nav-glass-border: 1px solid rgba(255, 255, 255, 0.10);
+    --nav-glass-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.12),
+        0 4px 16px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
     --nav-transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -31,7 +35,7 @@
     gap: 0;
 }
 
-/* ── Shared pill base ── */
+/* ── Shared pill base — Glassmorphism ── */
 .nav-breadcrumb,
 .nav-links {
     pointer-events: auto;
@@ -47,6 +51,11 @@
     overflow: hidden;
     z-index: 0;
     transform: translateZ(0);
+
+    /* ── Frosted glass ── */
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+
     transition:
         transform 0.3s var(--ease-spring),
         opacity var(--nav-transition),
@@ -57,12 +66,15 @@
         border-color var(--duration-normal) ease;
 }
 
-/* ── Pill hover ── */
+/* ── Pill hover — glass deepens ── */
 .nav-breadcrumb:hover,
 .nav-links:hover {
-    border-color: var(--border-hover);
-    box-shadow: var(--shadow-md);
-    background: var(--bg-surface-hover);
+    border-color: rgba(155, 175, 255, 0.15);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.14),
+        0 8px 24px rgba(0, 0, 0, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    background: rgba(8, 8, 13, 0.55);
     transform: translateY(-1px);
 }
 
@@ -83,16 +95,10 @@
     border-radius: inherit;
 }
 
-/* ── Backdrop pseudo-element — solid bg for readability ── */
+/* ── Backdrop pseudo — removed for glass transparency ── */
 .nav-breadcrumb::after,
 .nav-links::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--bg-primary);
-    border-radius: inherit;
-    z-index: -1;
-    opacity: 0.85;
+    display: none;
 }
 
 /* BREADCRUMB (left pill) */
@@ -206,6 +212,16 @@
     box-shadow: none;
     border-radius: var(--radius-pill);
     padding: 0.4rem 1rem;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.navbar-container.scrolled .nav-breadcrumb:hover,
+.navbar-container.scrolled .nav-links:hover {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
 }
 
 .navbar-container.scrolled .nav-breadcrumb::before,
@@ -218,7 +234,7 @@
     opacity: 0;
 }
 
-/* ── Merged bar ── */
+/* ── Merged bar — Glassmorphism ── */
 .navbar-merged-bar {
     position: absolute;
     top: 50%;
@@ -226,9 +242,12 @@
     transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
-    background: var(--bg-primary);
-    border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-md);
+    background: rgba(8, 8, 13, 0.50);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.14),
+        0 8px 24px rgba(0, 0, 0, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-pill);
     padding: 0.8rem 1rem;
     pointer-events: none;
@@ -236,6 +255,11 @@
     overflow: hidden;
     height: 40px;
     width: auto;
+
+    /* ── Frosted glass ── */
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+
     transition:
         opacity var(--nav-transition),
         transform var(--nav-transition),

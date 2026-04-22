@@ -17,7 +17,7 @@ import '../styles/Sections.css';
 const FEATURED_PROJECTS = [
   {
     name: 'Portfolio',
-    description: 'Interactive particle canvas portfolio with glassmorphism UI',
+    description: 'Interactive Portfolio made using Stitch Design, Antigravity and Claude Opus 4.6',
     tags: ['React', 'Vite', 'Canvas API'],
     image: null,          // e.g. import img from '../assets/images/portfolio-preview.png'
     liveUrl: null,        // e.g. 'https://yoursite.com'
