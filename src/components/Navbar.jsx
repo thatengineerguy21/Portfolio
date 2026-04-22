@@ -70,11 +70,12 @@ function Navbar() {
 
     const updateMergedSize = () => {
       if (scrolled) {
-        // Let the bar auto-size by measuring children
+        // Let the bar span from left edge of breadcrumb to right edge of links
+        const containerRect = mergedBarRef.current.parentElement.getBoundingClientRect()
         const bcRect = breadcrumbRef.current.getBoundingClientRect()
         const lnRect = linksRef.current.getBoundingClientRect()
-        const totalWidth = bcRect.width + lnRect.width + 40 // 40 for divider + padding
-        mergedBarRef.current.style.width = `${totalWidth}px`
+        const fullSpan = lnRect.right - bcRect.left
+        mergedBarRef.current.style.width = `${fullSpan + 16}px` // 16px for inner padding
       }
     }
 

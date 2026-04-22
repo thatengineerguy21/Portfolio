@@ -19,7 +19,7 @@ import portfolioImg from '../assets/images/portfolio.png';
 const ALL_PROJECTS = [
   {
     name: 'Portfolio',
-    description: 'Interactive particle canvas portfolio with glassmorphism UI',
+    description: 'Interactive Portfolio made using Stitch Design, Antigravity and Claude Opus 4.6',
     tags: ['React', 'Vite', 'Canvas API'],
     image: portfolioImg,
     liveUrl: 'https://www.thatengineerguy.in',

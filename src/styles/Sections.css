@@ -307,13 +307,18 @@
         box-shadow var(--duration-normal) ease,
         background var(--duration-normal) ease;
     cursor: default;
+
+    /* GPU layer promotion — prevents text/icon jitter during scale */
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
 }
 
 .skill-pill:hover {
     color: var(--text-primary);
     border-color: var(--pill-hover-color, var(--border-hover));
     background: var(--bg-surface-hover);
-    transform: translateY(-1px);
+    transform: translate3d(0, -1px, 0) scale(1.02);
     box-shadow: var(--shadow-sm);
 }
 
@@ -325,6 +330,11 @@
     width: 16px;
     height: 16px;
     flex-shrink: 0;
+    transition: filter var(--duration-normal) ease;
+}
+
+.skill-pill:hover .skill-pill-icon {
+    filter: drop-shadow(0 0 3px var(--pill-hover-color, rgba(155, 175, 255, 0.5)));
 }
 
 .skill-pill-icon img,
