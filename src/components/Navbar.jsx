@@ -4,10 +4,10 @@ import '../styles/Navbar.css'
 
 const NAV_ITEMS = [
   { label: 'Projects', to: '/projects' },
-  { label: 'Career', href: '#career' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Socials', href: '#socials' },
-  { label: 'Education', href: '#education' },
+  { label: 'Career', href: '/#career' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'Socials', href: '/#socials' },
+  { label: 'Education', href: '/#education' },
 ]
 
 const BREADCRUMB_SEGMENTS = ['~', 'thatengineerguy', 'portfolio']
@@ -133,23 +133,13 @@ function Navbar() {
       <div className="nav-links" ref={linksRef}>
         {NAV_ITEMS.map((item, i) => (
           <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-            {item.to ? (
-              <Link
-                className="nav-link"
-                to={item.to}
-                data-cursor-hover
-              >
-                {item.label}
-              </Link>
-            ) : (
-              <a
-                className="nav-link"
-                href={item.href}
-                data-cursor-hover
-              >
-                {item.label}
-              </a>
-            )}
+            <Link
+              className="nav-link"
+              to={item.to || item.href}
+              data-cursor-hover
+            >
+              {item.label}
+            </Link>
             {i < NAV_ITEMS.length - 1 && <span className="nav-divider" />}
           </span>
         ))}
