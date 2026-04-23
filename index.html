@@ -6,24 +6,47 @@
   <link rel="icon" type="image/png" href="/src/assets/icons/processorfavicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Vedant Chaudhari — Full Stack Developer specializing in AI & Cloud Computing. Portfolio showcasing projects, skills, and experience." />
+  <meta name="theme-color" content="#08080d" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Vedant Chaudhari — Full Stack Developer" />
+  <meta property="og:description" content="Full Stack Developer specializing in AI & Cloud Computing. Explore my projects, skills, and experience." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.thatengineerguy.in/" />
 
-  <!-- ── Typography: Plus Jakarta Sans + Inter ── -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- ── Canonical ── -->
+  <link rel="canonical" href="https://www.thatengineerguy.in/" />
 
-  <!-- ── Monospace for breadcrumb ── -->
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- ── Font preconnect: establish early connections to both origins ── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- ── Old fonts disabled — premium minimalism refactor ── -->
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
-  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-  <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"> -->
-
-  <!-- ── Canvas styles disabled — premium minimalism refactor ── -->
-  <!-- <link rel="stylesheet" href="src/styles/style.css"> -->
+  <!--
+    Consolidated font request — single CSS round-trip covers all three families.
+    font-display=swap prevents invisible text (FOIT) and reduces CLS caused
+    by the browser blocking layout while fonts download.
+  -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 
   <title>Vedant Chaudhari — Full Stack Developer</title>
+
+  <!-- ── Structured Data (Person schema) for SEO ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Vedant Chaudhari",
+    "url": "https://www.thatengineerguy.in/",
+    "jobTitle": "Full Stack Developer",
+    "description": "Full Stack Developer specializing in AI & Cloud Computing.",
+    "sameAs": [
+      "https://github.com/thatengineerguy21",
+      "https://linkedin.com/in/vedantchaudhari"
+    ]
+  }
+  </script>
 </head>
 
 <body>

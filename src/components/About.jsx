@@ -17,7 +17,11 @@ const About = React.memo(() => {
               <div className="about-image-wrapper">
                 <img
                   src={profilePhoto}
-                  alt="Profile Photo"
+                  alt="Vedant Chaudhari — Full Stack Developer"
+                  width={350}
+                  height={438}
+                  fetchpriority="high"
+                  decoding="sync"
                   style={{
                     width: '100%',
                     maxWidth: '350px',
