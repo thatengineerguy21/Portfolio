@@ -8,9 +8,9 @@ import locationPinIcon from '../assets/icons/locationpin.svg';
 const About = React.memo(() => {
   return (
     <>
-      <h1 style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)', fontWeight: 900, textAlign: 'center', letterSpacing: '-0.03em' }}>Vedant Chaudhari</h1>
+      <h1 style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)', fontWeight: 800, textAlign: 'center', letterSpacing: '-0.03em' }}>Vedant Chaudhari</h1>
       <section id="about" style={{ padding: '2rem', color: 'var(--text-secondary)' }}>
-        <h2 style={{ marginBottom: '1.5rem', fontFamily: 'var(--font-body)', fontWeight: 400, textAlign: 'center', fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-secondary)' }}>Full Stack Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
+        <h2 style={{ marginBottom: '1.5rem', fontFamily: 'var(--font-body)', fontWeight: 400, textAlign: 'center', fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-secondary)' }}>Software Developer | Specializing in AI & Cloud Computing | Early-Stage Contributor @ STSARC Pvt. Ltd.</h2>
         <GlassHoverCardContainer>
           <GlassHoverCard contentClassName="about-content">
             <div className="about-container cursor-pointer">

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { GlassHoverCardContainer, GlassHoverCard } from '../components/GlassHoverCard';
 import GlassPanel from '../components/GlassPanel';
 import About from '../components/About';
@@ -16,14 +16,24 @@ import '../styles/Sections.css';
    ────────────────────────────────────────────────────── */
 const FEATURED_PROJECTS = [
   {
-    name: 'Portfolio',
-    description: 'Interactive Portfolio made using Stitch Design, Antigravity and Claude Opus 4.6',
-    tags: ['React', 'Vite', 'Canvas API'],
-    image: null,          // e.g. import img from '../assets/images/portfolio-preview.png'
-    liveUrl: null,        // e.g. 'https://yoursite.com'
-    repoUrl: null,        // e.g. 'https://github.com/you/repo'
-    hoverColor: { surface: 'rgba(120, 180, 255, 0.10)', border: 'rgba(120, 180, 255, 0.25)' },
+    name: 'NeuroTicker',
+    description: 'Gen AI Dev Hackathon Winning Project. NeuroTicker is an innovative platform that combines geospatial visualization with financial data analysis, providing traders and investors with location-aware market insights and trading capabilities.',
+    tags: ['React', 'TailwindCSS', 'Alpaca Markets API', 'Mapbox',],
+    image: null,
+    liveUrl: 'https://neuroticker.vercel.app/',
+    repoUrl: 'https://github.com/iamproxman/geo-finance-nexus',
+    hoverColor: { surface: 'rgba(11, 20, 36, 0.10)', border: 'rgba(11, 20, 36, 0.25)' },
   },
+  {
+    name: 'CareFlow',
+    description: 'Google Gen AI Academy APAC Edition Top 100 project. CareFlow is a multi-agent AI healthcare assistant that acts as a post-visit care coordinator.',
+    tags: ['React', 'TailwindCSS', 'Python', 'FastAPI', 'Google ADK', 'Gemini 2.5', 'PostgreSQL', 'Docker', 'Cloud Run'],
+    image: null,
+    liveUrl: 'https://careflow-892626469440.us-central1.run.app/',
+    repoUrl: 'https://github.com/Inference-Engines/careflow-agents',
+    hoverColor: { surface: 'rgba(1, 88, 237, 0.25)', border: 'rgba(1, 88, 237, 0.5)' },
+  },
+
   // {
   //   name: 'ML Pipeline',
   //   description: 'End-to-end machine learning pipeline with automated training',
@@ -37,6 +47,22 @@ const FEATURED_PROJECTS = [
 ];
 
 const HomePage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(location.hash.slice(1));
+      if (element) {
+        // Use setTimeout to ensure rendering has occurred before scrolling
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location]);
+
   return (
     <GlassPanel>
       <About />
