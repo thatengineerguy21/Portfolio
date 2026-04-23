@@ -1,4 +1,41 @@
 /* ══════════════════════════════════════════════════════
+   Font Fallback Metrics — Prevents CLS from font swap
+   Each @font-face block defines a local "adjusted" system
+   font that matches the web font's line metrics so no
+   layout shift occurs while the real font loads.
+   ══════════════════════════════════════════════════════ */
+
+/* Plus Jakarta Sans → adjusts system sans-serif fallback */
+@font-face {
+  font-family: 'Plus Jakarta Sans Fallback';
+  src: local('Arial');
+  size-adjust: 105%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+/* Inter → nearly identical to system sans-serif; small tweak */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 100%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+/* JetBrains Mono → adjusts system monospace fallback */
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New');
+  size-adjust: 95%;
+  ascent-override: 85%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
+/* ══════════════════════════════════════════════════════
    Design System — Premium Minimalism
    ══════════════════════════════════════════════════════ */
 
@@ -32,9 +69,9 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.10);
 
   /* ── Typography ── */
-  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --font-display: 'Plus Jakarta Sans', 'Plus Jakarta Sans Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', 'Inter Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'JetBrains Mono Fallback', 'Fira Code', 'Cascadia Code', monospace;
 
   /* ── Spacing ── */
   --space-xs: 0.25rem;
