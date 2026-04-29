@@ -26,7 +26,7 @@
 .aurora-blob:nth-child(1) {
     width: 70vw;
     height: 60vh;
-    background: radial-gradient(circle, rgba(155, 175, 255, 0.6) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
     top: -20%;
     left: -10%;
     animation-duration: 14s;
@@ -36,7 +36,7 @@
 .aurora-blob:nth-child(2) {
     width: 50vw;
     height: 70vh;
-    background: radial-gradient(circle, rgba(255, 215, 140, 0.4) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--accent-warm) 0%, transparent 70%);
     top: 20%;
     right: -15%;
     animation-duration: 18s;

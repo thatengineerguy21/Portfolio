@@ -3,15 +3,18 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import MouseContextProvider from './context/mouse-context'
+import { ThemeProvider } from './context/ThemeContext'
 
 // ── Particle canvas disabled — premium minimalism refactor ──
 // import initParticleCanvas from './scripts/script.js'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <MouseContextProvider>
-      <App />
-    </MouseContextProvider>
+    <ThemeProvider>
+      <MouseContextProvider>
+        <App />
+      </MouseContextProvider>
+    </ThemeProvider>
   </BrowserRouter>
 )
 

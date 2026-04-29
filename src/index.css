@@ -62,12 +62,18 @@
   --accent-warm: rgba(255, 215, 140, 0.85);
   --accent-warm-solid: #ffd78c;
 
+  /* ── Cursor ── */
+  --cursor-ring-color: rgb(255, 253, 253);
+  --cursor-dot-color: rgb(255, 255, 255);
+  --cursor-hover-ring-color: rgba(255, 255, 255, 0.6);
+  --cursor-ripple-color: rgba(255, 255, 255, 0.8);
+  --cursor-highlight-shadow: rgba(255, 255, 255, 0.3);
+
   /* ── Shadows ── */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.12);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.14), 0 1px 2px rgba(0, 0, 0, 0.10);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.10);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.10);
-
   /* ── Typography ── */
   --font-display: 'Outfit', 'Outfit Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Manrope', 'Manrope Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -94,6 +100,37 @@
   --duration-fast: 0.2s;
   --duration-normal: 0.35s;
   --duration-slow: 0.5s;
+}
+
+:root[data-theme="light"] {
+  /* ── Background ── */
+  --bg-primary: #f8f9fa;
+  --bg-surface: rgba(0, 0, 0, 0.03);
+  --bg-surface-hover: rgba(0, 0, 0, 0.06);
+  --bg-elevated: rgba(0, 0, 0, 0.045);
+
+  /* ── Borders ── */
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-default: rgba(0, 0, 0, 0.12);
+  --border-hover: rgba(0, 0, 0, 0.20);
+
+  /* ── Text ── */
+  --text-primary: rgba(0, 0, 0, 0.93);
+  --text-secondary: rgba(0, 0, 0, 0.62);
+  --text-tertiary: rgba(0, 0, 0, 0.38);
+
+  /* ── Accents ── */
+  --accent: rgba(55, 85, 205, 0.85);
+  --accent-solid: #3755cd;
+  --accent-warm: rgba(205, 125, 30, 0.85);
+  --accent-warm-solid: #cd7d1e;
+
+  /* ── Cursor ── */
+  --cursor-ring-color: rgba(0, 0, 0, 0.8);
+  --cursor-dot-color: rgba(0, 0, 0, 0.9);
+  --cursor-hover-ring-color: rgba(0, 0, 0, 0.4);
+  --cursor-ripple-color: rgba(0, 0, 0, 0.6);
+  --cursor-highlight-shadow: rgba(0, 0, 0, 0.15);
 }
 
 * {
@@ -137,19 +174,20 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border-subtle);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--border-default);
 }
 
 /* ── Selection ── */
 ::selection {
-  background: rgba(155, 175, 255, 0.25);
-  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+  color: var(--accent-solid);
 }
+
 
 /* ── About Section ── */
 .about-container {
