@@ -14,6 +14,15 @@
     --nav-transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+:root[data-theme="light"] {
+    --nav-glass-bg: rgba(255, 255, 255, 0.65);
+    --nav-glass-border: 1px solid rgba(0, 0, 0, 0.08);
+    --nav-glass-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.05),
+        0 4px 16px rgba(0, 0, 0, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
 /* ── Container ── */
 .navbar-container {
     position: fixed;
@@ -170,6 +179,33 @@
 }
 
 .nav-link:active {
+    transform: scale(0.97);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: 0.35rem 0.5rem;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        color var(--duration-normal) ease,
+        background var(--duration-normal) ease,
+        transform var(--duration-fast) ease;
+}
+
+.theme-toggle-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-surface-hover);
+    transform: translateY(-1px);
+}
+
+.theme-toggle-btn:active {
     transform: scale(0.97);
 }
 
