@@ -76,6 +76,19 @@
     border-top: 1px solid var(--border-subtle);
 }
 
+/* ── Gradient Divider — used between major sections ── */
+.section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--border-default) 30%,
+            var(--border-default) 70%,
+            transparent);
+    position: relative;
+    z-index: 2;
+}
+
 
 /* ══════════════════════════════════════════════════════
    SOCIALS — Equal-width card grid
@@ -253,6 +266,18 @@
 .project-btn-repo:hover {
     color: var(--text-primary);
     border-color: var(--border-hover);
+    transform: translateY(-1px);
+}
+
+.project-btn-hackathon {
+    color: var(--text-primary);
+    background: rgba(200, 130, 255, 0.10);
+    border: 1px solid rgba(200, 130, 255, 0.18);
+}
+
+.project-btn-hackathon:hover {
+    background: rgba(200, 130, 255, 0.16);
+    border-color: rgba(200, 130, 255, 0.30);
     transform: translateY(-1px);
 }
 
