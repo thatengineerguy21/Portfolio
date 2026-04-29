@@ -12,6 +12,41 @@ if (typeof window !== 'undefined') {
     }, { passive: true });
 }
 
+let audioCtx = null;
+const playClickSound = () => {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        
+        if (!audioCtx) {
+            audioCtx = new AudioContext();
+        }
+        
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        // High frequency for a short "tick" sound
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+    } catch (e) {
+        console.error("Audio playback failed", e);
+    }
+};
+
 const DotRing = () => {
     const ringRef = useRef(null);
     const dotRef = useRef(null);
@@ -75,6 +110,26 @@ const DotRing = () => {
                 target.classList.remove("cursor-highlighted");
                 hoveredElRef.current = null;
                 isHoveredRef.current = false;
+            }
+        };
+
+        const createRipple = (x, y) => {
+            const ripple = document.createElement("div");
+            ripple.className = "cursor-ripple";
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            document.body.appendChild(ripple);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                ripple.remove();
+            }, 500);
+        };
+
+        const onMouseDown = (e) => {
+            playClickSound();
+            if (!isHoveredRef.current) {
+                createRipple(e.clientX, e.clientY);
             }
         };
 
@@ -144,12 +199,14 @@ const DotRing = () => {
         document.addEventListener("mousemove", onMouseMove, { passive: true });
         document.addEventListener("mouseover", onMouseOver, { passive: true });
         document.addEventListener("mouseout", onMouseOut, { passive: true });
+        document.addEventListener("mousedown", onMouseDown, { passive: true });
         animationFrameId = requestAnimationFrame(render);
 
         return () => {
             document.removeEventListener("mousemove", onMouseMove);
             document.removeEventListener("mouseover", onMouseOver);
             document.removeEventListener("mouseout", onMouseOut);
+            document.removeEventListener("mousedown", onMouseDown);
             cancelAnimationFrame(animationFrameId);
         };
     }, [isTouchDevice]);

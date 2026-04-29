@@ -6,6 +6,12 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./vitest.setup.js'],
+    globals: true,
+  },
+
   build: {
     // Raise warning threshold — vendor chunk is intentionally larger
     chunkSizeWarningLimit: 600,
