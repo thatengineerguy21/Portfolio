@@ -91,7 +91,7 @@
     height: 1px;
     background: linear-gradient(90deg,
             transparent,
-            rgba(255, 255, 255, 0.06) 50%,
+            var(--border-subtle) 50%,
             transparent);
     pointer-events: none;
     z-index: 2;
@@ -101,7 +101,7 @@
 .glass-hover-card:hover::after {
     background: linear-gradient(90deg,
             transparent,
-            rgba(155, 175, 255, 0.12) 50%,
+            var(--border-hover) 50%,
             transparent);
 }
 

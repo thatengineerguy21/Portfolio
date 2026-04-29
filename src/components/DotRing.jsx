@@ -163,7 +163,7 @@ const DotRing = () => {
                     ring.style.width = `${rect.width + padding * 2}px`;
                     ring.style.height = `${rect.height + padding * 2}px`;
                     ring.style.borderRadius = borderRadius;
-                    ring.style.borderColor = "rgba(255, 255, 255, 0.6)";
+                    ring.style.borderColor = "var(--cursor-hover-ring-color)";
                     ring.style.borderWidth = "2px";
 
                     // Hide the dot when hovering
@@ -176,7 +176,7 @@ const DotRing = () => {
                 ring.style.width = "32px";
                 ring.style.height = "32px";
                 ring.style.borderRadius = "100%";
-                ring.style.borderColor = "rgb(255, 253, 253)";
+                ring.style.borderColor = "var(--cursor-ring-color)";
                 ring.style.borderWidth = "2px";
 
                 dot.style.opacity = "1";
