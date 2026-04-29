@@ -1,0 +1,88 @@
+/* ══════════════════════════════════════════════════════
+   Marquee.css — Infinite scrolling text strip
+   Seamless loop via duplicated items + translateX(-50%).
+   Pauses on hover. Fully self-contained & reversible.
+   ══════════════════════════════════════════════════════ */
+
+.marquee-wrap {
+    width: 100%;
+    overflow: hidden;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 1.1rem 0;
+    position: relative;
+    z-index: 3;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 2.5rem;
+    animation: marquee-scroll 28s linear infinite;
+}
+
+.marquee-wrap:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+.marquee-item {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 200;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--text-tertiary);
+    transition: color var(--duration-normal) ease;
+}
+
+.marquee-item:hover {
+    color: var(--text-primary);
+}
+
+.marquee-sep {
+    color: var(--accent);
+    margin: 0;
+    font-size: 0.65rem;
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+}
+
+@keyframes marquee-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ── Fade edges for polish ── */
+.marquee-wrap::before,
+.marquee-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.marquee-wrap::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg-primary), transparent);
+}
+
+.marquee-wrap::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--bg-primary), transparent);
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+        animation: none;
+    }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { GlassHoverCardContainer, GlassHoverCard } from './GlassHoverCard';
 import resumePdf from '../assets/documents/Vedant_Chaudhari_DYPCOE.pdf';
 import downloadIcon from '../assets/icons/download-file.svg';
+import ParallaxImage from './ParallaxImage';
 import profilePhoto from '../assets/images/profile-casual.jpg';
 import locationPinIcon from '../assets/icons/locationpin.svg';
 
@@ -15,25 +16,9 @@ const About = React.memo(() => {
           <GlassHoverCard contentClassName="about-content">
             <div className="about-container cursor-pointer">
               <div className="about-image-wrapper">
-                <img
-                  src={profilePhoto}
-                  alt="Vedant Chaudhari — Full Stack Developer"
-                  width={350}
-                  height={438}
-                  fetchpriority="high"
-                  decoding="sync"
-                  style={{
-                    width: '100%',
-                    maxWidth: '350px',
-                    aspectRatio: '4/5',
-                    objectFit: 'cover',
-                    borderRadius: 'var(--radius-xl)',
-                    boxShadow: 'var(--shadow-lg)',
-                    border: '1px solid var(--border-subtle)',
-                    transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)'
-                  }}
-                  onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-                  onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                <ParallaxImage 
+                  layers={[null, null, null, profilePhoto]} 
+                  alt="Vedant Chaudhari — Full Stack Developer" 
                 />
               </div>
               <div className="about-text-wrapper">
