@@ -7,12 +7,14 @@ import Aurora from './components/Aurora'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 
 function App() {
   return (
     <>
       <Analytics />
+      <SpeedInsights />
       <Aurora />
       <Navbar />
       <DotRing />
