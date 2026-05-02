@@ -6,10 +6,13 @@ import DotRing from './components/DotRing'
 import Aurora from './components/Aurora'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
+import { Analytics } from '@vercel/analytics/react'
+
 
 function App() {
   return (
     <>
+      <Analytics />
       <Aurora />
       <Navbar />
       <DotRing />
