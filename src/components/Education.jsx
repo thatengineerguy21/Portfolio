@@ -12,10 +12,10 @@ const EDUCATION_ENTRIES = [
     hoverColor: { surface: 'rgba(120, 180, 255, 0.10)', border: 'rgba(120, 180, 255, 0.25)' },
   },
   {
-    degree: 'Bachelor of Science — Data Science and Artificial Intelligence',
+    degree: 'Bachelor of Science — Data Science and Artificial Intelligence (Online)',
     institution: 'Indian Institute of Technology, Guwahati',
     date: '2023 - 2028',
-    
+
     description: 'Relevant coursework: Statistics, Data Mining and Warehousing, Artificial Intelligence, Machine Learning, Statistical Inferencing, Optimization Methods, Probability Theory, Signals and Systems, Linear Algebra',
     hoverColor: { surface: 'rgba(120, 255, 138, 0.1)', border: 'rgba(120, 255, 138, 0.25)' },
   },
