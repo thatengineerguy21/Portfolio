@@ -15,14 +15,16 @@
 .glass-panel {
     width: 100%;
     max-width: 1200px;
-    min-height: 100vh;
+    min-height: 100dvh;
     padding: 3.5rem 3rem;
 
-    /* ── Clean surface ── */
+    /* ── Clean surface with Double-Bezel depth ── */
     background: var(--bg-surface);
     border-radius: var(--radius-xl);
     border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-sm);
+    box-shadow:
+        var(--shadow-sm),
+        var(--bezel-inner-highlight);
 
     /* ── Layout ── */
     position: relative;
@@ -77,6 +79,6 @@
     .glass-panel {
         padding: 2rem 1.25rem;
         border-radius: var(--radius-lg);
-        min-height: 50vh;
+        min-height: 50dvh;
     }
 }

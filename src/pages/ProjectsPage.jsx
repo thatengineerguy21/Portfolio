@@ -23,16 +23,19 @@ import careFlowImage from '../assets/images/careflow.png'
 const ALL_PROJECTS = [
   {
     name: 'NeuroTicker',
-    description: 'Gen AI Dev Hackathon Winning Project. NeuroTicker is an innovative platform that combines geospatial visualization with financial data analysis, providing traders and investors with location-aware market insights and trading capabilities.',
+    description: 'Hackathon-winning platform that merges geospatial visualization with real-time financial data — enabling traders to discover location-correlated market patterns at a glance.',
+    impact: '1st Place — Gen AI Dev Hackathon',
     tags: ['React', 'TailwindCSS', 'Alpaca Markets API', 'Mapbox',],
     image: neuroTickerImage,
     liveUrl: 'https://neuroticker.vercel.app/',
     repoUrl: 'https://github.com/iamproxman/geo-finance-nexus',
     hoverColor: { surface: 'rgba(11, 20, 36, 0.10)', border: 'rgba(11, 20, 36, 0.25)' },
+    bento: 'wide',
   },
   {
     name: 'CareFlow',
-    description: 'Google Gen AI Academy APAC Edition Top 100 project. CareFlow is a multi-agent AI healthcare assistant that acts as a post-visit care coordinator.',
+    description: 'Multi-agent AI healthcare assistant that automates post-visit care coordination — selected among 4,500+ global submissions.',
+    impact: 'Top 100 — Google Gen AI Academy APAC',
     tags: ['React', 'TailwindCSS', 'Python', 'FastAPI', 'Google ADK', 'Gemini 2.5', 'PostgreSQL', 'Docker', 'Cloud Run'],
     image: careFlowImage,
     liveUrl: 'https://careflow-892626469440.us-central1.run.app/',
@@ -41,40 +44,13 @@ const ALL_PROJECTS = [
   },
   {
     name: 'Portfolio',
-    description: 'Interactive Portfolio made using Stitch Design, Antigravity and Claude Opus 4.6',
+    description: 'This very site — an interactive, high-performance portfolio built with Ethereal Glass aesthetics and zero-dependency micro-animations.',
     tags: ['React', 'Vite', 'Canvas API'],
     image: portfolioImg,
     liveUrl: 'https://www.thatengineerguy.in',
     repoUrl: 'https://github.com/thatengineerguy21/Portfolio',
     hoverColor: { surface: 'rgba(120, 180, 255, 0.10)', border: 'rgba(120, 180, 255, 0.25)' },
   },
-  // {
-  //   name: 'ML Pipeline',
-  //   description: 'End-to-end machine learning pipeline with automated training',
-  //   tags: ['Python', 'TensorFlow', 'Docker'],
-  //   image: null,
-  //   liveUrl: null,
-  //   repoUrl: null,
-  //   hoverColor: { surface: 'rgba(255, 152, 0, 0.10)', border: 'rgba(255, 152, 0, 0.25)' },
-  // },
-  // {
-  //   name: 'Cloud Dashboard',
-  //   description: 'Real-time cloud infrastructure monitoring dashboard',
-  //   tags: ['React', 'AWS', 'D3.js'],
-  //   image: null,
-  //   liveUrl: null,
-  //   repoUrl: null,
-  //   hoverColor: { surface: 'rgba(0, 200, 150, 0.10)', border: 'rgba(0, 200, 150, 0.25)' },
-  // },
-  // {
-  //   name: 'Algorithm Visualizer',
-  //   description: 'Interactive data structure and algorithm visualizations',
-  //   tags: ['JavaScript', 'Canvas'],
-  //   image: null,
-  //   liveUrl: null,
-  //   repoUrl: null,
-  //   hoverColor: { surface: 'rgba(200, 130, 255, 0.10)', border: 'rgba(200, 130, 255, 0.25)' },
-  // },
   // ← Add more projects here
 ];
 
@@ -118,7 +94,12 @@ const ProjectsPage = () => {
             </div>
             <GlassHoverCardContainer className="projects-grid">
               {ALL_PROJECTS.map((project) => (
-                <GlassHoverCard key={project.name} hoverColor={project.hoverColor} data-cursor-hover>
+                <GlassHoverCard
+                  key={project.name}
+                  hoverColor={project.hoverColor}
+                  className={project.bento === 'wide' ? 'bento-wide' : ''}
+                  data-cursor-hover
+                >
                   <div className="project-card-body">
                     {project.image && (
                       <div className="project-image-preview">
@@ -126,6 +107,9 @@ const ProjectsPage = () => {
                       </div>
                     )}
                     <span className="project-name">{project.name}</span>
+                    {project.impact && (
+                      <span className="project-impact">{project.impact}</span>
+                    )}
                     <span className="project-description">{project.description}</span>
                     <div className="project-tags">
                       {project.tags.map((tag) => (

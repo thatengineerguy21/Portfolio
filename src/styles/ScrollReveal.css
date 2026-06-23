@@ -6,15 +6,18 @@
 
 .reveal {
     opacity: 0;
-    transform: translateY(40px);
+    /* 3D perspective to give the rotation depth */
+    transform: perspective(1000px) translateY(40px) rotateX(-8deg);
+    transform-origin: top center;
     transition:
         opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
         transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
 }
 
 .reveal.in-view {
     opacity: 1;
-    transform: none;
+    transform: perspective(1000px) translateY(0) rotateX(0deg);
 }
 
 /* ── Staggered delays for sibling reveals ── */

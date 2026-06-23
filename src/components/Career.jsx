@@ -1,5 +1,6 @@
 import React from 'react';
 import { GlassHoverCardContainer, GlassHoverCard } from './GlassHoverCard';
+import ScrollReveal from './ScrollReveal';
 import '../styles/Sections.css';
 
 const CAREER_ENTRIES = [
@@ -35,21 +36,23 @@ const Career = React.memo(() => {
     <section id="career" className="section-block">
       <h2 className="section-heading">Career</h2>
       <GlassHoverCardContainer className="career-timeline">
-        {CAREER_ENTRIES.map((entry) => (
-          <div key={entry.role} className="career-entry">
-            <span className="career-dot" />
-            <GlassHoverCard hoverColor={entry.hoverColor} data-cursor-hover>
-              <div className="career-card-body">
-                <span className="career-role">{entry.role}</span>
-                <div className="career-meta">
-                  <span className="career-company">{entry.company}</span>
-                  <span className="career-meta-divider" />
-                  <span className="career-date">{entry.date}</span>
+        {CAREER_ENTRIES.map((entry, index) => (
+          <ScrollReveal key={entry.role} delay={index * 0.15}>
+            <div className="career-entry">
+              <span className="career-dot" />
+              <GlassHoverCard hoverColor={entry.hoverColor} data-cursor-hover>
+                <div className="career-card-body">
+                  <span className="career-role">{entry.role}</span>
+                  <div className="career-meta">
+                    <span className="career-company">{entry.company}</span>
+                    <span className="career-meta-divider" />
+                    <span className="career-date">{entry.date}</span>
+                  </div>
+                  <span className="career-desc">{entry.description}</span>
                 </div>
-                <span className="career-desc">{entry.description}</span>
-              </div>
-            </GlassHoverCard>
-          </div>
+              </GlassHoverCard>
+            </div>
+          </ScrollReveal>
         ))}
       </GlassHoverCardContainer>
     </section>

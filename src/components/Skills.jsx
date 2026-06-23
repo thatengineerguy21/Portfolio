@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollReveal from './ScrollReveal';
 import '../styles/Sections.css';
 
 /* ──────────────────────────────────────────────────────
@@ -106,13 +107,14 @@ const Skills = React.memo(() => {
           <div key={category.label} className="skill-category">
             <span className="skill-category-label">{category.label}</span>
             <div className="skill-pills">
-              {category.skills.map((skill) => (
-                <SkillPill
-                  key={skill.name}
-                  name={skill.name}
-                  icon={skill.icon}
-                  hoverColor={skill.hoverColor}
-                />
+              {category.skills.map((skill, skillIdx) => (
+                <ScrollReveal key={skill.name} delay={0.1 + (skillIdx * 0.05)} as="div" style={{ display: 'inline-block' }}>
+                  <SkillPill
+                    name={skill.name}
+                    icon={skill.icon}
+                    hoverColor={skill.hoverColor}
+                  />
+                </ScrollReveal>
               ))}
             </div>
           </div>

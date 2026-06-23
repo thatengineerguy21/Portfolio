@@ -73,8 +73,8 @@ export const GlassHoverCard = React.memo(({
     }
 
     // Resolve spotlight colors from props
-    const inner = spotlightColor || hoverColor?.surface || 'rgba(155, 175, 255, 0.12)';
-    const mid = 'rgba(120, 160, 255, 0.06)';
+    const inner = spotlightColor || hoverColor?.surface || 'rgba(140, 165, 230, 0.12)';
+    const mid = 'rgba(110, 150, 220, 0.06)';
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);

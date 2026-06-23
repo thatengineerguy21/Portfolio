@@ -36,12 +36,12 @@
 }
 
 /* ══════════════════════════════════════════════════════
-   Design System — Premium Minimalism
+   Design System — Ethereal Glass (Premium Minimalism)
    ══════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Background ── */
-  --bg-primary: #000000;
+  /* ── Background — off-black, never pure #000 ── */
+  --bg-primary: #050505;
   --bg-surface: rgba(255, 255, 255, 0.03);
   --bg-surface-hover: rgba(255, 255, 255, 0.06);
   --bg-elevated: rgba(255, 255, 255, 0.045);
@@ -56,11 +56,11 @@
   --text-secondary: rgba(255, 255, 255, 0.62);
   --text-tertiary: rgba(255, 255, 255, 0.38);
 
-  /* ── Accents ── */
-  --accent: rgba(155, 175, 255, 0.85);
-  --accent-solid: #9bafff;
-  --accent-warm: rgba(255, 215, 140, 0.85);
-  --accent-warm-solid: #ffd78c;
+  /* ── Accents — desaturated, enforcing the Lila Ban ── */
+  --accent: rgba(140, 165, 230, 0.80);
+  --accent-solid: #8ca5e6;
+  --accent-warm: rgba(230, 195, 130, 0.80);
+  --accent-warm-solid: #e6c382;
 
   /* ── Cursor ── */
   --cursor-ring-color: rgb(255, 253, 253);
@@ -74,6 +74,16 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.14), 0 1px 2px rgba(0, 0, 0, 0.10);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.10);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.10);
+  --shadow-diffuse: 0 20px 40px -15px rgba(0, 0, 0, 0.12);
+
+  /* ── Double-Bezel (Doppelrand) tokens ── */
+  --bezel-outer-bg: rgba(255, 255, 255, 0.04);
+  --bezel-outer-border: 1px solid rgba(255, 255, 255, 0.08);
+  --bezel-outer-radius: 1.5rem;
+  --bezel-outer-padding: 0.375rem;
+  --bezel-inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  --bezel-inner-radius: calc(1.5rem - 0.375rem);
+
   /* ── Typography ── */
   --font-display: 'Outfit', 'Outfit Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Manrope', 'Manrope Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -86,20 +96,24 @@
   --space-lg: 1.5rem;
   --space-xl: 2.5rem;
   --space-2xl: 4rem;
+  --space-3xl: 6rem;
 
   /* ── Radii ── */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
+  --radius-2xl: 2rem;
   --radius-pill: 50px;
 
   /* ── Transitions ── */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-premium: cubic-bezier(0.32, 0.72, 0, 1);
   --duration-fast: 0.2s;
   --duration-normal: 0.35s;
   --duration-slow: 0.5s;
+  --duration-reveal: 0.8s;
 }
 
 :root[data-theme="light"] {
@@ -119,11 +133,11 @@
   --text-secondary: rgba(0, 0, 0, 0.62);
   --text-tertiary: rgba(0, 0, 0, 0.38);
 
-  /* ── Accents ── */
-  --accent: rgba(55, 85, 205, 0.85);
-  --accent-solid: #3755cd;
-  --accent-warm: rgba(205, 125, 30, 0.85);
-  --accent-warm-solid: #cd7d1e;
+  /* ── Accents — desaturated for light mode ── */
+  --accent: rgba(50, 80, 180, 0.80);
+  --accent-solid: #3250b4;
+  --accent-warm: rgba(180, 120, 30, 0.80);
+  --accent-warm-solid: #b4781e;
 
   /* ── Cursor ── */
   --cursor-ring-color: rgba(0, 0, 0, 0.8);
@@ -131,6 +145,11 @@
   --cursor-hover-ring-color: rgba(0, 0, 0, 0.4);
   --cursor-ripple-color: rgba(0, 0, 0, 0.6);
   --cursor-highlight-shadow: rgba(0, 0, 0, 0.15);
+
+  /* ── Double-Bezel overrides for light ── */
+  --bezel-outer-bg: rgba(0, 0, 0, 0.03);
+  --bezel-outer-border: 1px solid rgba(0, 0, 0, 0.06);
+  --bezel-inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 * {
@@ -147,8 +166,8 @@
 
 /* ── Body — Premium static background ── */
 body {
-  overflow-x: hidden;
-  min-height: 100vh;
+  overflow-x: clip;
+  min-height: 100dvh;
   background: var(--bg-primary);
   color: var(--text-secondary);
   font-family: var(--font-body);

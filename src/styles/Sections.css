@@ -9,7 +9,8 @@
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--text-primary);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
     margin-bottom: 1.5rem;
     position: relative;
     display: inline-block;
@@ -46,11 +47,44 @@
     font-weight: 500;
     color: var(--accent);
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     transition: color var(--duration-normal) ease;
 }
 
 .section-view-all:hover {
     color: var(--text-primary);
+}
+
+.arrow-circle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(140, 165, 230, 0.1);
+    border: 1px solid rgba(140, 165, 230, 0.2);
+    transition: 
+        transform 0.3s var(--ease-spring),
+        background var(--duration-normal) ease;
+}
+
+.section-view-all:hover .arrow-circle-wrapper {
+    transform: translateX(4px);
+    background: rgba(140, 165, 230, 0.25);
+}
+
+.arrow-circle-wrapper svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    transition: transform 0.3s var(--ease-spring);
+}
+
+.section-view-all:hover .arrow-circle-wrapper svg {
+    transform: translateX(2px);
 }
 
 /* ── Back link ── */
@@ -144,17 +178,47 @@
 
 
 /* ══════════════════════════════════════════════════════
-   PROJECTS — 2-column grid
+   PROJECTS — Asymmetric Bento Grid
    ══════════════════════════════════════════════════════ */
 
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .projects-grid.glass-hover-cards-container {
     display: grid;
+}
+
+/* ── Bento span modifiers ── */
+.projects-grid > .bento-wide {
+    grid-column: span 2;
+}
+
+.projects-grid > .bento-wide .project-image-preview img {
+    height: 220px;
+}
+
+/* ── Impact badge for key metrics ── */
+.project-impact {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent-warm-solid);
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.project-impact::before {
+    content: '▲';
+    font-size: 0.6rem;
+    opacity: 0.7;
 }
 
 .project-card-body {
@@ -210,8 +274,8 @@
     font-size: 0.7rem;
     font-weight: 500;
     color: var(--accent);
-    background: rgba(155, 175, 255, 0.06);
-    border: 1px solid rgba(155, 175, 255, 0.12);
+    background: rgba(140, 165, 230, 0.06);
+    border: 1px solid rgba(140, 165, 230, 0.12);
     border-radius: var(--radius-pill);
     padding: 0.25rem 0.7rem;
     letter-spacing: 0.02em;
@@ -219,7 +283,7 @@
 }
 
 .glass-hover-card:hover .project-tag {
-    border-color: rgba(155, 175, 255, 0.25);
+    border-color: rgba(140, 165, 230, 0.25);
     color: var(--accent-solid);
 }
 
@@ -241,19 +305,23 @@
         background var(--duration-normal) ease,
         border-color var(--duration-normal) ease,
         color var(--duration-normal) ease,
-        transform var(--duration-fast) ease;
+        transform var(--duration-fast) var(--ease-spring);
     cursor: pointer;
+}
+
+.project-btn:active {
+    transform: scale(0.98) translateY(0);
 }
 
 .project-btn-live {
     color: var(--text-primary);
-    background: rgba(155, 175, 255, 0.10);
-    border: 1px solid rgba(155, 175, 255, 0.18);
+    background: rgba(140, 165, 230, 0.10);
+    border: 1px solid rgba(140, 165, 230, 0.18);
 }
 
 .project-btn-live:hover {
-    background: rgba(155, 175, 255, 0.16);
-    border-color: rgba(155, 175, 255, 0.30);
+    background: rgba(140, 165, 230, 0.16);
+    border-color: rgba(140, 165, 230, 0.30);
     transform: translateY(-1px);
 }
 
@@ -271,13 +339,13 @@
 
 .project-btn-hackathon {
     color: var(--text-primary);
-    background: rgba(200, 130, 255, 0.10);
-    border: 1px solid rgba(200, 130, 255, 0.18);
+    background: rgba(170, 130, 220, 0.10);
+    border: 1px solid rgba(170, 130, 220, 0.18);
 }
 
 .project-btn-hackathon:hover {
-    background: rgba(200, 130, 255, 0.16);
-    border-color: rgba(200, 130, 255, 0.30);
+    background: rgba(170, 130, 220, 0.16);
+    border-color: rgba(170, 130, 220, 0.30);
     transform: translateY(-1px);
 }
 
@@ -359,7 +427,7 @@
 }
 
 .skill-pill:hover .skill-pill-icon {
-    filter: drop-shadow(0 0 3px var(--pill-hover-color, rgba(155, 175, 255, 0.5)));
+    filter: drop-shadow(0 0 3px var(--pill-hover-color, rgba(140, 165, 230, 0.5)));
 }
 
 .skill-pill-icon img,
@@ -392,8 +460,8 @@
     left: 7px;
     width: 1px;
     background: linear-gradient(180deg,
-            rgba(155, 175, 255, 0.20),
-            rgba(155, 175, 255, 0.05));
+            rgba(140, 165, 230, 0.20),
+            rgba(140, 165, 230, 0.05));
 }
 
 .career-entry {
@@ -413,17 +481,17 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(155, 175, 255, 0.50);
-    border: 2px solid rgba(155, 175, 255, 0.20);
-    box-shadow: 0 0 6px rgba(155, 175, 255, 0.10);
+    background: rgba(140, 165, 230, 0.50);
+    border: 2px solid rgba(140, 165, 230, 0.20);
+    box-shadow: 0 0 6px rgba(140, 165, 230, 0.10);
     transform: translateX(3px);
 }
 
 /* Active dot (first entry) */
 .career-entry:first-child .career-dot {
     background: var(--accent-solid);
-    border-color: rgba(155, 175, 255, 0.35);
-    box-shadow: 0 0 8px rgba(155, 175, 255, 0.20);
+    border-color: rgba(140, 165, 230, 0.35);
+    box-shadow: 0 0 8px rgba(140, 165, 230, 0.20);
 }
 
 .career-card-body {
@@ -502,8 +570,8 @@
     left: 7px;
     width: 1px;
     background: linear-gradient(180deg,
-            rgba(155, 175, 255, 0.20),
-            rgba(155, 175, 255, 0.05));
+            rgba(140, 165, 230, 0.20),
+            rgba(140, 165, 230, 0.05));
 }
 
 .education-entry {
@@ -523,17 +591,17 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: rgba(155, 175, 255, 0.50);
-    border: 2px solid rgba(155, 175, 255, 0.20);
-    box-shadow: 0 0 6px rgba(155, 175, 255, 0.10);
+    background: rgba(140, 165, 230, 0.50);
+    border: 2px solid rgba(140, 165, 230, 0.20);
+    box-shadow: 0 0 6px rgba(140, 165, 230, 0.10);
     transform: translateX(3px);
 }
 
 /* Active dot (first entry) */
 .education-entry:first-child .education-dot {
     background: var(--accent-solid);
-    border-color: rgba(155, 175, 255, 0.35);
-    box-shadow: 0 0 8px rgba(155, 175, 255, 0.20);
+    border-color: rgba(140, 165, 230, 0.35);
+    box-shadow: 0 0 8px rgba(140, 165, 230, 0.20);
 }
 
 .education-card-body {
@@ -603,6 +671,15 @@
 @media (max-width: 768px) {
     .projects-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Reset Bento spans on mobile — strict single column */
+    .projects-grid > .bento-wide {
+        grid-column: span 1;
+    }
+
+    .projects-grid > .bento-wide .project-image-preview img {
+        height: auto;
     }
 
     .social-grid {

@@ -78,7 +78,7 @@
 /* ── Pill hover — glass deepens ── */
 .nav-breadcrumb:hover,
 .nav-links:hover {
-    border-color: rgba(155, 175, 255, 0.15);
+    border-color: rgba(140, 165, 230, 0.12);
     box-shadow:
         0 2px 6px rgba(0, 0, 0, 0.14),
         0 8px 24px rgba(0, 0, 0, 0.10),
@@ -179,7 +179,7 @@
 }
 
 .nav-link:active {
-    transform: scale(0.97);
+    transform: scale(0.98) translateY(0);
 }
 
 /* Theme Toggle Button */
@@ -206,7 +206,7 @@
 }
 
 .theme-toggle-btn:active {
-    transform: scale(0.97);
+    transform: scale(0.98) translateY(0);
 }
 
 /* Subtle underline indicator on hover */
