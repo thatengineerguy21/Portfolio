@@ -1,24 +1,18 @@
-import { useRef, useCallback, memo } from 'react';
+import { memo } from 'react';
 import './SpotlightCard.css';
 
-const SpotlightCard = memo(({ children, className = '', spotlightColor = 'rgba(255, 255, 255, 0.25)' }) => {
-  const divRef = useRef(null);
-
-  const handleMouseMove = useCallback((e) => {
-    const rect = divRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    divRef.current.style.setProperty('--mouse-x', `${x}px`);
-    divRef.current.style.setProperty('--mouse-y', `${y}px`);
-    divRef.current.style.setProperty('--spotlight-color', spotlightColor);
-  }, [spotlightColor]);
+const SpotlightCard = memo(({ children, className = '', spotlightColor, style = {}, ...props }) => {
+  const customStyle = {
+    ...style,
+    '--hover-border-dim': spotlightColor || 'rgba(140, 165, 230, 0.15)',
+    '--hover-border-bright': spotlightColor || 'rgba(140, 165, 230, 0.35)',
+  };
 
   return (
-    <div ref={divRef} onMouseMove={handleMouseMove} className={`card-spotlight ${className}`}>
+    <div className={`card-spotlight ${className}`} style={customStyle} {...props}>
       {children}
     </div>
   );
 });
 
-export default SpotlightCard;
+export default SpotlightCard;

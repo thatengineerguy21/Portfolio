@@ -41,8 +41,8 @@
 
 :root {
   /* ── Background — off-black, never pure #000 ── */
-  --bg-primary: #050505;
-  --bg-surface: rgba(255, 255, 255, 0.03);
+  --bg-primary: #0a0a0a;
+  --bg-surface: transparent;
   --bg-surface-hover: rgba(255, 255, 255, 0.06);
   --bg-elevated: rgba(255, 255, 255, 0.045);
 

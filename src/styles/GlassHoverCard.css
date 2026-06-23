@@ -1,6 +1,7 @@
 /* ══════════════════════════════════════════════════════
-   GlassHoverCard.css — Clean Card + Canvas Spotlight
-   Matches the reference spotlight-section pattern exactly.
+   GlassHoverCard.css — Border Glow Only
+   On hover only the border illuminates; the card
+   interior stays absolutely dark.
    ══════════════════════════════════════════════════════ */
 
 /* ── Container ── */
@@ -21,53 +22,25 @@
 
     /* ── Surface with Double-Bezel inner highlight ── */
     background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    transition: transform var(--duration-normal) var(--ease-out),
-        box-shadow var(--duration-normal) var(--ease-out),
-        border-color var(--duration-normal) ease,
-        background var(--duration-normal) ease;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color var(--duration-normal) ease,
+        box-shadow var(--duration-normal) var(--ease-out);
 
     /* GPU compositing layer */
     will-change: transform;
     transform: translate3d(0, 0, 0);
 
     /* Entrance animation */
-    animation: glassCardFadeIn 0.8s var(--ease-spring) both;
-    box-shadow:
-        var(--shadow-xs),
-        var(--bezel-inner-highlight);
+    box-shadow: none;
 }
 
+
+/* ── Hover — pulsating border glow, interior stays dark ── */
 .glass-hover-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--border-hover);
-    background: var(--bg-surface-hover);
-    box-shadow:
-        var(--bezel-inner-highlight),
-        0 2px 4px rgba(0, 0, 0, 0.10),
-        0 8px 24px rgba(0, 0, 0, 0.10),
-        0 20px 48px -12px rgba(0, 0, 0, 0.08);
+    animation: borderPulse 2s ease-in-out infinite;
 }
 
 
-/* ══════════════════════════════════════════════════════
-   Canvas Spotlight — position:absolute, opacity fade
-   ══════════════════════════════════════════════════════ */
-
-.glass-hover-card-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 0.4s;
-}
-
-.glass-hover-card:hover .glass-hover-card-canvas {
-    opacity: 1;
-}
 
 
 /* ══════════════════════════════════════════════════════
@@ -93,7 +66,7 @@
     height: 1px;
     background: linear-gradient(90deg,
             transparent,
-            var(--border-subtle) 50%,
+            transparent 50%,
             transparent);
     pointer-events: none;
     z-index: 2;
@@ -103,9 +76,58 @@
 .glass-hover-card:hover::after {
     background: linear-gradient(90deg,
             transparent,
-            var(--border-hover) 50%,
+            rgba(140, 165, 230, 0.30) 50%,
             transparent);
 }
+
+
+/* ── Light mode adjustments ── */
+:root[data-theme="light"] .glass-hover-card {
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme="light"] .glass-hover-card:hover {
+    animation: borderPulseLight 2s ease-in-out infinite;
+}
+
+:root[data-theme="light"] .glass-hover-card:hover::after {
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(50, 80, 180, 0.25) 50%,
+            transparent);
+}
+
+
+/* ── Pulsating border glow keyframes ── */
+@keyframes borderPulse {
+    0%, 100% {
+        border-color: var(--hover-border-dim, rgba(140, 165, 230, 0.15));
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+    50% {
+        border-color: var(--hover-border-bright, rgba(140, 165, 230, 0.35));
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+    }
+}
+
+@keyframes borderPulseLight {
+    0%, 100% {
+        border-color: rgba(50, 80, 180, 0.12);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+    50% {
+        border-color: rgba(50, 80, 180, 0.28);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.10);
+    }
+}
+
+:root[data-theme="light"] .glass-hover-card:hover::after {
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(50, 80, 180, 0.25) 50%,
+            transparent);
+}
+
 
 
 /* ── Entrance animation ── */

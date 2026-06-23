@@ -3,7 +3,8 @@ import Navbar from './components/Navbar'
 // ── RocketScrollbar disabled — premium minimalism refactor ──
 // import RocketScrollbar from './components/RocketScrollbar'
 import DotRing from './components/DotRing'
-import Aurora from './components/Aurora'
+// ── Aurora disabled — pure dark background ──
+// import Aurora from './components/Aurora'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
 import { Analytics } from '@vercel/analytics/react'
@@ -15,7 +16,8 @@ function App() {
     <>
       <Analytics />
       <SpeedInsights />
-      <Aurora />
+      {/* Aurora disabled — pure dark background */}
+      {/* <Aurora /> */}
       <Navbar />
       <DotRing />
       {/* RocketScrollbar disabled — premium minimalism refactor */}
