@@ -1,0 +1,79 @@
+/* ── Container ── */
+.graph-glass-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
+/* ── Card shell ── */
+.graph-glass-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    width: 100%;
+    overflow: hidden;
+    transition: border-color var(--duration-normal) ease;
+}
+
+.graph-glass-card:hover {
+    animation: borderPulseGraph 2s ease-in-out infinite;
+}
+
+.graph-glass-card-content {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Hide scrollbar */
+.graph-glass-card-content::-webkit-scrollbar {
+    display: none;
+}
+.graph-glass-card-content {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* ── Light mode adjustments ── */
+:root[data-theme="light"] .graph-glass-card {
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme="light"] .graph-glass-card:hover {
+    animation: borderPulseLightGraph 2s ease-in-out infinite;
+}
+
+/* ── Pulsating border glow keyframes ── */
+@keyframes borderPulseGraph {
+    0%, 100% {
+        border-color: var(--hover-border-dim, rgba(140, 165, 230, 0.15));
+    }
+    50% {
+        border-color: var(--hover-border-bright, rgba(140, 165, 230, 0.35));
+    }
+}
+
+@keyframes borderPulseLightGraph {
+    0%, 100% {
+        border-color: rgba(50, 80, 180, 0.12);
+    }
+    50% {
+        border-color: rgba(50, 80, 180, 0.28);
+    }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .graph-glass-card {
+        border-radius: var(--radius-md);
+    }
+
+    .graph-glass-card-content {
+        padding: 1.25rem;
+    }
+}

@@ -7,6 +7,9 @@ import SocialIcons from '../components/SocialIcons';
 import Skills from '../components/Skills';
 import Career from '../components/Career';
 import Education from '../components/Education';
+import PositionsOfResponsibility from '../components/PositionsOfResponsibility';
+import GithubGraph from '../components/GithubGraph';
+import LeetcodeGraph from '../components/LeetcodeGraph';
 import ScrollReveal from '../components/ScrollReveal';
 import Marquee from '../components/Marquee';
 import SpotifyEmbed from '../components/SpotifyEmbed';
@@ -30,7 +33,7 @@ const FEATURED_PROJECTS = [
   {
     name: 'NeuroTicker',
     description: 'Hackathon-winning platform that merges geospatial visualization with real-time financial data — enabling traders to discover location-correlated market patterns at a glance.',
-    impact: '1st Place — Gen AI Dev Hackathon',
+    impact: '2nd Place — Gen AI Dev Hackathon',
     tags: ['React', 'TailwindCSS', 'Alpaca Markets API', 'Mapbox',],
     image: null,
     liveUrl: 'https://neuroticker.vercel.app/',
@@ -144,6 +147,10 @@ const HomePage = () => {
       <Skills />
       <Career />
       <Education />
+      <PositionsOfResponsibility />
+
+      <GithubGraph />
+      {/* <LeetcodeGraph /> */}
 
       <SpotifyEmbed playlists={SPOTIFY_PLAYLISTS} />
     </GlassPanel>

@@ -24,7 +24,7 @@ const ALL_PROJECTS = [
   {
     name: 'NeuroTicker',
     description: 'Hackathon-winning platform that merges geospatial visualization with real-time financial data — enabling traders to discover location-correlated market patterns at a glance.',
-    impact: '1st Place — Gen AI Dev Hackathon',
+    impact: '2nd Place — Gen AI Dev Hackathon',
     tags: ['React', 'TailwindCSS', 'Alpaca Markets API', 'Mapbox',],
     image: neuroTickerImage,
     liveUrl: 'https://neuroticker.vercel.app/',
@@ -63,7 +63,8 @@ const ProjectsPage = () => {
 
   return (
     <>
-      {isBrutalMode && (
+      {/* Brutal mode hidden per request */}
+      {/* {isBrutalMode && (
         <button 
           className="brutal-toggle-btn active"
           onClick={() => setIsBrutalMode(false)}
@@ -72,24 +73,24 @@ const ProjectsPage = () => {
           <div className="indicator"></div>
           BRUTAL MODE: ON
         </button>
-      )}
+      )} */}
 
-      <Projects3DWorld projects={ALL_PROJECTS} isActive={isBrutalMode} />
+      {/* <Projects3DWorld projects={ALL_PROJECTS} isActive={isBrutalMode} /> */}
 
-      {!isBrutalMode && (
+      {/* {!isBrutalMode && ( */}
         <GlassPanel>
           <section className="section-block">
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '1.5rem', marginBottom: '2rem', position: 'relative', zIndex: 10, width: '100%' }}>
               <Link to="/" className="back-link" style={{ display: 'inline-block' }} data-cursor-hover>← Back</Link>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: 'wrap', gap: '1rem' }}>
                 <h2 className="section-heading" style={{ margin: 0 }}>All Projects</h2>
-                <button 
+                {/* <button 
                   className="project-btn project-btn-hackathon"
                   onClick={() => setIsBrutalMode(true)}
                   data-cursor-hover
                 >
                   Brutal Mode: OFF
-                </button>
+                </button> */}
               </div>
             </div>
             <GlassHoverCardContainer className="projects-grid">
@@ -141,7 +142,7 @@ const ProjectsPage = () => {
             </GlassHoverCardContainer>
           </section>
         </GlassPanel>
-      )}
+      {/* )} */}
     </>
   );
 };
