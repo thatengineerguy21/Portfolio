@@ -6,6 +6,8 @@
 
 :root {
     --nav-glass-bg: rgba(8, 8, 13, 0.45);
+    --nav-glass-bg-hover: rgba(8, 8, 13, 0.55);
+    --nav-glass-bg-merged: rgba(8, 8, 13, 0.50);
     --nav-glass-border: 1px solid rgba(255, 255, 255, 0.10);
     --nav-glass-shadow:
         0 1px 3px rgba(0, 0, 0, 0.12),
@@ -16,6 +18,8 @@
 
 :root[data-theme="light"] {
     --nav-glass-bg: rgba(255, 255, 255, 0.65);
+    --nav-glass-bg-hover: rgba(255, 255, 255, 0.85);
+    --nav-glass-bg-merged: rgba(255, 255, 255, 0.80);
     --nav-glass-border: 1px solid rgba(0, 0, 0, 0.08);
     --nav-glass-shadow:
         0 1px 3px rgba(0, 0, 0, 0.05),
@@ -83,7 +87,7 @@
         0 2px 6px rgba(0, 0, 0, 0.14),
         0 8px 24px rgba(0, 0, 0, 0.10),
         inset 0 1px 0 rgba(255, 255, 255, 0.10);
-    background: rgba(8, 8, 13, 0.55);
+    background: var(--nav-glass-bg-hover);
     transform: translateY(-1px);
 }
 
@@ -278,12 +282,9 @@
     transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
-    background: rgba(8, 8, 13, 0.50);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    box-shadow:
-        0 2px 6px rgba(0, 0, 0, 0.14),
-        0 8px 24px rgba(0, 0, 0, 0.10),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: var(--nav-glass-bg-merged);
+    border: var(--nav-glass-border);
+    box-shadow: var(--nav-glass-shadow);
     border-radius: var(--radius-pill);
     padding: 0.8rem 1rem;
     pointer-events: none;
@@ -428,10 +429,22 @@
     background: rgba(0, 0, 0, 0.12);
 }
 
+:root[data-theme="light"] .breadcrumb-separator {
+    color: rgba(0, 0, 0, 0.18);
+}
+
+:root[data-theme="light"] .nav-link:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
 :root[data-theme="light"] .navbar-merged-bar::before {
     background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.10), transparent);
 }
 
 :root[data-theme="light"] .nav-merge-divider {
     background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.12), transparent);
+}
+
+:root[data-theme="light"] .breadcrumb-separator {
+    color: rgba(0, 0, 0, 0.18);
 }
