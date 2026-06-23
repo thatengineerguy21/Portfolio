@@ -724,3 +724,50 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* ── Light Mode Overrides for Hardcoded Colors ── */
+:root[data-theme="light"] .arrow-circle-wrapper {
+    background: rgba(50, 80, 180, 0.1);
+    border-color: rgba(50, 80, 180, 0.2);
+}
+:root[data-theme="light"] .section-view-all:hover .arrow-circle-wrapper {
+    background: rgba(50, 80, 180, 0.25);
+}
+:root[data-theme="light"] .project-tag {
+    background: rgba(50, 80, 180, 0.06);
+    border-color: rgba(50, 80, 180, 0.12);
+}
+:root[data-theme="light"] .glass-hover-card:hover .project-tag {
+    border-color: rgba(50, 80, 180, 0.25);
+}
+:root[data-theme="light"] .project-btn-live {
+    background: rgba(50, 80, 180, 0.10);
+    border-color: rgba(50, 80, 180, 0.18);
+}
+:root[data-theme="light"] .project-btn-live:hover {
+    background: rgba(50, 80, 180, 0.16);
+    border-color: rgba(50, 80, 180, 0.30);
+}
+:root[data-theme="light"] .project-btn-hackathon {
+    background: rgba(140, 70, 180, 0.10);
+    border-color: rgba(140, 70, 180, 0.18);
+}
+:root[data-theme="light"] .project-btn-hackathon:hover {
+    background: rgba(140, 70, 180, 0.16);
+    border-color: rgba(140, 70, 180, 0.30);
+}
+:root[data-theme="light"] .career-timeline::before,
+:root[data-theme="light"] .education-timeline::before {
+    background: linear-gradient(180deg, rgba(50, 80, 180, 0.20), rgba(50, 80, 180, 0.05));
+}
+:root[data-theme="light"] .career-dot,
+:root[data-theme="light"] .education-dot {
+    background: rgba(50, 80, 180, 0.50);
+    border-color: rgba(50, 80, 180, 0.20);
+    box-shadow: 0 0 6px rgba(50, 80, 180, 0.10);
+}
+:root[data-theme="light"] .career-entry:first-child .career-dot,
+:root[data-theme="light"] .education-entry:first-child .education-dot {
+    border-color: rgba(50, 80, 180, 0.35);
+    box-shadow: 0 0 8px rgba(50, 80, 180, 0.20);
+}

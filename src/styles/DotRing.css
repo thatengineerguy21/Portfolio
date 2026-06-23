@@ -33,7 +33,7 @@
 
 /* ── Highlight effect on hovered elements ── */
 .cursor-highlighted {
-    filter: brightness(1.3) drop-shadow(0 0 12px var(--cursor-highlight-shadow));
+    filter: brightness(var(--cursor-highlight-brightness, 1.3)) drop-shadow(0 0 12px var(--cursor-highlight-shadow));
     transition: filter 0.3s ease;
 }
 

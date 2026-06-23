@@ -417,3 +417,21 @@
         padding: 0.35rem 0.6rem;
     }
 }
+
+/* ── Light Mode Overrides ── */
+:root[data-theme="light"] .nav-breadcrumb::before,
+:root[data-theme="light"] .nav-links::before {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0) 50%);
+}
+
+:root[data-theme="light"] .nav-divider {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="light"] .navbar-merged-bar::before {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.10), transparent);
+}
+
+:root[data-theme="light"] .nav-merge-divider {
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.12), transparent);
+}

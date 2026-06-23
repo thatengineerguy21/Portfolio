@@ -12,8 +12,8 @@
     isolation: isolate;
     transform: translate3d(0, 0, 0.01px);
     display: grid;
-    border: 1px solid rgb(255 255 255 / 15%);
-    background: var(--card-bg, #060010);
+    border: 1px solid var(--border-default, rgb(255 255 255 / 15%));
+    background: var(--bg-surface, var(--card-bg, #060010));
     overflow: visible;
     box-shadow:
         rgba(0, 0, 0, 0.1) 0px 1px 2px,
@@ -134,4 +134,22 @@
     position: relative;
     overflow: auto;
     z-index: 1;
+}
+
+:root[data-theme="light"] .border-glow-card {
+    --glow-color: rgba(50, 80, 180, 1);
+    --glow-color-60: rgba(50, 80, 180, 0.6);
+    --glow-color-50: rgba(50, 80, 180, 0.5);
+    --glow-color-40: rgba(50, 80, 180, 0.4);
+    --glow-color-30: rgba(50, 80, 180, 0.3);
+    --glow-color-20: rgba(50, 80, 180, 0.2);
+    --glow-color-10: rgba(50, 80, 180, 0.1);
+}
+
+:root[data-theme="light"] .border-glow-card::after {
+    mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] .border-glow-card > .edge-light {
+    mix-blend-mode: multiply;
 }
