@@ -78,6 +78,7 @@ const DotRing = () => {
         let ringY = mouseY;
         let dotX = mouseX;
         let dotY = mouseY;
+        let isVisible = true;
 
         const onMouseMove = (e) => {
             mouseX = e.clientX;
@@ -93,6 +94,12 @@ const DotRing = () => {
         };
 
         const onMouseOver = (e) => {
+            if (e.target && (e.target.tagName === 'IFRAME' || e.target.closest('iframe'))) {
+                isVisible = false;
+            } else {
+                isVisible = true;
+            }
+
             const target = getHoverTarget(e.target);
             if (target && target !== hoveredElRef.current) {
                 hoveredElRef.current = target;
@@ -110,6 +117,10 @@ const DotRing = () => {
                 target.classList.remove("cursor-highlighted");
                 hoveredElRef.current = null;
                 isHoveredRef.current = false;
+            }
+
+            if (!e.relatedTarget) {
+                isVisible = false;
             }
         };
 
@@ -167,6 +178,7 @@ const DotRing = () => {
                     ring.style.borderWidth = "2px";
 
                     // Hide the dot when hovering
+                    ring.style.opacity = isVisible ? "1" : "0";
                     dot.style.opacity = "0";
                 }
             } 
@@ -179,7 +191,8 @@ const DotRing = () => {
                 ring.style.borderColor = "var(--cursor-ring-color)";
                 ring.style.borderWidth = "2px";
 
-                dot.style.opacity = "1";
+                ring.style.opacity = isVisible ? "1" : "0";
+                dot.style.opacity = isVisible ? "1" : "0";
             }
 
             // Lerp positions

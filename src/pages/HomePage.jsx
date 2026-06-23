@@ -9,6 +9,7 @@ import Career from '../components/Career';
 import Education from '../components/Education';
 import ScrollReveal from '../components/ScrollReveal';
 import Marquee from '../components/Marquee';
+import SpotifyEmbed from '../components/SpotifyEmbed';
 import '../styles/Sections.css';
 
 /* ──────────────────────────────────────────────────────
@@ -55,6 +56,11 @@ const FEATURED_PROJECTS = [
   //   hoverColor: { surface: 'rgba(255, 152, 0, 0.10)', border: 'rgba(255, 152, 0, 0.25)' },
   // },
   // ← Add more featured projects here
+];
+const SPOTIFY_PLAYLISTS = [
+  "https://open.spotify.com/playlist/3iXhfxUwgIAhihizPA0Gf8?si=TlAD_9QZSQ-S9S7Y3uDFPg",
+  "https://open.spotify.com/playlist/0WPPuEuYYN20CXhv87m99B?si=zgMFOXWgSs2eTDWLtsIDcw",
+  "https://open.spotify.com/playlist/0Mvq2s07qOSYgEKPNOrbUq?si=9QmELWf5Rn-xGHPn_zhaOw"
 ];
 
 const HomePage = () => {
@@ -141,6 +147,8 @@ const HomePage = () => {
       <ScrollReveal delay={0.2}>
         <Education />
       </ScrollReveal>
+
+      <SpotifyEmbed playlists={SPOTIFY_PLAYLISTS} />
     </GlassPanel>
   );
 };
