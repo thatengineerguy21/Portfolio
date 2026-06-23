@@ -1,10 +1,13 @@
 import React from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
+import { useTheme } from '../context/ThemeContext';
 import { GraphGlassCardContainer, GraphGlassCard } from './GraphGlassCard';
 import ScrollReveal from './ScrollReveal';
 import '../styles/Sections.css';
 
 const GithubGraph = React.memo(() => {
+  const { theme } = useTheme();
+  
   return (
     <section id="github-contributions" className="section-block">
       <h2 className="section-heading">GitHub Contributions</h2>
@@ -14,7 +17,7 @@ const GithubGraph = React.memo(() => {
             <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               <GitHubCalendar 
                 username="thatengineerguy21" 
-                colorScheme="dark"
+                colorScheme={theme === 'light' ? 'light' : 'dark'}
                 fontSize={14}
                 blockSize={14}
                 blockMargin={5}
