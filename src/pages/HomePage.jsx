@@ -46,7 +46,7 @@ const FEATURED_PROJECTS = [
     impact: 'Top 100 — Google Gen AI Academy APAC',
     tags: ['React', 'TailwindCSS', 'Python', 'FastAPI', 'Google ADK', 'Gemini 2.5', 'PostgreSQL', 'Docker', 'Cloud Run'],
     image: null,
-    liveUrl: 'https://careflow-892626469440.us-central1.run.app/',
+    // liveUrl: 'https://careflow-892626469440.us-central1.run.app/',
     repoUrl: 'https://github.com/Inference-Engines/careflow-agents',
     hoverColor: { surface: 'rgba(1, 88, 237, 0.25)', border: 'rgba(1, 88, 237, 0.5)' },
   },

@@ -348,6 +348,18 @@
     transform: translateY(-1px);
 }
 
+.project-btn-YouTube-Demo {
+    color: var(--text-primary);
+    background: rgba(240, 80, 80, 0.10);
+    border: 1px solid rgba(240, 80, 80, 0.18);
+}
+
+.project-btn-YouTube-Demo:hover {
+    background: rgba(240, 80, 80, 0.16);
+    border-color: rgba(240, 80, 80, 0.30);
+    transform: translateY(-1px);
+}
+
 
 /* ══════════════════════════════════════════════════════
    SKILLS — Categorized pill grid
