@@ -98,35 +98,6 @@ function Navbar() {
     return () => observer.disconnect()
   }, [location.pathname])
 
-  // ── Resize merged bar to wrap both children ──
-  useEffect(() => {
-    if (!mergedBarRef.current || !breadcrumbRef.current || !linksRef.current) return
-
-    const updateMergedSize = () => {
-      if (scrolled) {
-        // Let the bar span from left edge of breadcrumb to right edge of links
-        const containerRect = mergedBarRef.current.parentElement.getBoundingClientRect()
-        const bcRect = breadcrumbRef.current.getBoundingClientRect()
-        const lnRect = linksRef.current.getBoundingClientRect()
-        const fullSpan = lnRect.right - bcRect.left
-        mergedBarRef.current.style.width = `${fullSpan + 16}px` // 16px for inner padding
-      }
-    }
-
-    let resizeTimer
-    const debouncedResize = () => {
-      clearTimeout(resizeTimer)
-      resizeTimer = setTimeout(updateMergedSize, 150)
-    }
-
-    updateMergedSize()
-    window.addEventListener('resize', debouncedResize, { passive: true })
-    return () => {
-      window.removeEventListener('resize', debouncedResize)
-      clearTimeout(resizeTimer)
-    }
-  }, [scrolled])
-
   // ── Toggle mobile menu ──
   const handleMenuToggle = useCallback(() => {
     setMenuOpen((prev) => !prev)
@@ -149,6 +120,37 @@ function Navbar() {
   if (dynamicSegment) {
     currentSegments.push(dynamicSegment)
   }
+
+  // ── Resize merged bar to wrap both children ──
+  useEffect(() => {
+    if (!mergedBarRef.current || !breadcrumbRef.current || !linksRef.current) return
+
+    const updateMergedSize = () => {
+      if (scrolled && mergedBarRef.current && breadcrumbRef.current && linksRef.current) {
+        // Use rAF to measure after DOM has painted with new breadcrumb content
+        requestAnimationFrame(() => {
+          if (!mergedBarRef.current || !breadcrumbRef.current || !linksRef.current) return
+          const bcRect = breadcrumbRef.current.getBoundingClientRect()
+          const lnRect = linksRef.current.getBoundingClientRect()
+          const fullSpan = lnRect.right - bcRect.left
+          mergedBarRef.current.style.width = `${fullSpan + 16}px` // 16px for inner padding
+        })
+      }
+    }
+
+    let resizeTimer
+    const debouncedResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(updateMergedSize, 150)
+    }
+
+    updateMergedSize()
+    window.addEventListener('resize', debouncedResize, { passive: true })
+    return () => {
+      window.removeEventListener('resize', debouncedResize)
+      clearTimeout(resizeTimer)
+    }
+  }, [scrolled, dynamicSegment])
 
   return (
     <>

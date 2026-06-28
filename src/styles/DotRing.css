@@ -37,6 +37,15 @@
     transition: filter 0.3s ease;
 }
 
+/* Download-resume fix: filter on a parent creates unstable stacking
+   contexts during its transition, swallowing clicks on the child <a>.
+   box-shadow achieves the same glow without the hit-testing issue. */
+.download-resume-card.cursor-highlighted {
+    filter: none;
+    box-shadow: 0 0 12px var(--cursor-highlight-shadow);
+    transition: box-shadow 0.3s ease;
+}
+
 /* ── Low-perf fallback ── */
 html.low-perf .cursor-highlighted {
     filter: none;

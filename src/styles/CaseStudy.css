@@ -1,0 +1,466 @@
+/* ══════════════════════════════════════════════════════
+   CaseStudy.css — Premium Ethereal Glass
+   Styles for the deeply analytical project case study pages
+   ══════════════════════════════════════════════════════ */
+
+.cs-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding: var(--space-md) 0 var(--space-2xl) 0;
+  width: 100%;
+}
+
+/* ── Hero Header ── */
+.cs-hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.cs-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-xs);
+}
+
+.cs-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2.2rem;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.cs-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 90%;
+}
+
+.cs-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: var(--space-sm);
+}
+
+.cs-hero-image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+  margin-top: var(--space-md);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Section Structure ── */
+.cs-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  padding-top: var(--space-md);
+}
+
+.cs-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.cs-section-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cs-section-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.cs-section-body {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* ── Grids & Cards ── */
+.cs-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.cs-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+/* ── Problem & Solution Highlight Cards ── */
+.cs-card-tinted {
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  border: 1px solid var(--border-default);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.cs-card-problem {
+  background: rgba(240, 80, 80, 0.08);
+  border-color: rgba(240, 80, 80, 0.2);
+}
+
+.cs-card-solution {
+  background: rgba(20, 200, 100, 0.08);
+  border-color: rgba(20, 200, 100, 0.2);
+}
+
+.cs-card-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.cs-problem-label {
+  color: rgba(255, 120, 120, 0.9);
+}
+
+.cs-solution-label {
+  color: rgba(80, 230, 140, 0.9);
+}
+
+.cs-card-text {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+/* ── Metrics Grid ── */
+.cs-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.cs-metric-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  gap: 4px;
+  transition: transform var(--duration-normal) ease, border-color var(--duration-normal) ease;
+}
+
+.cs-metric-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+}
+
+.cs-metric-value {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--accent-solid);
+  letter-spacing: -0.02em;
+}
+
+.cs-metric-label {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+/* ── Decision & Challenge Cards ── */
+.cs-decision-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.cs-decision-header {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cs-decision-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border-subtle);
+}
+
+.cs-decision-row {
+  padding: var(--space-md);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-row-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cs-row-chosen {
+  color: rgba(80, 230, 140, 0.9);
+}
+
+.cs-row-alt {
+  color: rgba(255, 120, 120, 0.9);
+}
+
+.cs-row-text {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ── Challenge Card ── */
+.cs-challenge-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--space-lg);
+}
+
+.cs-challenge-header {
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(240, 80, 80, 0.06);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-challenge-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: rgba(255, 120, 120, 0.9);
+}
+
+.cs-challenge-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.cs-challenge-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-subtle);
+}
+
+.cs-challenge-col {
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-col-heading {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.cs-col-cause { color: rgba(255, 120, 120, 0.9); }
+.cs-col-solution { color: var(--accent-solid); }
+.cs-col-outcome { color: rgba(80, 230, 140, 0.9); }
+
+.cs-col-text {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ── Bullet Lists ── */
+.cs-bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cs-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.cs-bullet-icon {
+  flex-shrink: 0;
+  color: var(--accent);
+  margin-top: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Tech Rationale Table / Grid ── */
+.cs-tech-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: var(--space-sm);
+}
+
+.cs-tech-card {
+  padding: var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-tech-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--accent-solid);
+}
+
+.cs-tech-desc {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* ── Performance & Security Column Cards ── */
+.cs-perf-sec-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.cs-col-main-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.cs-item-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cs-item-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.cs-item-desc {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-tertiary);
+}
+
+/* ── Responsive Design ── */
+@media (max-width: 860px) {
+  .cs-grid-2,
+  .cs-grid-3,
+  .cs-metrics-grid,
+  .cs-tech-grid,
+  .cs-challenge-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-title {
+    font-size: 1.8rem;
+  }
+
+  .cs-description {
+    max-width: 100%;
+  }
+
+  .cs-challenge-cols {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+}

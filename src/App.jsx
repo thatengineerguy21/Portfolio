@@ -7,6 +7,7 @@ import DotRing from './components/DotRing'
 // import Aurora from './components/Aurora'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
+import CaseStudyPage from './pages/CaseStudyPage'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:slug" element={<CaseStudyPage />} />
       </Routes>
     </>
   )

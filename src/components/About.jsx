@@ -44,6 +44,7 @@ const About = React.memo(() => {
           </ScrollReveal>
           <ScrollReveal delay={0.3}>
             <GlassHoverCard
+              className="download-resume-card"
               hoverColor={{ surface: 'rgba(220, 50, 50, 0.08)', border: 'rgba(220, 50, 50, 0.20)' }}
               data-cursor-hover
             >

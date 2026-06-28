@@ -13,45 +13,9 @@ import LeetcodeGraph from '../components/LeetcodeGraph';
 import ScrollReveal from '../components/ScrollReveal';
 import Marquee from '../components/Marquee';
 import SpotifyEmbed from '../components/SpotifyEmbed';
+import { FEATURED_PROJECTS } from '../data/projects';
 import '../styles/Sections.css';
 
-/* ──────────────────────────────────────────────────────
-   FEATURED PROJECTS
-   Add or remove entries here. Set `featured: true` on
-   any project you want shown on the home page.
-   Each entry supports:
-   name        – Project title
-   description – One-liner
-   tags        – Array of tech used
-   image       – Import an image, or null
-   liveUrl     – Link to live site, or null
-   repoUrl     – Link to GitHub repo, or null
-   hackathonUrl– Link to Hackathon submission, or null
-   hoverColor  – { surface, border } rgba strings
-   ────────────────────────────────────────────────────── */
-const FEATURED_PROJECTS = [
-  {
-    name: 'NeuroTicker',
-    description: 'Hackathon-winning platform that merges geospatial visualization with real-time financial data — enabling traders to discover location-correlated market patterns at a glance.',
-    impact: '2nd Place — Gen AI Dev Hackathon',
-    tags: ['React', 'TailwindCSS', 'Alpaca Markets API', 'Mapbox',],
-    image: null,
-    liveUrl: 'https://neuroticker.vercel.app/',
-    repoUrl: 'https://github.com/iamproxman/geo-finance-nexus',
-    hoverColor: { surface: 'rgba(11, 20, 36, 0.10)', border: 'rgba(11, 20, 36, 0.25)' },
-  },
-  {
-    name: 'CareFlow',
-    description: 'Multi-agent AI healthcare assistant that automates post-visit care coordination — selected among 4,500+ global submissions.',
-    impact: 'Top 100 — Google Gen AI Academy APAC',
-    tags: ['React', 'TailwindCSS', 'Python', 'FastAPI', 'Google ADK', 'Gemini 2.5', 'PostgreSQL', 'Docker', 'Cloud Run'],
-    image: null,
-    // liveUrl: 'https://careflow-892626469440.us-central1.run.app/',
-    repoUrl: 'https://github.com/Inference-Engines/careflow-agents',
-    hoverColor: { surface: 'rgba(1, 88, 237, 0.25)', border: 'rgba(1, 88, 237, 0.5)' },
-  },
-  // ← Add more featured projects here
-];
 const SPOTIFY_PLAYLISTS = [
   "https://open.spotify.com/playlist/3iXhfxUwgIAhihizPA0Gf8?si=TlAD_9QZSQ-S9S7Y3uDFPg",
   "https://open.spotify.com/playlist/0WPPuEuYYN20CXhv87m99B?si=zgMFOXWgSs2eTDWLtsIDcw",
@@ -118,8 +82,13 @@ const HomePage = () => {
                       <span key={tag} className="project-tag">{tag}</span>
                     ))}
                   </div>
-                  {(project.liveUrl || project.repoUrl || project.hackathonUrl) && (
+                  {(project.caseStudy || project.liveUrl || project.repoUrl || project.hackathonUrl) && (
                     <div className="project-actions">
+                      {project.caseStudy && (
+                        <Link to={`/projects/${project.slug}`} className="project-btn project-btn-hackathon" data-cursor-hover>
+                          Case Study
+                        </Link>
+                      )}
                       {project.liveUrl && (
                         <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-btn project-btn-live" data-cursor-hover>
                           Live Demo
@@ -152,7 +121,7 @@ const HomePage = () => {
       <GithubGraph />
       {/* <LeetcodeGraph /> */}
 
-      <SpotifyEmbed playlists={SPOTIFY_PLAYLISTS} />
+      {/* <SpotifyEmbed playlists={SPOTIFY_PLAYLISTS} /> */}
     </GlassPanel>
   );
 };

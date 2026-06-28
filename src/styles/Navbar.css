@@ -289,7 +289,7 @@
     padding: 0.8rem 1rem;
     pointer-events: none;
     opacity: 0;
-    overflow: hidden;
+    overflow: visible;
     height: 40px;
     width: auto;
 
@@ -299,6 +299,7 @@
 
     transition:
         opacity var(--nav-transition),
+        width var(--nav-transition),
         transform var(--nav-transition),
         box-shadow var(--nav-transition);
 }
