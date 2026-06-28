@@ -391,13 +391,14 @@ export const ALL_PROJECTS = [
       },
       // Section 02: Role & Contribution
       role: {
-        title: 'Lead AI & Backend Architect',
+        title: 'AI & Backend Architect',
         teamSize: 'Team of 4',
         contributions: [
           'Engineered the multi-agent orchestration core using Python, FastAPI, and Google Agent Development Kit (ADK).',
+          'Designed Task and Medical Info Agents',
           'Implemented the Model Context Protocol (MCP) servers to establish secure, sandboxed tool execution across Google Workspace APIs (Gmail, Calendar).',
-          'Designed strict deterministic safety gates and human-in-the-loop verification guardrails to prevent AI hallucination in clinical scheduling.',
-          'Configured and deployed the containerized microservices architecture onto Google Cloud Run backed by AlloyDB.'
+          'Aided in Designing strict deterministic safety gates and human-in-the-loop verification guardrails to prevent AI hallucination in clinical scheduling.',
+          'Contributed in Configuration and Deployment of the containerized microservices architecture onto Google Cloud Run backed by AlloyDB.'
         ]
       },
       // Section 03: Architecture
@@ -1235,10 +1236,11 @@ export const ALL_PROJECTS = [
       },
       // Section 02: Role & Contribution
       role: {
-        title: 'Lead AI & Full Stack Architect',
+        title: 'AI & Full Stack Architect',
         teamSize: 'Team of 3',
         contributions: [
           'Architected the event-driven backend core using Python and FastAPI to ingest real-time cafe inventory transactions and orchestrate autonomous bundling workflows.',
+          'Designed and Implemented Customer Ordering Flow',
           'Implemented a secure MongoDB MCP (Model Context Protocol) server, establishing standardized, natural language tool calling boundaries for inventory database querying and manipulation.',
           'Configured Google Cloud Agent Builder and Gemini LLMs to power the core store manager agent, utilizing advanced prompt engineering and schema validation for dynamic menu bundling.',
           'Designed and deployed the highly responsive React and Tailwind CSS frontend, presenting real-time inventory insights and automated promotional menus directly to customers and staff.'
@@ -3252,7 +3254,7 @@ export const ALL_PROJECTS = [
       // Section 02: Role & Contribution
       role: {
         title: 'Lead Full Stack Engineer',
-        teamSize: 'Team of 2',
+        teamSize: 'Sole Architect',
         contributions: [
           'Architected the robust RESTful backend utilizing Node.js, Express, and MongoDB, implementing advanced aggregation pipelines for complex property filtering and geospatial search.',
           'Designed and engineered the responsive frontend using React and Redux, establishing a predictable centralized state management architecture for user sessions, bookmarking, and ticket tracking.',
