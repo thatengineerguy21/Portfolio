@@ -82,7 +82,7 @@ const HomePage = () => {
                       <span key={tag} className="project-tag">{tag}</span>
                     ))}
                   </div>
-                  {(project.caseStudy || project.liveUrl || project.repoUrl || project.hackathonUrl) && (
+                  {(project.caseStudy || project.liveUrl || project.repoUrl || project.hackathonUrl || project.youtubeDemoUrl) && (
                     <div className="project-actions">
                       {project.caseStudy && (
                         <Link to={`/projects/${project.slug}`} className="project-btn project-btn-hackathon" data-cursor-hover>
@@ -102,6 +102,11 @@ const HomePage = () => {
                       {project.hackathonUrl && (
                         <a href={project.hackathonUrl} target="_blank" rel="noopener noreferrer" className="project-btn project-btn-hackathon" data-cursor-hover>
                           Hackathon
+                        </a>
+                      )}
+                      {project.youtubeDemoUrl && (
+                        <a href={project.youtubeDemoUrl} target="_blank" rel="noopener noreferrer" className="project-btn project-btn-YouTube-Demo" data-cursor-hover>
+                          YouTube Video
                         </a>
                       )}
                     </div>

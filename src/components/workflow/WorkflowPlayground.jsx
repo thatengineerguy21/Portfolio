@@ -1,29 +1,9 @@
 import { useState, useEffect } from 'react';
 import WorkflowGraph from './WorkflowGraph';
 import * as LucideIcons from 'lucide-react';
-import { 
-  restRequestFlow, 
-  microservicesFlow, 
-  aiAgentFlow, 
-  queueProcessingFlow, 
-  authFlow 
-} from './workflowExamples';
-
-const PREDEFINED_EXAMPLES = {
-  'rest': { id: 'rest', label: 'REST Request Lifecycle', icon: 'Globe', flow: restRequestFlow, desc: 'HTTP request journey through DNS, Load Balancers, API Gateways, Auth Middlewares, and Cache/DB tiers.' },
-  'microservices': { id: 'microservices', label: 'Microservices (Event-Driven)', icon: 'Server', flow: microservicesFlow, desc: 'Asynchronous event publishing and downstream consumers communicating over a Kafka Event Bus.' },
-  'ai-agent': { id: 'ai-agent', label: 'AI Agent Workflow', icon: 'Cpu', flow: aiAgentFlow, desc: 'Agent squad orchestration, tool calling via MCP servers, Vector DB RAG retrieval, and artifact synthesis.' },
-  'queue': { id: 'queue', label: 'Queue / Worker Pipelines', icon: 'Layers', flow: queueProcessingFlow, desc: 'AWS SQS background worker processing, error handling, Dead Letter Queue (DLQ) routing, and S3 persistence.' },
-  'auth': { id: 'auth', label: 'Authentication & Authorization', icon: 'Key', flow: authFlow, desc: 'Secure JWT exchange, multi-factor Identity Provider authentication, backchannel token minting, and session store.' },
-};
 
 const WorkflowPlayground = ({ workflows = [] }) => {
-  const displayWorkflows = workflows.map(wf => {
-    if (typeof wf === 'string') {
-      return PREDEFINED_EXAMPLES[wf] || null;
-    }
-    return wf;
-  }).filter(Boolean);
+  const displayWorkflows = workflows.filter(Boolean);
 
   const [activeTab, setActiveTab] = useState(displayWorkflows.length > 0 ? displayWorkflows[0].id : null);
 

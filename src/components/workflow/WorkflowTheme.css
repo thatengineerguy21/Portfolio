@@ -176,7 +176,9 @@
   border: 1px solid var(--node-border);
   border-radius: 0.75rem;
   padding: 1rem 1.25rem;
-  width: 260px;
+  min-width: 280px;
+  width: max-content;
+  max-width: 420px;
   box-sizing: border-box;
   box-shadow: var(--node-shadow);
   display: flex;

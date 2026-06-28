@@ -1,3 +1,4 @@
+import { restRequestFlow, microservicesFlow, aiAgentFlow, queueProcessingFlow, authFlow } from '../components/workflow/workflowExamples';
 import portfolioImg from '../assets/images/portfolio.png';
 import neuroTickerImage from '../assets/images/neuroticker.png';
 import careFlowImage from '../assets/images/careflow.png';
@@ -114,181 +115,259 @@ export const ALL_PROJECTS = [
       ],
       // Animated Architecture Data Flow
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Live Data Ingestion',
-          subtitle: 'Alpaca WebSockets & FastAPI Gateway',
-          description: 'A dedicated FastAPI backend establishes persistent WebSocket connections to the Alpaca Markets API, ingesting high-frequency market tick data and trade quotes in real time with sub-50ms latency.'
-        },
-        {
-          step: 2,
-          title: 'AI Enrichment & Geolocation',
-          subtitle: 'Groq (Llama 3) & Tavily AI Pipeline',
-          description: 'Incoming financial catalysts and breaking news are routed through an ultra-low-latency NLP pipeline. Tavily AI extracts entity context while Groq resolves real-world geographic coordinates and performs sentiment scoring.'
-        },
-        {
-          step: 3,
-          title: 'State Caching & Debouncing',
-          subtitle: 'Supabase & Ring Buffer Throttling',
-          description: 'Enriched tick data is cached in Supabase for persistence. To handle peak market open surges (1,500+ msg/sec), FastAPI aggregates quote updates into 100ms micro-batches before broadcasting to client subscribers.'
-        },
-        {
-          step: 4,
-          title: 'Client Rendering & Isolation',
-          subtitle: 'Next.js, Zustand & Mapbox GL',
-          description: 'The Next.js frontend receives WebSocket broadcasts via dedicated Web Workers to unblock the main thread. Atomic state updates in Zustand render dynamic, color-coded market markers directly onto a hardware-accelerated Mapbox GL canvas at a smooth 60 FPS.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "alpaca-api",
-                        "label": "Alpaca Markets API",
-                        "type": "gateway",
-                        "status": "success",
-                        "metadata": {
-                                "protocol": "WebSockets",
-                                "latency": "sub-50ms"
-                        },
-                        "groupId": "external-api"
-                },
-                {
-                        "id": "fastapi-backend",
-                        "label": "FastAPI Gateway",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "concurrency": "Ring Buffer Throttling",
-                                "batching": "100ms micro-batches"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "tavily-ai",
-                        "label": "Tavily AI",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "role": "Entity Context Extraction",
-                                "latency": "140ms avg"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "groq-llama3",
-                        "label": "Groq (Llama 3)",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "role": "Geo-resolution & Sentiment",
-                                "speed": "300+ tokens/sec"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "supabase-db",
-                        "label": "Supabase",
-                        "type": "database",
-                        "status": "success",
-                        "metadata": {
-                                "role": "State Caching",
-                                "persistence": "PostgreSQL"
-                        },
-                        "groupId": "data-layer"
-                },
-                {
-                        "id": "nextjs-client",
-                        "label": "Next.js Frontend",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "optimization": "Web Workers",
-                                "thread": "Offload JSON Parsing"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "zustand-store",
-                        "label": "Zustand State",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "state": "Atomic Slices",
-                                "scope": "Map Visuals Isolated"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "mapbox-gl",
-                        "label": "Mapbox GL Canvas",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "rendering": "WebGL Offloading",
-                                "performance": "60 FPS"
-                        },
-                        "groupId": "frontend"
-                }
+          {
+            "step": 1,
+            "title": "Client-Side Application",
+            "subtitle": "React, Vite & Tailwind CSS",
+            "description": "The application is built as a Single Page Application (SPA) using React and Vite. It leverages Tailwind CSS and shadcn-ui for responsive, modern UI components, handling all routing and state management entirely within the user's browser."
+          },
+          {
+            "step": 2,
+            "title": "Authentication & Persistence",
+            "subtitle": "Supabase SDK",
+            "description": "User authentication, session management, and database interactions are handled directly from the client using the Supabase JavaScript SDK, communicating securely with the Supabase managed PostgreSQL backend."
+          },
+          {
+            "step": 3,
+            "title": "Market Data & Trading Integration",
+            "subtitle": "Alpaca & Finnhub APIs",
+            "description": "The frontend directly queries the Finnhub API for real-time stock quotes, company profiles, and financial news. Simultaneously, it connects to the Alpaca Markets API via Axios to fetch portfolio positions and execute paper trades."
+          },
+          {
+            "step": 4,
+            "title": "AI-Powered Financial Research",
+            "subtitle": "Perplexity AI (Llama 3.1)",
+            "description": "User research queries are augmented with their live Alpaca portfolio context and sent directly to the Perplexity AI chat completions endpoint. The Llama 3.1 Sonar model synthesizes this context with real-time web data to return grounded financial insights."
+          }
         ],
-        "edges": [
-                {
-                        "id": "e-alpaca-fastapi",
-                        "source": "alpaca-api",
-                        "target": "fastapi-backend",
-                        "animated": true,
-                        "label": "Live Tick Data (WS)"
-                },
-                {
-                        "id": "e-fastapi-tavily",
-                        "source": "fastapi-backend",
-                        "target": "tavily-ai",
-                        "animated": true,
-                        "label": "News & Catalysts"
-                },
-                {
-                        "id": "e-tavily-groq",
-                        "source": "tavily-ai",
-                        "target": "groq-llama3",
-                        "animated": true,
-                        "label": "Extracted Entities"
-                },
-                {
-                        "id": "e-groq-fastapi",
-                        "source": "groq-llama3",
-                        "target": "fastapi-backend",
-                        "animated": true,
-                        "label": "Geo & Sentiment Data"
-                },
-                {
-                        "id": "e-fastapi-supabase",
-                        "source": "fastapi-backend",
-                        "target": "supabase-db",
-                        "animated": false,
-                        "label": "Cache Enriched Data"
-                },
-                {
-                        "id": "e-fastapi-nextjs",
-                        "source": "fastapi-backend",
-                        "target": "nextjs-client",
-                        "animated": true,
-                        "label": "Broadcast (100ms Batches)"
-                },
-                {
-                        "id": "e-nextjs-zustand",
-                        "source": "nextjs-client",
-                        "target": "zustand-store",
-                        "animated": false,
-                        "label": "Update Store"
-                },
-                {
-                        "id": "e-zustand-mapbox",
-                        "source": "zustand-store",
-                        "target": "mapbox-gl",
-                        "animated": true,
-                        "label": "Render Markers"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "react-client",
+              "label": "React Frontend (Vite)",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "framework": "React & TypeScript",
+                "role": "UI & State Management"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "supabase-auth",
+              "label": "Supabase",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "feature": "Auth & Database",
+                "service": "Managed PostgreSQL"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "alpaca-api",
+              "label": "Alpaca Markets API",
+              "type": "http-client",
+              "status": "success",
+              "metadata": {
+                "feature": "Trading & Portfolios",
+                "integration": "REST endpoints"
+              },
+              "groupId": "external-api"
+            },
+            {
+              "id": "finnhub-api",
+              "label": "Finnhub API",
+              "type": "http-client",
+              "status": "success",
+              "metadata": {
+                "feature": "Quotes & News",
+                "integration": "REST endpoints"
+              },
+              "groupId": "external-api"
+            },
+            {
+              "id": "perplexity-ai",
+              "label": "Perplexity AI",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "model": "Llama 3.1 Sonar",
+                "feature": "Market Research"
+              },
+              "groupId": "ai-agents"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-react-supabase",
+              "source": "react-client",
+              "target": "supabase-auth",
+              "animated": false,
+              "label": "Auth & User Data"
+            },
+            {
+              "id": "e-react-alpaca",
+              "source": "react-client",
+              "target": "alpaca-api",
+              "animated": true,
+              "label": "Execute Trades"
+            },
+            {
+              "id": "e-alpaca-react",
+              "source": "alpaca-api",
+              "target": "react-client",
+              "animated": true,
+              "label": "Positions Data"
+            },
+            {
+              "id": "e-react-finnhub",
+              "source": "react-client",
+              "target": "finnhub-api",
+              "animated": true,
+              "label": "Fetch Quotes"
+            },
+            {
+              "id": "e-finnhub-react",
+              "source": "finnhub-api",
+              "target": "react-client",
+              "animated": true,
+              "label": "Market Data"
+            },
+            {
+              "id": "e-react-perplexity",
+              "source": "react-client",
+              "target": "perplexity-ai",
+              "animated": true,
+              "label": "Context + Query"
+            },
+            {
+              "id": "e-perplexity-react",
+              "source": "perplexity-ai",
+              "target": "react-client",
+              "animated": true,
+              "label": "Grounded Insights"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "react-client",
+              "label": "React Frontend (Vite)",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "framework": "React & TypeScript",
+                "role": "UI & State Management"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "supabase-auth",
+              "label": "Supabase",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "feature": "Auth & Database",
+                "service": "Managed PostgreSQL"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "alpaca-api",
+              "label": "Alpaca Markets API",
+              "type": "http-client",
+              "status": "success",
+              "metadata": {
+                "feature": "Trading & Portfolios",
+                "integration": "REST endpoints"
+              },
+              "groupId": "external-api"
+            },
+            {
+              "id": "finnhub-api",
+              "label": "Finnhub API",
+              "type": "http-client",
+              "status": "success",
+              "metadata": {
+                "feature": "Quotes & News",
+                "integration": "REST endpoints"
+              },
+              "groupId": "external-api"
+            },
+            {
+              "id": "perplexity-ai",
+              "label": "Perplexity AI",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "model": "Llama 3.1 Sonar",
+                "feature": "Market Research"
+              },
+              "groupId": "ai-agents"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-react-supabase",
+              "source": "react-client",
+              "target": "supabase-auth",
+              "animated": false,
+              "label": "Auth & User Data"
+            },
+            {
+              "id": "e-react-alpaca",
+              "source": "react-client",
+              "target": "alpaca-api",
+              "animated": true,
+              "label": "Execute Trades"
+            },
+            {
+              "id": "e-alpaca-react",
+              "source": "alpaca-api",
+              "target": "react-client",
+              "animated": true,
+              "label": "Positions Data"
+            },
+            {
+              "id": "e-react-finnhub",
+              "source": "react-client",
+              "target": "finnhub-api",
+              "animated": true,
+              "label": "Fetch Quotes"
+            },
+            {
+              "id": "e-finnhub-react",
+              "source": "finnhub-api",
+              "target": "react-client",
+              "animated": true,
+              "label": "Market Data"
+            },
+            {
+              "id": "e-react-perplexity",
+              "source": "react-client",
+              "target": "perplexity-ai",
+              "animated": true,
+              "label": "Context + Query"
+            },
+            {
+              "id": "e-perplexity-react",
+              "source": "perplexity-ai",
+              "target": "react-client",
+              "animated": true,
+              "label": "Grounded Insights"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for neuroticker.'
+          }
         ]
-}
     }
   },
   {
@@ -391,253 +470,371 @@ export const ALL_PROJECTS = [
       ],
       // Animated Architecture Data Flow
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Patient Ingestion & ADK Routing',
-          subtitle: 'Inbound Request & Context Preparation',
-          description: 'A clinical summary or patient query is ingested via the FastAPI gateway. The Google Agent Development Kit (ADK) intercepts the payload, establishes the session context, and routes the patient concern to the orchestration layer.'
-        },
-        {
-          step: 2,
-          title: 'AlloyDB AI Memory Retrieval',
-          subtitle: 'Patient History & Care Context Structuring',
-          description: 'Before generative reasoning begins, the system queries AlloyDB AI using pgvector to retrieve structured care memory, historical medical encounters, and chronic disease baseline data (e.g., diabetes or hypertension protocols).'
-        },
-        {
-          step: 3,
-          title: 'Gemini 2.5 Orchestration & Delegation',
-          subtitle: 'Decoupled Reasoning & Subagent Parallelism',
-          description: 'Gemini 2.5 Pro orchestrates the primary reasoning loop over the enriched care context. It delegates specialized sub-tasks asynchronously to dedicated Gemini 2.5 Flash subagents for temporal scheduling, medical translation, and email composition.'
-        },
-        {
-          step: 4,
-          title: 'Secure MCP Tool Execution',
-          subtitle: 'Isolated External World Interaction',
-          description: 'Subagents interact with the external world through isolated Model Context Protocol (MCP) servers. Strict deterministic safety gates validate all timestamps and dosages before executing actions across Google Workspace APIs (Gmail, Calendar) and Maps.'
-        },
-        {
-          step: 5,
-          title: 'Care Receipt Generation & Audit Logging',
-          subtitle: 'Proof of Work & Immutable Persistence',
-          description: 'The system aggregates all executed actions into an intuitive, layperson-friendly "Care Receipt" with complete proof of work. Simultaneously, the entire agentic thought process and state transitions are immutably logged into AlloyDB for clinical auditability.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "fastapi-gateway",
-                        "label": "FastAPI Gateway",
-                        "type": "gateway",
-                        "status": "success",
-                        "metadata": {
-                                "framework": "Python/FastAPI",
-                                "role": "Ingestion & Routing"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "adk-router",
-                        "label": "Google ADK",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tool": "Agent Development Kit",
-                                "role": "Context Preparation"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "alloydb",
-                        "label": "AlloyDB (pgvector)",
-                        "type": "database",
-                        "status": "success",
-                        "metadata": {
-                                "engine": "PostgreSQL",
-                                "feature": "AI Memory Retrieval"
-                        },
-                        "groupId": "data-layer"
-                },
-                {
-                        "id": "gemini-pro",
-                        "label": "Gemini 2.5 Pro",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "role": "Primary Orchestrator",
-                                "capability": "Long-context reasoning"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "flash-scheduling",
-                        "label": "Gemini 2.5 Flash (Scheduler)",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "role": "Subagent",
-                                "task": "Temporal Scheduling"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "flash-translation",
-                        "label": "Gemini 2.5 Flash (Translator)",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "role": "Subagent",
-                                "task": "Medical Translation"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "flash-email",
-                        "label": "Gemini 2.5 Flash (Emailer)",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "role": "Subagent",
-                                "task": "Email Composition"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "mcp-server",
-                        "label": "MCP Server",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "protocol": "Model Context Protocol",
-                                "role": "Secure Tool Execution"
-                        },
-                        "groupId": "mcp-servers"
-                },
-                {
-                        "id": "google-workspace",
-                        "label": "Google Workspace APIs",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "services": "Gmail, Calendar",
-                                "auth": "OAuth 2.0"
-                        },
-                        "groupId": "external-api"
-                },
-                {
-                        "id": "google-maps",
-                        "label": "Google Maps API",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "service": "Maps",
-                                "role": "Location Services"
-                        },
-                        "groupId": "external-api"
-                },
-                {
-                        "id": "client-ui",
-                        "label": "Care Receipt Generator",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "output": "Care Receipt",
-                                "role": "Proof of Work"
-                        },
-                        "groupId": "frontend"
-                }
+          {
+            "step": 1,
+            "title": "Patient Query & Intent Routing",
+            "subtitle": "root_agent & ADK Orchestration",
+            "description": "A patient submits a health concern via the React frontend. The FastAPI backend receives the request and passes it to the Google ADK runtime, where the root_agent (Gemini 2.5 Pro) classifies the intent into one of 9 categories and delegates it to the appropriate specialized agent."
+          },
+          {
+            "step": 2,
+            "title": "Specialized Agent Reasoning",
+            "subtitle": "Gemini 2.5 Flash & Composite Workflows",
+            "description": "The delegated agent (e.g., Symptom Triage, Diet/Nutrition, or Task Agent) processes the request. For complex care plans, composite workflows orchestrate multiple agents in sequence or parallel to handle medication, scheduling, and health insights concurrently."
+          },
+          {
+            "step": 3,
+            "title": "Agentic RAG & Medical Memory Retrieval",
+            "subtitle": "HyDE, Hybrid Search & Self-RAG",
+            "description": "To ground its reasoning in clinical history, the system generates a hypothetical document (HyDE), executes a hybrid search (pgvector dense + PostgreSQL BM25) across AlloyDB, fuses results using RRF, and runs a Self-RAG reflection loop to tier confidence levels."
+          },
+          {
+            "step": 4,
+            "title": "Tool Execution & Safety Verification",
+            "subtitle": "MCP Integrations & 7-Layer Defense",
+            "description": "Agents execute actions via MCP tool integrations (Google Calendar, Gmail, Task Manager, Notes) and the openFDA API. Outputs pass through a 7-layer safety system spanning PII masking, cross-patient access blocks, and deterministic guardrails before returning an auditable Care Receipt."
+          }
         ],
-        "edges": [
-                {
-                        "id": "e-gateway-adk",
-                        "source": "fastapi-gateway",
-                        "target": "adk-router",
-                        "animated": true,
-                        "label": "clinical request"
-                },
-                {
-                        "id": "e-adk-db",
-                        "source": "adk-router",
-                        "target": "alloydb",
-                        "animated": true,
-                        "label": "retrieve context"
-                },
-                {
-                        "id": "e-adk-pro",
-                        "source": "adk-router",
-                        "target": "gemini-pro",
-                        "animated": true,
-                        "label": "route to orchestrator"
-                },
-                {
-                        "id": "e-pro-sched",
-                        "source": "gemini-pro",
-                        "target": "flash-scheduling",
-                        "animated": true,
-                        "label": "delegate"
-                },
-                {
-                        "id": "e-pro-trans",
-                        "source": "gemini-pro",
-                        "target": "flash-translation",
-                        "animated": true,
-                        "label": "delegate"
-                },
-                {
-                        "id": "e-pro-email",
-                        "source": "gemini-pro",
-                        "target": "flash-email",
-                        "animated": true,
-                        "label": "delegate"
-                },
-                {
-                        "id": "e-sched-mcp",
-                        "source": "flash-scheduling",
-                        "target": "mcp-server",
-                        "animated": true,
-                        "label": "tool call"
-                },
-                {
-                        "id": "e-email-mcp",
-                        "source": "flash-email",
-                        "target": "mcp-server",
-                        "animated": true,
-                        "label": "tool call"
-                },
-                {
-                        "id": "e-mcp-workspace",
-                        "source": "mcp-server",
-                        "target": "google-workspace",
-                        "animated": false,
-                        "label": "execute API"
-                },
-                {
-                        "id": "e-mcp-maps",
-                        "source": "mcp-server",
-                        "target": "google-maps",
-                        "animated": false,
-                        "label": "execute API"
-                },
-                {
-                        "id": "e-pro-ui",
-                        "source": "gemini-pro",
-                        "target": "client-ui",
-                        "animated": true,
-                        "label": "generate receipt"
-                },
-                {
-                        "id": "e-pro-db",
-                        "source": "gemini-pro",
-                        "target": "alloydb",
-                        "animated": false,
-                        "label": "audit log"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "react-frontend",
+              "label": "Patient UI (React/Vite)",
+              "type": "client",
+              "status": "success",
+              "metadata": {
+                "Interface": "Interactive Dashboard",
+                "Features": "STT/TTS & Care Receipts"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-gateway",
+              "label": "FastAPI Backend",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "Runtime": "Cloud Run",
+                "Role": "API Orchestrator"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "safety-layer",
+              "label": "7-Layer Safety System",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "Pre-check": "PII & Injection",
+                "Post-check": "Cross-patient Block"
+              },
+              "groupId": "security"
+            },
+            {
+              "id": "root-agent",
+              "label": "root_agent (Gemini 2.5 Pro)",
+              "type": "agent",
+              "status": "success",
+              "metadata": {
+                "Framework": "Google ADK",
+                "Function": "9-Intent Routing"
+              },
+              "groupId": "agent-core"
+            },
+            {
+              "id": "specialized-agents",
+              "label": "8 Specialized Agents",
+              "type": "agent",
+              "status": "success",
+              "metadata": {
+                "Models": "Gemini 2.5 Flash",
+                "Workflows": "Sequential/Parallel"
+              },
+              "groupId": "agent-core"
+            },
+            {
+              "id": "agentic-rag",
+              "label": "Agentic RAG Pipeline",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "Techniques": "HyDE + Hybrid + RRF",
+                "Reflection": "Self-RAG Tiering"
+              },
+              "groupId": "agent-core"
+            },
+            {
+              "id": "alloydb",
+              "label": "AlloyDB + pgvector",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "Schema": "10-Table Clinical Data",
+                "Indexing": "HNSW Vector Index"
+              },
+              "groupId": "database"
+            },
+            {
+              "id": "mcp-tools",
+              "label": "MCP Integrations",
+              "type": "mcp-server",
+              "status": "success",
+              "metadata": {
+                "Tools": "Calendar, Gmail, Notes",
+                "API": "openFDA DDI"
+              },
+              "groupId": "external-tools"
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge-1",
+              "source": "react-frontend",
+              "target": "fastapi-gateway",
+              "animated": true,
+              "label": "Submits Query"
+            },
+            {
+              "id": "edge-2",
+              "source": "fastapi-gateway",
+              "target": "safety-layer",
+              "animated": true,
+              "label": "Pre-filters Request"
+            },
+            {
+              "id": "edge-3",
+              "source": "safety-layer",
+              "target": "root-agent",
+              "animated": true,
+              "label": "Validated Input"
+            },
+            {
+              "id": "edge-4",
+              "source": "root-agent",
+              "target": "specialized-agents",
+              "animated": true,
+              "label": "Routes to Intent"
+            },
+            {
+              "id": "edge-5",
+              "source": "specialized-agents",
+              "target": "agentic-rag",
+              "animated": true,
+              "label": "Requests Context"
+            },
+            {
+              "id": "edge-6",
+              "source": "agentic-rag",
+              "target": "alloydb",
+              "animated": false,
+              "label": "Hybrid Search"
+            },
+            {
+              "id": "edge-7",
+              "source": "specialized-agents",
+              "target": "mcp-tools",
+              "animated": true,
+              "label": "Executes Actions"
+            },
+            {
+              "id": "edge-8",
+              "source": "specialized-agents",
+              "target": "safety-layer",
+              "animated": true,
+              "label": "Post-Retrieval Assertion"
+            },
+            {
+              "id": "edge-9",
+              "source": "safety-layer",
+              "target": "fastapi-gateway",
+              "animated": true,
+              "label": "Generates Receipt"
+            },
+            {
+              "id": "edge-10",
+              "source": "fastapi-gateway",
+              "target": "react-frontend",
+              "animated": true,
+              "label": "Displays UI"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "react-frontend",
+              "label": "Patient UI (React/Vite)",
+              "type": "client",
+              "status": "success",
+              "metadata": {
+                "Interface": "Interactive Dashboard",
+                "Features": "STT/TTS & Care Receipts"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-gateway",
+              "label": "FastAPI Backend",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "Runtime": "Cloud Run",
+                "Role": "API Orchestrator"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "safety-layer",
+              "label": "7-Layer Safety System",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "Pre-check": "PII & Injection",
+                "Post-check": "Cross-patient Block"
+              },
+              "groupId": "security"
+            },
+            {
+              "id": "root-agent",
+              "label": "root_agent (Gemini 2.5 Pro)",
+              "type": "agent",
+              "status": "success",
+              "metadata": {
+                "Framework": "Google ADK",
+                "Function": "9-Intent Routing"
+              },
+              "groupId": "agent-core"
+            },
+            {
+              "id": "specialized-agents",
+              "label": "8 Specialized Agents",
+              "type": "agent",
+              "status": "success",
+              "metadata": {
+                "Models": "Gemini 2.5 Flash",
+                "Workflows": "Sequential/Parallel"
+              },
+              "groupId": "agent-core"
+            },
+            {
+              "id": "agentic-rag",
+              "label": "Agentic RAG Pipeline",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "Techniques": "HyDE + Hybrid + RRF",
+                "Reflection": "Self-RAG Tiering"
+              },
+              "groupId": "agent-core"
+            },
+            {
+              "id": "alloydb",
+              "label": "AlloyDB + pgvector",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "Schema": "10-Table Clinical Data",
+                "Indexing": "HNSW Vector Index"
+              },
+              "groupId": "database"
+            },
+            {
+              "id": "mcp-tools",
+              "label": "MCP Integrations",
+              "type": "mcp-server",
+              "status": "success",
+              "metadata": {
+                "Tools": "Calendar, Gmail, Notes",
+                "API": "openFDA DDI"
+              },
+              "groupId": "external-tools"
+            }
+          ],
+          "edges": [
+            {
+              "id": "edge-1",
+              "source": "react-frontend",
+              "target": "fastapi-gateway",
+              "animated": true,
+              "label": "Submits Query"
+            },
+            {
+              "id": "edge-2",
+              "source": "fastapi-gateway",
+              "target": "safety-layer",
+              "animated": true,
+              "label": "Pre-filters Request"
+            },
+            {
+              "id": "edge-3",
+              "source": "safety-layer",
+              "target": "root-agent",
+              "animated": true,
+              "label": "Validated Input"
+            },
+            {
+              "id": "edge-4",
+              "source": "root-agent",
+              "target": "specialized-agents",
+              "animated": true,
+              "label": "Routes to Intent"
+            },
+            {
+              "id": "edge-5",
+              "source": "specialized-agents",
+              "target": "agentic-rag",
+              "animated": true,
+              "label": "Requests Context"
+            },
+            {
+              "id": "edge-6",
+              "source": "agentic-rag",
+              "target": "alloydb",
+              "animated": false,
+              "label": "Hybrid Search"
+            },
+            {
+              "id": "edge-7",
+              "source": "specialized-agents",
+              "target": "mcp-tools",
+              "animated": true,
+              "label": "Executes Actions"
+            },
+            {
+              "id": "edge-8",
+              "source": "specialized-agents",
+              "target": "safety-layer",
+              "animated": true,
+              "label": "Post-Retrieval Assertion"
+            },
+            {
+              "id": "edge-9",
+              "source": "safety-layer",
+              "target": "fastapi-gateway",
+              "animated": true,
+              "label": "Generates Receipt"
+            },
+            {
+              "id": "edge-10",
+              "source": "fastapi-gateway",
+              "target": "react-frontend",
+              "animated": true,
+              "label": "Displays UI"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for careflow.'
+          }
         ]
-}
     }
   },
   {
     slug: 'portfolio',
-    workflows: ['rest', 'microservices', 'ai-agent', 'queue', 'auth'],
     name: 'Portfolio',
     description: 'A personal portfolio website showcasing career history, education, and 3D project previews. It features custom glassmorphism, interactive spotlight hover cards, shape-shifting cursor mechanics, a scroll-reactive navigation bar, a custom rocket scrollbar, and live integrations for GitHub contributions and LeetCode activity.',
     tags: ['React', 'Vite', 'Tailwind CSS', 'JavaScript (ES6+)', 'HTML5', 'CSS3', 'Glassmorphism', 'Lenis (Scroll Physics)', 'Vercel Analytics', 'Vitest', 'Single Page Application (SPA)', 'UI/UX Animation'],
@@ -745,209 +942,279 @@ export const ALL_PROJECTS = [
       ],
       // New Property: Animated Architecture Flow
       architectureFlow: [
-        { 
-          step: 1, 
-          title: 'Client Initialization & Static Asset Hydration', 
-          subtitle: 'Vite Bundler & Vercel Edge CDN', 
-          description: 'The user visits the portfolio URL. Vercel CDN serves the highly optimized, minified HTML/CSS/JS bundles. React 19 hydrates the DOM tree while global layout styles and custom font faces are instantiated.' 
-        },
-        { 
-          step: 2, 
-          title: 'Scroll Physics & Sensor Attachment', 
-          subtitle: 'Lenis Engine & rAF Event Loops', 
-          description: 'The useHyperScroll hook instantiates the Lenis smooth scroll engine. Simultaneous requestAnimationFrame loops attach passive mouse listeners to drive the DotRing cursor and track viewport intersections.' 
-        },
-        { 
-          step: 3, 
-          title: 'Dynamic UI Morphing & Spotlight Shading', 
-          subtitle: 'Interactive Hover Engine', 
-          description: 'As the user navigates, IntersectionObserver triggers scroll spy breadcrumb updates in the Navbar. Hovering over GlassHoverCards calculates relative mouse coordinates, dynamically shifting CSS radial-gradient spotlights.' 
-        },
-        { 
-          step: 4, 
-          title: 'Asynchronous Widget & Analytics Ingestion', 
-          subtitle: 'Edge Analytics & External Integrations', 
-          description: 'Upon entering visible thresholds, external widgets (GitHub calendar, LeetCode heatmap, Spotify embeds) fetch live activity datasets. Concurrently, Vercel Analytics streams web vital metrics asynchronously to the edge.' 
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "vercel-cdn",
-                        "label": "Vercel Edge CDN",
-                        "type": "gateway",
-                        "status": "success",
-                        "metadata": {
-                                "Hosting": "Vercel",
-                                "Delivery": "Global CDN",
-                                "Optimization": "Minified Bundles"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "react-app",
-                        "label": "React 19 SPA",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "Framework": "React 19",
-                                "Bundler": "Vite",
-                                "Hydration": "DOM Tree Hydration"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "lenis-scroll",
-                        "label": "Lenis Scroll Physics",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "Hook": "useHyperScroll",
-                                "Engine": "Lenis",
-                                "Type": "Smooth Scroll"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "raf-loop",
-                        "label": "rAF Event Loops",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "Feature": "DotRing Cursor",
-                                "Observer": "IntersectionObserver",
-                                "Loop": "requestAnimationFrame"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "ui-engine",
-                        "label": "Dynamic UI Engine",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "Style": "Glassmorphism",
-                                "Components": "Navbar & Cards",
-                                "Shading": "CSS Spotlights"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "github-api",
-                        "label": "GitHub Activity",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "Data": "Contributions Calendar",
-                                "Load": "Asynchronous/Lazy"
-                        },
-                        "groupId": "external-api"
-                },
-                {
-                        "id": "leetcode-api",
-                        "label": "LeetCode Stats",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "Data": "Heatmap",
-                                "Load": "Asynchronous/Lazy"
-                        },
-                        "groupId": "external-api"
-                },
-                {
-                        "id": "spotify-api",
-                        "label": "Spotify Embeds",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "Data": "Music Player",
-                                "Load": "Asynchronous/Lazy"
-                        },
-                        "groupId": "external-api"
-                },
-                {
-                        "id": "vercel-analytics",
-                        "label": "Vercel Analytics",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "Data": "Web Vitals",
-                                "Stream": "Asynchronous Edge"
-                        },
-                        "groupId": "external-api"
-                }
+          {
+            "step": 1,
+            "title": "Vite Asset Bundling & Edge CDN",
+            "subtitle": "Vercel Deployment",
+            "description": "The application is bundled using Vite for high performance and deployed to Vercel's global Edge CDN, ensuring ultra-low latency delivery of static assets and React chunks."
+          },
+          {
+            "step": 2,
+            "title": "React SPA & Component Tree",
+            "subtitle": "React 19 & React Router",
+            "description": "React orchestrates the Single Page Application, utilizing React Router DOM for seamless client-side navigation without page reloads, preserving state and scroll position."
+          },
+          {
+            "step": 3,
+            "title": "Physics & Animation Engine",
+            "subtitle": "Lenis Scroll & rAF Loops",
+            "description": "Lenis intercepts native scroll events to provide lerp-based smooth scrolling physics. Custom requestAnimationFrame (rAF) loops power the dynamic DotRing cursor and scroll-reactive morphing navigation independent of React state to maintain 60 FPS."
+          },
+          {
+            "step": 4,
+            "title": "Glassmorphism UI Layer",
+            "subtitle": "CSS3 & Backdrop Filters",
+            "description": "A proprietary CSS engine applies multi-layered backdrop blurs, specular highlights, and dynamic radial spotlight gradients to create the signature premium glass aesthetic."
+          }
         ],
-        "edges": [
-                {
-                        "id": "edge-1",
-                        "source": "vercel-cdn",
-                        "target": "react-app",
-                        "animated": true,
-                        "label": "Serves Assets"
-                },
-                {
-                        "id": "edge-2",
-                        "source": "react-app",
-                        "target": "lenis-scroll",
-                        "animated": false,
-                        "label": "Instantiates"
-                },
-                {
-                        "id": "edge-3",
-                        "source": "react-app",
-                        "target": "raf-loop",
-                        "animated": false,
-                        "label": "Attaches Listeners"
-                },
-                {
-                        "id": "edge-4",
-                        "source": "lenis-scroll",
-                        "target": "ui-engine",
-                        "animated": true,
-                        "label": "Drives UI Updates"
-                },
-                {
-                        "id": "edge-5",
-                        "source": "raf-loop",
-                        "target": "ui-engine",
-                        "animated": true,
-                        "label": "Intersection & Hover"
-                },
-                {
-                        "id": "edge-6",
-                        "source": "ui-engine",
-                        "target": "github-api",
-                        "animated": true,
-                        "label": "Fetches on Scroll"
-                },
-                {
-                        "id": "edge-7",
-                        "source": "ui-engine",
-                        "target": "leetcode-api",
-                        "animated": true,
-                        "label": "Fetches on Scroll"
-                },
-                {
-                        "id": "edge-8",
-                        "source": "ui-engine",
-                        "target": "spotify-api",
-                        "animated": true,
-                        "label": "Fetches on Scroll"
-                },
-                {
-                        "id": "edge-9",
-                        "source": "ui-engine",
-                        "target": "vercel-analytics",
-                        "animated": true,
-                        "label": "Streams Vitals"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "client",
+              "label": "Client Browser",
+              "type": "input",
+              "status": "success",
+              "groupId": "edge"
+            },
+            {
+              "id": "vercel",
+              "label": "Vercel Edge CDN",
+              "type": "service",
+              "status": "success",
+              "groupId": "edge"
+            },
+            {
+              "id": "vite",
+              "label": "Vite Bundler",
+              "type": "default",
+              "status": "success",
+              "groupId": "core"
+            },
+            {
+              "id": "react",
+              "label": "React 19 Core",
+              "type": "default",
+              "status": "success",
+              "groupId": "core"
+            },
+            {
+              "id": "router",
+              "label": "React Router",
+              "type": "default",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "lenis",
+              "label": "Lenis Physics",
+              "type": "gateway",
+              "status": "success",
+              "groupId": "physics"
+            },
+            {
+              "id": "raf",
+              "label": "rAF Animation Loop",
+              "type": "service",
+              "status": "success",
+              "groupId": "physics"
+            },
+            {
+              "id": "glass",
+              "label": "Glassmorphism UI",
+              "type": "output",
+              "status": "success",
+              "groupId": "ui"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "client",
+              "target": "vercel",
+              "animated": true,
+              "label": "HTTPS Request"
+            },
+            {
+              "id": "e2",
+              "source": "vercel",
+              "target": "vite",
+              "animated": false,
+              "label": "Serves Chunks"
+            },
+            {
+              "id": "e3",
+              "source": "vite",
+              "target": "react",
+              "animated": false,
+              "label": "Initializes"
+            },
+            {
+              "id": "e4",
+              "source": "react",
+              "target": "router",
+              "animated": true,
+              "label": "Mounts"
+            },
+            {
+              "id": "e5",
+              "source": "react",
+              "target": "lenis",
+              "animated": false,
+              "label": "Overrides Scroll"
+            },
+            {
+              "id": "e6",
+              "source": "lenis",
+              "target": "raf",
+              "animated": true,
+              "label": "Triggers Updates"
+            },
+            {
+              "id": "e7",
+              "source": "raf",
+              "target": "glass",
+              "animated": true,
+              "label": "Morphs & Spotlights"
+            },
+            {
+              "id": "e8",
+              "source": "router",
+              "target": "glass",
+              "animated": false,
+              "label": "Renders Views"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "client",
+              "label": "Client Browser",
+              "type": "input",
+              "status": "success",
+              "groupId": "edge"
+            },
+            {
+              "id": "vercel",
+              "label": "Vercel Edge CDN",
+              "type": "service",
+              "status": "success",
+              "groupId": "edge"
+            },
+            {
+              "id": "vite",
+              "label": "Vite Bundler",
+              "type": "default",
+              "status": "success",
+              "groupId": "core"
+            },
+            {
+              "id": "react",
+              "label": "React 19 Core",
+              "type": "default",
+              "status": "success",
+              "groupId": "core"
+            },
+            {
+              "id": "router",
+              "label": "React Router",
+              "type": "default",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "lenis",
+              "label": "Lenis Physics",
+              "type": "gateway",
+              "status": "success",
+              "groupId": "physics"
+            },
+            {
+              "id": "raf",
+              "label": "rAF Animation Loop",
+              "type": "service",
+              "status": "success",
+              "groupId": "physics"
+            },
+            {
+              "id": "glass",
+              "label": "Glassmorphism UI",
+              "type": "output",
+              "status": "success",
+              "groupId": "ui"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "client",
+              "target": "vercel",
+              "animated": true,
+              "label": "HTTPS Request"
+            },
+            {
+              "id": "e2",
+              "source": "vercel",
+              "target": "vite",
+              "animated": false,
+              "label": "Serves Chunks"
+            },
+            {
+              "id": "e3",
+              "source": "vite",
+              "target": "react",
+              "animated": false,
+              "label": "Initializes"
+            },
+            {
+              "id": "e4",
+              "source": "react",
+              "target": "router",
+              "animated": true,
+              "label": "Mounts"
+            },
+            {
+              "id": "e5",
+              "source": "react",
+              "target": "lenis",
+              "animated": false,
+              "label": "Overrides Scroll"
+            },
+            {
+              "id": "e6",
+              "source": "lenis",
+              "target": "raf",
+              "animated": true,
+              "label": "Triggers Updates"
+            },
+            {
+              "id": "e7",
+              "source": "raf",
+              "target": "glass",
+              "animated": true,
+              "label": "Morphs & Spotlights"
+            },
+            {
+              "id": "e8",
+              "source": "router",
+              "target": "glass",
+              "animated": false,
+              "label": "Renders Views"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for portfolio.'
+          }
         ]
-}
     }
   },
   {
     slug: 'off-duty',
-    workflows: ['microservices', 'queue', 'auth'],
     name: 'Off-Duty by Storeops',
     description: 'An inventory-aware AI store manager that proactively bundles and promotes surplus cafe inventory instead of relying on static menus. By bridging live inventory data with autonomous AI decision-making, it helps offline businesses reduce stock waste and drive revenue.',
     tags: ['Python', 'FastAPI', 'Google Cloud Agent Builder', 'Gemini', 'MCP (Model Context Protocol)', 'MongoDB', 'React', 'JavaScript', 'Docker', 'Google Cloud'],
@@ -1047,159 +1314,327 @@ export const ALL_PROJECTS = [
       ],
       // Animated Architecture Diagram Data Flow
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Inventory Ingestion & Event Trigger',
-          subtitle: 'FastAPI Gateway',
-          description: 'Real-time sales transactions and inventory stock decrements are ingested via the FastAPI backend, triggering an evaluation workflow when surplus or perishable inventory thresholds are detected.'
-        },
-        {
-          step: 2,
-          title: 'Autonomous Agent Orchestration',
-          subtitle: 'Google Cloud Agent Builder & Gemini',
-          description: 'The evaluation event activates the core store manager agent powered by Gemini. The agent analyzes current stock levels, historical sales velocity, and shelf-life constraints to identify optimal promotional bundling opportunities.'
-        },
-        {
-          step: 3,
-          title: 'Secure Database Execution via MCP',
-          subtitle: 'MongoDB MCP Server',
-          description: 'Instead of direct database access or custom glue code, the agent securely queries the MongoDB inventory collection and verifies product ontologies through standardized Model Context Protocol (MCP) tool contracts.'
-        },
-        {
-          step: 4,
-          title: 'Deterministic Safety & Margin Validation',
-          subtitle: 'Financial Guardrail Gates',
-          description: 'Before any bundle is finalized, proposed promotional pricing passes through deterministic validation gates in the FastAPI middleware to guarantee strict adherence to gross margin thresholds and logical item pairing rules.'
-        },
-        {
-          step: 5,
-          title: 'Dynamic Live Menu Propagation',
-          subtitle: 'React & Tailwind Frontend',
-          description: 'The validated, high-converting surplus bundles are instantly pushed to the responsive React frontend, seamlessly updating customer-facing digital menus and staff dashboards in real time.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "react-frontend",
-                        "label": "React Frontend",
-                        "type": "http-client",
-                        "status": "success",
-                        "groupId": "frontend",
-                        "metadata": {
-                                "framework": "React & Tailwind CSS",
-                                "function": "Digital Menus & Dashboards"
-                        }
-                },
-                {
-                        "id": "fastapi-gateway",
-                        "label": "FastAPI Backend",
-                        "type": "gateway",
-                        "status": "success",
-                        "groupId": "backend-services",
-                        "metadata": {
-                                "framework": "Python, FastAPI",
-                                "function": "Orchestration & Validation"
-                        }
-                },
-                {
-                        "id": "gemini-agent",
-                        "label": "Store Manager Agent",
-                        "type": "ai",
-                        "status": "success",
-                        "groupId": "ai-agents",
-                        "metadata": {
-                                "technology": "Google Cloud Agent Builder, Gemini",
-                                "function": "Autonomous Decision Engine"
-                        }
-                },
-                {
-                        "id": "mongodb-mcp",
-                        "label": "MongoDB MCP Server",
-                        "type": "service",
-                        "status": "success",
-                        "groupId": "mcp-servers",
-                        "metadata": {
-                                "technology": "Model Context Protocol",
-                                "function": "Isolated Database Contracts"
-                        }
-                },
-                {
-                        "id": "mongodb-db",
-                        "label": "MongoDB Inventory",
-                        "type": "database",
-                        "status": "success",
-                        "groupId": "data-layer",
-                        "metadata": {
-                                "technology": "MongoDB Database",
-                                "function": "Live State & Product Ontologies"
-                        }
-                }
+          {
+            "step": 1,
+            "title": "Client Request & Gateway Routing",
+            "subtitle": "FastAPI & SSE Streaming",
+            "description": "Customer or Owner requests arrive at the FastAPI gateway deployed on Cloud Run. The gateway handles routing and streams a live trace of agent thought processes back to the client via Server-Sent Events (SSE)."
+          },
+          {
+            "step": 2,
+            "title": "Supervisor Agent Orchestration",
+            "subtitle": "Gemini 3 & Google ADK",
+            "description": "The main supervisor agent, powered by Gemini 3 on Vertex AI and Google Agent Development Kit (ADK), interprets the user's intent without relying on rigid keywords and delegates tasks to specialized sub-agents."
+          },
+          {
+            "step": 3,
+            "title": "Specialized Task Execution",
+            "subtitle": "Vision, Ordering & Inventory",
+            "description": "Dedicated sub-agents execute specialized flows, such as capturing shelf state via vision, checking stock, or drafting replies. They leverage Atlas Vector Search with RRF to match semantic intents and products."
+          },
+          {
+            "step": 4,
+            "title": "Secure Tool Access",
+            "subtitle": "MongoDB MCP Server",
+            "description": "For live, ad-hoc read-only data access, the agents interact with a dedicated MongoDB MCP server, ensuring all tool calls are securely isolated and governed by the principle of least privilege."
+          },
+          {
+            "step": 5,
+            "title": "Evidence Trail & Human-in-the-Loop",
+            "subtitle": "MongoDB Atlas & Auditing",
+            "description": "Every action is auto-logged to the 'agent_action_logs' collection with a trace_id. Writes are held in a 'Needs you' inbox for owner approval, enabling full traceability and generating grounded receipts linked to exact MongoDB documents."
+          }
         ],
-        "edges": [
-                {
-                        "id": "e1",
-                        "source": "react-frontend",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Ingests Sales/Inventory Events"
-                },
-                {
-                        "id": "e2",
-                        "source": "fastapi-gateway",
-                        "target": "gemini-agent",
-                        "animated": true,
-                        "label": "Activates Agent Evaluation"
-                },
-                {
-                        "id": "e3",
-                        "source": "gemini-agent",
-                        "target": "mongodb-mcp",
-                        "animated": true,
-                        "label": "Queries via MCP Tools"
-                },
-                {
-                        "id": "e4",
-                        "source": "mongodb-mcp",
-                        "target": "mongodb-db",
-                        "animated": false,
-                        "label": "Executes DB Queries"
-                },
-                {
-                        "id": "e5",
-                        "source": "mongodb-db",
-                        "target": "mongodb-mcp",
-                        "animated": true,
-                        "label": "Returns Inventory State"
-                },
-                {
-                        "id": "e6",
-                        "source": "mongodb-mcp",
-                        "target": "gemini-agent",
-                        "animated": true,
-                        "label": "Provides Structured Data"
-                },
-                {
-                        "id": "e7",
-                        "source": "gemini-agent",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Sends Proposed Bundles"
-                },
-                {
-                        "id": "e8",
-                        "source": "fastapi-gateway",
-                        "target": "react-frontend",
-                        "animated": true,
-                        "label": "Propagates Validated Live Menus"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "ui-client",
+              "label": "Owner/Customer Console",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "Web UIs",
+                "tech": "HTML/JS"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-gateway",
+              "label": "FastAPI Gateway",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "streaming": "SSE Tracing",
+                "deployment": "Cloud Run"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "supervisor-agent",
+              "label": "Gemini 3 Supervisor",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "framework": "Google ADK",
+                "role": "Intent Delegation"
+              },
+              "groupId": "ai-agents"
+            },
+            {
+              "id": "sub-agents",
+              "label": "Specialized Sub-agents",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "roles": "Ordering, Vision, Inventory",
+                "model": "Vertex AI"
+              },
+              "groupId": "ai-agents"
+            },
+            {
+              "id": "mongodb-mcp",
+              "label": "MongoDB MCP Server",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "access": "Live, Read-Only",
+                "role": "Tool Calling"
+              },
+              "groupId": "mcp-servers"
+            },
+            {
+              "id": "atlas-search",
+              "label": "Atlas Vector Search",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "features": "$search & RRF",
+                "role": "Product Matching"
+              },
+              "groupId": "data-layer"
+            },
+            {
+              "id": "mongodb-atlas",
+              "label": "MongoDB Atlas",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "features": "Aggregation Pipelines",
+                "logs": "agent_action_logs"
+              },
+              "groupId": "data-layer"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-ui-fastapi",
+              "source": "ui-client",
+              "target": "fastapi-gateway",
+              "animated": true,
+              "label": "Requests (SSE Trace)"
+            },
+            {
+              "id": "e-fastapi-supervisor",
+              "source": "fastapi-gateway",
+              "target": "supervisor-agent",
+              "animated": true,
+              "label": "Route Request"
+            },
+            {
+              "id": "e-supervisor-subagents",
+              "source": "supervisor-agent",
+              "target": "sub-agents",
+              "animated": true,
+              "label": "Delegate by Intent"
+            },
+            {
+              "id": "e-supervisor-mcp",
+              "source": "supervisor-agent",
+              "target": "mongodb-mcp",
+              "animated": true,
+              "label": "Read-only Query"
+            },
+            {
+              "id": "e-mcp-db",
+              "source": "mongodb-mcp",
+              "target": "mongodb-atlas",
+              "animated": false,
+              "label": "Live DB Read"
+            },
+            {
+              "id": "e-subagents-search",
+              "source": "sub-agents",
+              "target": "atlas-search",
+              "animated": true,
+              "label": "Vector Search"
+            },
+            {
+              "id": "e-search-db",
+              "source": "atlas-search",
+              "target": "mongodb-atlas",
+              "animated": false,
+              "label": "Retrieve Documents"
+            },
+            {
+              "id": "e-subagents-db",
+              "source": "sub-agents",
+              "target": "mongodb-atlas",
+              "animated": true,
+              "label": "Write (Human Gated) & Log Trace"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "ui-client",
+              "label": "Owner/Customer Console",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "Web UIs",
+                "tech": "HTML/JS"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-gateway",
+              "label": "FastAPI Gateway",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "streaming": "SSE Tracing",
+                "deployment": "Cloud Run"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "supervisor-agent",
+              "label": "Gemini 3 Supervisor",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "framework": "Google ADK",
+                "role": "Intent Delegation"
+              },
+              "groupId": "ai-agents"
+            },
+            {
+              "id": "sub-agents",
+              "label": "Specialized Sub-agents",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "roles": "Ordering, Vision, Inventory",
+                "model": "Vertex AI"
+              },
+              "groupId": "ai-agents"
+            },
+            {
+              "id": "mongodb-mcp",
+              "label": "MongoDB MCP Server",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "access": "Live, Read-Only",
+                "role": "Tool Calling"
+              },
+              "groupId": "mcp-servers"
+            },
+            {
+              "id": "atlas-search",
+              "label": "Atlas Vector Search",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "features": "$search & RRF",
+                "role": "Product Matching"
+              },
+              "groupId": "data-layer"
+            },
+            {
+              "id": "mongodb-atlas",
+              "label": "MongoDB Atlas",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "features": "Aggregation Pipelines",
+                "logs": "agent_action_logs"
+              },
+              "groupId": "data-layer"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-ui-fastapi",
+              "source": "ui-client",
+              "target": "fastapi-gateway",
+              "animated": true,
+              "label": "Requests (SSE Trace)"
+            },
+            {
+              "id": "e-fastapi-supervisor",
+              "source": "fastapi-gateway",
+              "target": "supervisor-agent",
+              "animated": true,
+              "label": "Route Request"
+            },
+            {
+              "id": "e-supervisor-subagents",
+              "source": "supervisor-agent",
+              "target": "sub-agents",
+              "animated": true,
+              "label": "Delegate by Intent"
+            },
+            {
+              "id": "e-supervisor-mcp",
+              "source": "supervisor-agent",
+              "target": "mongodb-mcp",
+              "animated": true,
+              "label": "Read-only Query"
+            },
+            {
+              "id": "e-mcp-db",
+              "source": "mongodb-mcp",
+              "target": "mongodb-atlas",
+              "animated": false,
+              "label": "Live DB Read"
+            },
+            {
+              "id": "e-subagents-search",
+              "source": "sub-agents",
+              "target": "atlas-search",
+              "animated": true,
+              "label": "Vector Search"
+            },
+            {
+              "id": "e-search-db",
+              "source": "atlas-search",
+              "target": "mongodb-atlas",
+              "animated": false,
+              "label": "Retrieve Documents"
+            },
+            {
+              "id": "e-subagents-db",
+              "source": "sub-agents",
+              "target": "mongodb-atlas",
+              "animated": true,
+              "label": "Write (Human Gated) & Log Trace"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for off-duty.'
+          }
         ]
-}
     }
   },
   {
     slug: 'jal-sanket',
-    workflows: ['rest'],
     name: 'Jal Sanket Kendra',
     description: 'Jal Sanket Kendra is an environmental informatics platform and real-time dashboard for water quality monitoring and automated Heavy Metal Pollution Index (HPI) evaluation. The system translates physicochemical datasets into visualizations, enabling researchers and municipal authorities to conduct environmental risk assessments and ensure drinking water safety compliance.',
     tags: ['Python', 'FastAPI', 'SQLite', 'Docker', 'REST API', 'Data Visualization'],
@@ -1298,132 +1733,277 @@ export const ALL_PROJECTS = [
       ],
       // Animated Architecture Diagram Flow
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Data Ingestion & Validation',
-          subtitle: 'FastAPI & Pydantic Gateway',
-          description: 'Raw physicochemical sensor data and municipal water samples are ingested via high-concurrency REST endpoints. Pydantic schemas instantly validate data types, measurement units, and boundary conditions to ensure flawless scientific integrity.'
-        },
-        {
-          step: 2,
-          title: 'HPI Calculation Engine',
-          subtitle: 'Automated Algorithmic Processor',
-          description: 'Validated sample metrics pass into the algorithmic core where the Heavy Shared Metal Pollution Index (HPI) is calculated on-the-fly. The engine weights individual heavy metal concentrations against established WHO drinking water quality standards.'
-        },
-        {
-          step: 3,
-          title: 'Data Persistence & Indexing',
-          subtitle: 'Optimized SQLite WAL Database',
-          description: 'Processed records, geographical tags, and computed HPI scores are persisted in an embedded SQLite database. Write-Ahead Logging (WAL) and compound spatiotemporal indices ensure ultra-low latency concurrent read/write transactions.'
-        },
-        {
-          step: 4,
-          title: 'Visualization & Compliance Alerting',
-          subtitle: 'Interactive Frontend Dashboard',
-          description: 'The presentation layer pulls pre-aggregated statistics and time-series data via secure API endpoints. Clean visual heatmaps, geographical risk overlays, and automated threshold alerts are rendered for municipal authorities in real time.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "sensors",
-                        "label": "Monitoring Stations",
-                        "type": "http-client",
-                        "status": "success",
-                        "groupId": "external-api",
-                        "metadata": {
-                                "Protocol": "REST/HTTP",
-                                "Data Type": "Physicochemical metrics"
-                        }
-                },
-                {
-                        "id": "api-gateway",
-                        "label": "FastAPI Gateway",
-                        "type": "gateway",
-                        "status": "success",
-                        "groupId": "backend-services",
-                        "metadata": {
-                                "Validation": "Pydantic Schemas",
-                                "Concurrency": "High"
-                        }
-                },
-                {
-                        "id": "hpi-engine",
-                        "label": "HPI Calculation Core",
-                        "type": "service",
-                        "status": "success",
-                        "groupId": "backend-services",
-                        "metadata": {
-                                "Algorithm": "On-the-fly execution",
-                                "Standard": "WHO thresholds"
-                        }
-                },
-                {
-                        "id": "sqlite-db",
-                        "label": "SQLite WAL Database",
-                        "type": "database",
-                        "status": "success",
-                        "groupId": "data-layer",
-                        "metadata": {
-                                "Storage": "Write-Ahead Logging",
-                                "Indexing": "Compound spatiotemporal"
-                        }
-                },
-                {
-                        "id": "dashboard",
-                        "label": "Informatics Dashboard",
-                        "type": "service",
-                        "status": "success",
-                        "groupId": "frontend",
-                        "metadata": {
-                                "Features": "Risk heatmaps, alerting",
-                                "Performance": "Sub-millisecond render"
-                        }
-                }
+          {
+            "step": 1,
+            "title": "Data Ingestion & Parsing",
+            "subtitle": "File Parser (PDF, CSV, Excel)",
+            "description": "An intelligent parser extracts tabular data from CGWB lab PDFs, CSVs, Excel, and JSONs, gracefully handling missing data, lab shorthand like BDL, and DMS coordinate translations."
+          },
+          {
+            "step": 2,
+            "title": "API & Middleware Stack",
+            "subtitle": "FastAPI Server",
+            "description": "A FastAPI-based REST backend manages requests with middleware for rate-limiting, CORS, security headers, and request IDs."
+          },
+          {
+            "step": 3,
+            "title": "Indices Calculation Engine",
+            "subtitle": "Core Logic",
+            "description": "Calculates 6 distinct water quality and heavy metal pollution indices (HMPI, HEI, PLI, CD, EHCI, Toxicity-Weighted HMI) against WHO and BIS standards."
+          },
+          {
+            "step": 4,
+            "title": "Data Persistence",
+            "subtitle": "SQLite & SQLAlchemy",
+            "description": "Stores computed results, coordinates, and thresholds in a local SQLite database using an optimized SQLAlchemy ORM schema."
+          },
+          {
+            "step": 5,
+            "title": "Spatial Dashboard & Alerts",
+            "subtitle": "React, Vite, Tailwind & Leaflet",
+            "description": "A glassmorphic React frontend displays data on a dark-themed Leaflet map, featuring dynamic bbox filtering, server-side table pagination, and alert notifications."
+          }
         ],
-        "edges": [
-                {
-                        "id": "e-sensors-api",
-                        "source": "sensors",
-                        "target": "api-gateway",
-                        "animated": true,
-                        "label": "Ingest Data Payload"
-                },
-                {
-                        "id": "e-api-hpi",
-                        "source": "api-gateway",
-                        "target": "hpi-engine",
-                        "animated": true,
-                        "label": "Validated Metrics"
-                },
-                {
-                        "id": "e-hpi-db",
-                        "source": "hpi-engine",
-                        "target": "sqlite-db",
-                        "animated": true,
-                        "label": "Persist HPI Records"
-                },
-                {
-                        "id": "e-dashboard-api",
-                        "source": "dashboard",
-                        "target": "api-gateway",
-                        "animated": true,
-                        "label": "Fetch Analytics"
-                },
-                {
-                        "id": "e-api-db",
-                        "source": "api-gateway",
-                        "target": "sqlite-db",
-                        "animated": false,
-                        "label": "Query Aggregated Data"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "react-frontend",
+              "label": "React Frontend",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "framework": "Vite + Tailwind v4",
+                "ui": "Glassmorphism"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "leaflet-map",
+              "label": "Leaflet Map",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "feature": "Dynamic BBox Filtering",
+                "theme": "Dark Mode"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-server",
+              "label": "FastAPI Backend",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "middleware": "CORS, Rate Limit",
+                "role": "REST API"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "file-parser",
+              "label": "File Parser",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "supported": "PDF, CSV, JSON",
+                "engine": "Tabula/Pandas"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "calculator",
+              "label": "Calculation Engine",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "indices": "HMPI, HEI, PLI",
+                "standards": "WHO, BIS"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "sqlite-db",
+              "label": "SQLite Database",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "orm": "SQLAlchemy",
+                "storage": "Local"
+              },
+              "groupId": "database"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-frontend-api",
+              "source": "react-frontend",
+              "target": "fastapi-server",
+              "animated": true,
+              "label": "REST Calls & Uploads"
+            },
+            {
+              "id": "e-api-parser",
+              "source": "fastapi-server",
+              "target": "file-parser",
+              "animated": true,
+              "label": "Passes Raw Files"
+            },
+            {
+              "id": "e-parser-calc",
+              "source": "file-parser",
+              "target": "calculator",
+              "animated": true,
+              "label": "Cleaned Data"
+            },
+            {
+              "id": "e-calc-db",
+              "source": "calculator",
+              "target": "sqlite-db",
+              "animated": true,
+              "label": "Persists Results"
+            },
+            {
+              "id": "e-api-db",
+              "source": "fastapi-server",
+              "target": "sqlite-db",
+              "animated": true,
+              "label": "Queries & Pagination"
+            },
+            {
+              "id": "e-frontend-map",
+              "source": "react-frontend",
+              "target": "leaflet-map",
+              "animated": true,
+              "label": "Spatial Data"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "react-frontend",
+              "label": "React Frontend",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "framework": "Vite + Tailwind v4",
+                "ui": "Glassmorphism"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "leaflet-map",
+              "label": "Leaflet Map",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "feature": "Dynamic BBox Filtering",
+                "theme": "Dark Mode"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-server",
+              "label": "FastAPI Backend",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "middleware": "CORS, Rate Limit",
+                "role": "REST API"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "file-parser",
+              "label": "File Parser",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "supported": "PDF, CSV, JSON",
+                "engine": "Tabula/Pandas"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "calculator",
+              "label": "Calculation Engine",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "indices": "HMPI, HEI, PLI",
+                "standards": "WHO, BIS"
+              },
+              "groupId": "backend"
+            },
+            {
+              "id": "sqlite-db",
+              "label": "SQLite Database",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "orm": "SQLAlchemy",
+                "storage": "Local"
+              },
+              "groupId": "database"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-frontend-api",
+              "source": "react-frontend",
+              "target": "fastapi-server",
+              "animated": true,
+              "label": "REST Calls & Uploads"
+            },
+            {
+              "id": "e-api-parser",
+              "source": "fastapi-server",
+              "target": "file-parser",
+              "animated": true,
+              "label": "Passes Raw Files"
+            },
+            {
+              "id": "e-parser-calc",
+              "source": "file-parser",
+              "target": "calculator",
+              "animated": true,
+              "label": "Cleaned Data"
+            },
+            {
+              "id": "e-calc-db",
+              "source": "calculator",
+              "target": "sqlite-db",
+              "animated": true,
+              "label": "Persists Results"
+            },
+            {
+              "id": "e-api-db",
+              "source": "fastapi-server",
+              "target": "sqlite-db",
+              "animated": true,
+              "label": "Queries & Pagination"
+            },
+            {
+              "id": "e-frontend-map",
+              "source": "react-frontend",
+              "target": "leaflet-map",
+              "animated": true,
+              "label": "Spatial Data"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for jal-sanket.'
+          }
         ]
-}
     }
   },
   {
     slug: 'weather-intelligence',
-    workflows: ['ai-agent', 'rest'],
     name: 'Weather Intelligence Agent',
     description: 'An AI agent that enables natural language querying for complex meteorological and historical climate data. It interprets user questions to fetch relevant weather forecasts and historical climate records, providing clear and direct answers.',
     tags: ['Python', 'FastAPI', 'Google ADK', 'Gemini 2.5 Flash', 'MCP', 'Vertex AI', 'Google Cloud Run', 'Docker', 'HTML'],
@@ -1521,180 +2101,275 @@ export const ALL_PROJECTS = [
       ],
       // Animated Architecture Diagram Flow
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Query Ingestion & Validation',
-          subtitle: 'FastAPI Gateway',
-          description: 'The user submits a natural language weather query via the lightweight frontend. The FastAPI backend intercepts the request, performs Pydantic schema validation, and sanitizes the input.'
-        },
-        {
-          step: 2,
-          title: 'Agentic Reasoning & Tool Selection',
-          subtitle: 'Google ADK & Gemini 2.5 Flash',
-          description: 'The sanitized query is routed to Vertex AI where Gemini 2.5 Flash analyzes the intent, extracts geographical/temporal entities, and identifies the necessary Model Context Protocol (MCP) tools.'
-        },
-        {
-          step: 3,
-          title: 'Secure Tool Execution',
-          subtitle: 'MCP Server Ecosystem',
-          description: 'The isolated MCP server intercepts the requested tool call, translates colloquial locations/dates into exact API parameters, and executes structured queries against Open-Meteo and historical climate repositories.'
-        },
-        {
-          step: 4,
-          title: 'Data Filtering & Aggregation',
-          subtitle: 'Payload Optimization Pipeline',
-          description: 'Raw, dense meteorological JSON payloads are filtered to extract key summary statistics (highs, lows, anomalies), stripping out redundant hourly data to reduce the LLM token footprint by 88%.'
-        },
-        {
-          step: 5,
-          title: 'Synthesis & Response Delivery',
-          subtitle: 'Gemini 2.5 Flash to Frontend',
-          description: 'Gemini 2.5 Flash ingests the optimized climate data, synthesizes a clear, direct natural language answer, and streams the final response back to the user interface via FastAPI.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "frontend-ui",
-                        "label": "Web Interface",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "technology": "HTML / JavaScript",
-                                "framework": "Lightweight Frontend",
-                                "function": "User Natural Language Input"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "fastapi-gateway",
-                        "label": "FastAPI Gateway",
-                        "type": "gateway",
-                        "status": "success",
-                        "metadata": {
-                                "technology": "Python, FastAPI",
-                                "validation": "Pydantic Schemas",
-                                "function": "Query Validation & Routing"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "gemini-agent",
-                        "label": "Gemini 2.5 Flash Agent",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "technology": "Google ADK, Vertex AI",
-                                "function": "Reasoning & Synthesis"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "mcp-server",
-                        "label": "MCP Server Ecosystem",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "technology": "Model Context Protocol",
-                                "feature": "Payload Optimization Pipeline",
-                                "function": "Secure API Execution"
-                        },
-                        "groupId": "mcp-servers"
-                },
-                {
-                        "id": "open-meteo",
-                        "label": "Open-Meteo API",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "technology": "REST API",
-                                "function": "Real-time Forecasts"
-                        },
-                        "groupId": "external-api"
-                },
-                {
-                        "id": "climate-db",
-                        "label": "Historical Climate Repositories",
-                        "type": "database",
-                        "status": "success",
-                        "metadata": {
-                                "technology": "Climate Data",
-                                "function": "Decadal Records & Extreme Weather Logs"
-                        },
-                        "groupId": "data-layer"
-                }
+          {
+            "step": 1,
+            "title": "User Interface",
+            "subtitle": "HTML/JS Client",
+            "description": "User submits a natural language weather question (e.g., 'What was the average rainfall in New York in June 2023?') via the web interface."
+          },
+          {
+            "step": 2,
+            "title": "API Layer",
+            "subtitle": "FastAPI Server",
+            "description": "The FastAPI server receives the request, creates a unique session ID, and delegates the task to the Google ADK Runner."
+          },
+          {
+            "step": 3,
+            "title": "Agent Orchestration",
+            "subtitle": "Gemini 2.5 Flash",
+            "description": "The ADK Agent uses Gemini to reason about the user's request, mapping the intent to specific tool parameters (like mapping 'New York' to 'US' and 'NEW YORK')."
+          },
+          {
+            "step": 4,
+            "title": "Tool Execution",
+            "subtitle": "MCP Toolbox",
+            "description": "The agent delegates the query to the MCP Toolbox sidecar, which runs pre-defined, secure BigQuery SQL parameterized with the agent's extracted data."
+          },
+          {
+            "step": 5,
+            "title": "Data Retrieval",
+            "subtitle": "Google BigQuery",
+            "description": "The SQL query is executed directly against NOAA's massive Global Historical Climatology Network (GHCN) public dataset to retrieve the accurate historical weather data."
+          },
+          {
+            "step": 6,
+            "title": "Response Generation",
+            "subtitle": "Plain English Output",
+            "description": "The agent formats the raw BigQuery data into a friendly, plain English response, which is streamed back through FastAPI to the web interface."
+          }
         ],
-        "edges": [
-                {
-                        "id": "e1",
-                        "source": "frontend-ui",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Submit Query"
-                },
-                {
-                        "id": "e2",
-                        "source": "fastapi-gateway",
-                        "target": "gemini-agent",
-                        "animated": true,
-                        "label": "Route Sanitized Query"
-                },
-                {
-                        "id": "e3",
-                        "source": "gemini-agent",
-                        "target": "mcp-server",
-                        "animated": true,
-                        "label": "Select Tools"
-                },
-                {
-                        "id": "e4",
-                        "source": "mcp-server",
-                        "target": "open-meteo",
-                        "animated": true,
-                        "label": "Fetch Forecasts"
-                },
-                {
-                        "id": "e5",
-                        "source": "mcp-server",
-                        "target": "climate-db",
-                        "animated": true,
-                        "label": "Fetch Logs"
-                },
-                {
-                        "id": "e6",
-                        "source": "open-meteo",
-                        "target": "mcp-server",
-                        "animated": false
-                },
-                {
-                        "id": "e7",
-                        "source": "climate-db",
-                        "target": "mcp-server",
-                        "animated": false
-                },
-                {
-                        "id": "e8",
-                        "source": "mcp-server",
-                        "target": "gemini-agent",
-                        "animated": true,
-                        "label": "Return Filtered Data"
-                },
-                {
-                        "id": "e9",
-                        "source": "gemini-agent",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Synthesize Response"
-                },
-                {
-                        "id": "e10",
-                        "source": "fastapi-gateway",
-                        "target": "frontend-ui",
-                        "animated": true,
-                        "label": "Stream Answer"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "ui",
+              "label": "Web UI",
+              "type": "client",
+              "status": "success",
+              "groupId": "frontend",
+              "metadata": {
+                "description": "HTML/JS interface for user interaction."
+              }
+            },
+            {
+              "id": "api",
+              "label": "FastAPI Server",
+              "type": "api",
+              "status": "success",
+              "groupId": "backend",
+              "metadata": {
+                "description": "Handles HTTP requests and serves static files."
+              }
+            },
+            {
+              "id": "agent",
+              "label": "ADK Agent (Gemini)",
+              "type": "service",
+              "status": "success",
+              "groupId": "backend",
+              "metadata": {
+                "description": "Google ADK orchestrating Gemini 2.5 Flash."
+              }
+            },
+            {
+              "id": "mcp",
+              "label": "MCP Toolbox",
+              "type": "service",
+              "status": "success",
+              "groupId": "tools",
+              "metadata": {
+                "description": "Sidecar executing parameterized SQL tools."
+              }
+            },
+            {
+              "id": "bigquery",
+              "label": "Google BigQuery",
+              "type": "database",
+              "status": "success",
+              "groupId": "cloud",
+              "metadata": {
+                "description": "NOAA GHCN public dataset."
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "ui",
+              "target": "api",
+              "animated": true,
+              "label": "POST /ask"
+            },
+            {
+              "id": "e2",
+              "source": "api",
+              "target": "agent",
+              "animated": true,
+              "label": "Runner async call"
+            },
+            {
+              "id": "e3",
+              "source": "agent",
+              "target": "mcp",
+              "animated": true,
+              "label": "Invoke Tool"
+            },
+            {
+              "id": "e4",
+              "source": "mcp",
+              "target": "bigquery",
+              "animated": true,
+              "label": "Execute SQL"
+            },
+            {
+              "id": "e5",
+              "source": "bigquery",
+              "target": "mcp",
+              "animated": true,
+              "label": "Raw Data"
+            },
+            {
+              "id": "e6",
+              "source": "mcp",
+              "target": "agent",
+              "animated": true,
+              "label": "Tool Result"
+            },
+            {
+              "id": "e7",
+              "source": "agent",
+              "target": "api",
+              "animated": true,
+              "label": "Stream Response"
+            },
+            {
+              "id": "e8",
+              "source": "api",
+              "target": "ui",
+              "animated": true,
+              "label": "JSON Answer"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "ui",
+              "label": "Web UI",
+              "type": "client",
+              "status": "success",
+              "groupId": "frontend",
+              "metadata": {
+                "description": "HTML/JS interface for user interaction."
+              }
+            },
+            {
+              "id": "api",
+              "label": "FastAPI Server",
+              "type": "api",
+              "status": "success",
+              "groupId": "backend",
+              "metadata": {
+                "description": "Handles HTTP requests and serves static files."
+              }
+            },
+            {
+              "id": "agent",
+              "label": "ADK Agent (Gemini)",
+              "type": "service",
+              "status": "success",
+              "groupId": "backend",
+              "metadata": {
+                "description": "Google ADK orchestrating Gemini 2.5 Flash."
+              }
+            },
+            {
+              "id": "mcp",
+              "label": "MCP Toolbox",
+              "type": "service",
+              "status": "success",
+              "groupId": "tools",
+              "metadata": {
+                "description": "Sidecar executing parameterized SQL tools."
+              }
+            },
+            {
+              "id": "bigquery",
+              "label": "Google BigQuery",
+              "type": "database",
+              "status": "success",
+              "groupId": "cloud",
+              "metadata": {
+                "description": "NOAA GHCN public dataset."
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "ui",
+              "target": "api",
+              "animated": true,
+              "label": "POST /ask"
+            },
+            {
+              "id": "e2",
+              "source": "api",
+              "target": "agent",
+              "animated": true,
+              "label": "Runner async call"
+            },
+            {
+              "id": "e3",
+              "source": "agent",
+              "target": "mcp",
+              "animated": true,
+              "label": "Invoke Tool"
+            },
+            {
+              "id": "e4",
+              "source": "mcp",
+              "target": "bigquery",
+              "animated": true,
+              "label": "Execute SQL"
+            },
+            {
+              "id": "e5",
+              "source": "bigquery",
+              "target": "mcp",
+              "animated": true,
+              "label": "Raw Data"
+            },
+            {
+              "id": "e6",
+              "source": "mcp",
+              "target": "agent",
+              "animated": true,
+              "label": "Tool Result"
+            },
+            {
+              "id": "e7",
+              "source": "agent",
+              "target": "api",
+              "animated": true,
+              "label": "Stream Response"
+            },
+            {
+              "id": "e8",
+              "source": "api",
+              "target": "ui",
+              "animated": true,
+              "label": "JSON Answer"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for weather-intelligence.'
+          }
         ]
-}
     }
   },
   {
@@ -1797,148 +2472,301 @@ export const ALL_PROJECTS = [
       ],
       // New Property: Architecture Flow
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Unstructured JD Ingestion',
-          subtitle: 'FastAPI Gateway',
-          description: 'Raw job description text or document content is submitted via the interactive chat UI or API directly to the asynchronous FastAPI gateway.'
-        },
-        {
-          step: 2,
-          title: 'Sanitization & Prompt Construction',
-          subtitle: 'Google ADK Orchestration',
-          description: 'The input is sanitized to prevent prompt injection and structured into a highly optimized extraction prompt chain using the Google Agent Development Kit.'
-        },
-        {
-          step: 3,
-          title: 'Semantic Entity Extraction',
-          subtitle: 'Gemini AI & Vertex AI',
-          description: 'Google Vertex AI invokes Gemini LLMs in strict JSON mode to analyze the semantic context, isolating hard skills, soft skills, seniority levels, and qualifications.'
-        },
-        {
-          step: 4,
-          title: 'Deterministic Schema Validation',
-          subtitle: 'Pydantic Enforcement',
-          description: 'Extracted JSON payloads are rigorously verified against strict Pydantic models, automatically triggering self-correcting fallback loops if structural anomalies are detected.'
-        },
-        {
-          step: 5,
-          title: 'Client Delivery & Chat Screening',
-          subtitle: 'Interactive Screening UI',
-          description: 'The validated, structured taxonomy is returned to the frontend, instantly populating the candidate screening dashboard and initializing the interactive AI chat assistant.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "frontend-ui",
-                        "label": "Interactive Chat & Dashboard UI",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "React",
-                                "deployment": "Cloud Run"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "fastapi-gateway",
-                        "label": "FastAPI Gateway",
-                        "type": "gateway",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Python / FastAPI",
-                                "role": "Async Ingestion"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "adk-orchestrator",
-                        "label": "Google ADK Orchestrator",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Google ADK",
-                                "role": "Sanitization & Prompt Gen"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "gemini-ai",
-                        "label": "Semantic Entity Extraction",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "provider": "Vertex AI",
-                                "model": "Gemini",
-                                "mode": "Strict JSON"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "pydantic-validator",
-                        "label": "Pydantic Validator",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Pydantic",
-                                "feature": "Deterministic Validation"
-                        },
-                        "groupId": "backend-services"
-                }
+          {
+            "step": 1,
+            "title": "API Request Ingestion",
+            "subtitle": "FastAPI Gateway",
+            "description": "The client sends an HTTP POST request containing the job description text to the FastAPI backend endpoint."
+          },
+          {
+            "step": 2,
+            "title": "Session Management",
+            "subtitle": "InMemorySessionService",
+            "description": "The FastAPI backend uses the Google ADK InMemorySessionService to generate a unique session UUID, maintaining conversational context for the request."
+          },
+          {
+            "step": 3,
+            "title": "Agent Orchestration",
+            "subtitle": "Google ADK Runner",
+            "description": "An ADK Runner is initialized with the root agent and session context. It asynchronously streams the user message (job description) to the configured agent."
+          },
+          {
+            "step": 4,
+            "title": "AI Skill Extraction",
+            "subtitle": "Gemini 2.5 Flash & Vertex AI",
+            "description": "The 'job_skills_extractor_agent' (powered by Gemini 2.5 Flash via Vertex AI) processes the request against a structured extraction prompt, generating markdown and a specific JSON payload containing the role overview, skills, and candidate tips."
+          },
+          {
+            "step": 5,
+            "title": "Response Parsing & Delivery",
+            "subtitle": "Regex JSON Extraction",
+            "description": "The FastAPI backend captures the final streamed response, uses regex to parse out the structured JSON block, and constructs a final response object (containing both parsed data and full markdown) to return to the client."
+          }
         ],
-        "edges": [
-                {
-                        "id": "edge-submit-jd",
-                        "source": "frontend-ui",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Submit Unstructured JD"
-                },
-                {
-                        "id": "edge-gateway-adk",
-                        "source": "fastapi-gateway",
-                        "target": "adk-orchestrator",
-                        "animated": true,
-                        "label": "Process Text"
-                },
-                {
-                        "id": "edge-adk-gemini",
-                        "source": "adk-orchestrator",
-                        "target": "gemini-ai",
-                        "animated": true,
-                        "label": "Invoke Prompt Chain"
-                },
-                {
-                        "id": "edge-gemini-validator",
-                        "source": "gemini-ai",
-                        "target": "pydantic-validator",
-                        "animated": true,
-                        "label": "JSON Payload"
-                },
-                {
-                        "id": "edge-validator-adk",
-                        "source": "pydantic-validator",
-                        "target": "adk-orchestrator",
-                        "animated": true,
-                        "label": "Self-correcting Fallback"
-                },
-                {
-                        "id": "edge-validator-gateway",
-                        "source": "pydantic-validator",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Validated Taxonomy"
-                },
-                {
-                        "id": "edge-gateway-frontend",
-                        "source": "fastapi-gateway",
-                        "target": "frontend-ui",
-                        "animated": true,
-                        "label": "Stream Results"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "client-request",
+              "label": "Client Application",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "protocol": "HTTP/REST",
+                "action": "POST /extract"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-backend",
+              "label": "FastAPI Server",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "framework": "Python/FastAPI",
+                "role": "API Gateway & Parsing"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "session-service",
+              "label": "InMemorySessionService",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "role": "Session Management",
+                "storage": "In-Memory"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "adk-runner",
+              "label": "Google ADK Runner",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "Agent Orchestration",
+                "execution": "Async Streaming"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "gemini-agent",
+              "label": "job_skills_extractor_agent",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "model": "gemini-2.5-flash",
+                "role": "Data Extraction"
+              },
+              "groupId": "ai-agents"
+            },
+            {
+              "id": "vertex-ai",
+              "label": "Vertex AI Backend",
+              "type": "http-client",
+              "status": "success",
+              "metadata": {
+                "provider": "Google Cloud",
+                "role": "LLM Inference"
+              },
+              "groupId": "external-api"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-client-fastapi",
+              "source": "client-request",
+              "target": "fastapi-backend",
+              "animated": true,
+              "label": "POST Job Description"
+            },
+            {
+              "id": "e-fastapi-session",
+              "source": "fastapi-backend",
+              "target": "session-service",
+              "animated": false,
+              "label": "Create Session"
+            },
+            {
+              "id": "e-fastapi-runner",
+              "source": "fastapi-backend",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Pass context & message"
+            },
+            {
+              "id": "e-runner-agent",
+              "source": "adk-runner",
+              "target": "gemini-agent",
+              "animated": true,
+              "label": "Invoke Agent"
+            },
+            {
+              "id": "e-agent-vertex",
+              "source": "gemini-agent",
+              "target": "vertex-ai",
+              "animated": true,
+              "label": "LLM API Call"
+            },
+            {
+              "id": "e-vertex-runner",
+              "source": "vertex-ai",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Stream Response"
+            },
+            {
+              "id": "e-runner-fastapi",
+              "source": "adk-runner",
+              "target": "fastapi-backend",
+              "animated": true,
+              "label": "Raw Text/Markdown"
+            },
+            {
+              "id": "e-fastapi-client",
+              "source": "fastapi-backend",
+              "target": "client-request",
+              "animated": true,
+              "label": "Return Structured JSON"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "client-request",
+              "label": "Client Application",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "protocol": "HTTP/REST",
+                "action": "POST /extract"
+              },
+              "groupId": "frontend"
+            },
+            {
+              "id": "fastapi-backend",
+              "label": "FastAPI Server",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "framework": "Python/FastAPI",
+                "role": "API Gateway & Parsing"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "session-service",
+              "label": "InMemorySessionService",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "role": "Session Management",
+                "storage": "In-Memory"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "adk-runner",
+              "label": "Google ADK Runner",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "Agent Orchestration",
+                "execution": "Async Streaming"
+              },
+              "groupId": "backend-services"
+            },
+            {
+              "id": "gemini-agent",
+              "label": "job_skills_extractor_agent",
+              "type": "ai",
+              "status": "success",
+              "metadata": {
+                "model": "gemini-2.5-flash",
+                "role": "Data Extraction"
+              },
+              "groupId": "ai-agents"
+            },
+            {
+              "id": "vertex-ai",
+              "label": "Vertex AI Backend",
+              "type": "http-client",
+              "status": "success",
+              "metadata": {
+                "provider": "Google Cloud",
+                "role": "LLM Inference"
+              },
+              "groupId": "external-api"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e-client-fastapi",
+              "source": "client-request",
+              "target": "fastapi-backend",
+              "animated": true,
+              "label": "POST Job Description"
+            },
+            {
+              "id": "e-fastapi-session",
+              "source": "fastapi-backend",
+              "target": "session-service",
+              "animated": false,
+              "label": "Create Session"
+            },
+            {
+              "id": "e-fastapi-runner",
+              "source": "fastapi-backend",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Pass context & message"
+            },
+            {
+              "id": "e-runner-agent",
+              "source": "adk-runner",
+              "target": "gemini-agent",
+              "animated": true,
+              "label": "Invoke Agent"
+            },
+            {
+              "id": "e-agent-vertex",
+              "source": "gemini-agent",
+              "target": "vertex-ai",
+              "animated": true,
+              "label": "LLM API Call"
+            },
+            {
+              "id": "e-vertex-runner",
+              "source": "vertex-ai",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Stream Response"
+            },
+            {
+              "id": "e-runner-fastapi",
+              "source": "adk-runner",
+              "target": "fastapi-backend",
+              "animated": true,
+              "label": "Raw Text/Markdown"
+            },
+            {
+              "id": "e-fastapi-client",
+              "source": "fastapi-backend",
+              "target": "client-request",
+              "animated": true,
+              "label": "Return Structured JSON"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for jd-skills-extractor.'
+          }
         ]
-}
     }
   },
   {
@@ -2042,172 +2870,365 @@ export const ALL_PROJECTS = [
       ],
       // Architecture Flow (Animated Diagram Data Flow)
       architectureFlow: [
-        {
-          step: 1,
-          title: "Natural Language Ingestion",
-          subtitle: "Client → FastAPI Gateway",
-          description: "The user submits an open-ended analytical question about programming trends. The Next.js client transmits the natural language payload via REST to a secure FastAPI backend orchestration service."
-        },
-        {
-          step: 2,
-          title: "Prompt Construction & Tool Routing",
-          subtitle: "FastAPI → Google ADK & Vertex AI",
-          description: "FastAPI utilizes Google ADK to assemble the conversation context and dispatches it to Vertex AI (Gemini 2.5 Pro). Gemini recognizes the need for BigQuery analytics and initiates an MCP tool call request."
-        },
-        {
-          step: 3,
-          title: "Dry-Run Budget Verification",
-          subtitle: "MCP Toolbox → BigQuery Sandbox",
-          description: "The MCP server receives the requested SQL statement and executes a mandatory BigQuery dry-run. It intercepts queries exceeding byte-scan budget limits, forcing the LLM to optimize and apply partition filters."
-        },
-        {
-          step: 4,
-          title: "Serverless SQL Execution",
-          subtitle: "MCP Toolbox → Google BigQuery",
-          description: "Once validated, the MCP Toolbox invokes the BigQuery API via a secure Workload Identity service account, executing the optimized query across 24M+ StackOverflow records in seconds."
-        },
-        {
-          step: 5,
-          title: "Synthesis & Stream Delivery",
-          subtitle: "Vertex AI → FastAPI → Client",
-          description: "The raw tabular BigQuery dataframe is returned to Vertex AI, where Gemini synthesizes the data into clear trend narratives and Markdown tables, streaming the insights back to the client via Server-Sent Events."
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "client",
-                        "label": "Next.js Client",
-                        "type": "http-client",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Next.js",
-                                "protocol": "REST / SSE"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "fastapi-gateway",
-                        "label": "FastAPI Gateway",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Python / FastAPI",
-                                "role": "API Orchestrator"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "vertex-ai-gemini",
-                        "label": "Vertex AI (Gemini 2.5 Pro)",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "model": "Gemini 2.5 Pro",
-                                "task": "SQL Generation & Routing"
-                        },
-                        "groupId": "ai-agents"
-                },
-                {
-                        "id": "mcp-toolbox",
-                        "label": "MCP Toolbox Server",
-                        "type": "gateway",
-                        "status": "success",
-                        "metadata": {
-                                "protocol": "Model Context Protocol",
-                                "security": "Dry-run Budget Limits"
-                        },
-                        "groupId": "mcp-servers"
-                },
-                {
-                        "id": "bigquery",
-                        "label": "Google BigQuery",
-                        "type": "database",
-                        "status": "success",
-                        "metadata": {
-                                "dataset": "24M+ Records",
-                                "scale": "Petabyte DWH"
-                        },
-                        "groupId": "data-layer"
-                },
-                {
-                        "id": "summarization-agent",
-                        "label": "Summarization Agent",
-                        "type": "ai",
-                        "status": "success",
-                        "metadata": {
-                                "model": "Gemini 2.5 Pro",
-                                "task": "Synthesis & Normalization"
-                        },
-                        "groupId": "ai-agents"
-                }
+          {
+            "step": 1,
+            "title": "User Request via Frontend",
+            "subtitle": "FastAPI Web Server",
+            "description": "The user sends a query from the UI, which FastAPI receives at the /chat endpoint and forwards to the Google ADK Runner."
+          },
+          {
+            "step": 2,
+            "title": "LLM Tool Selection",
+            "subtitle": "Vertex AI (Gemini 2.5 Flash)",
+            "description": "The ADK Runner passes the request and available SQL tools to Gemini, which determines the right tool and parameters to answer the question."
+          },
+          {
+            "step": 3,
+            "title": "Local Tool Invocation",
+            "subtitle": "toolbox-core SDK",
+            "description": "The ADK Runner invokes the selected tool via the toolbox-core Python SDK, making an HTTP POST request to the local MCP Toolbox Server."
+          },
+          {
+            "step": 4,
+            "title": "Database Query",
+            "subtitle": "MCP Toolbox & BigQuery",
+            "description": "The MCP Toolbox server securely executes the parameterized SQL query against the bigquery-public-data.stackoverflow dataset and retrieves the data."
+          },
+          {
+            "step": 5,
+            "title": "Response Generation",
+            "subtitle": "Data Analysis & Formatting",
+            "description": "Gemini analyzes the structured data returned from BigQuery to generate a final markdown-formatted response, which FastAPI sends back to the user."
+          }
         ],
-        "edges": [
-                {
-                        "id": "edge-client-fastapi",
-                        "source": "client",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Natural Language Query"
-                },
-                {
-                        "id": "edge-fastapi-vertex",
-                        "source": "fastapi-gateway",
-                        "target": "vertex-ai-gemini",
-                        "animated": true,
-                        "label": "Prompt Construction"
-                },
-                {
-                        "id": "edge-vertex-mcp",
-                        "source": "vertex-ai-gemini",
-                        "target": "mcp-toolbox",
-                        "animated": true,
-                        "label": "MCP Tool Call (SQL / Dry-Run)"
-                },
-                {
-                        "id": "edge-mcp-bigquery",
-                        "source": "mcp-toolbox",
-                        "target": "bigquery",
-                        "animated": true,
-                        "label": "Execute BigQuery Job"
-                },
-                {
-                        "id": "edge-bigquery-mcp",
-                        "source": "bigquery",
-                        "target": "mcp-toolbox",
-                        "animated": true,
-                        "label": "Tabular Results"
-                },
-                {
-                        "id": "edge-mcp-vertex",
-                        "source": "mcp-toolbox",
-                        "target": "vertex-ai-gemini",
-                        "animated": true,
-                        "label": "Tool Result"
-                },
-                {
-                        "id": "edge-vertex-summarization",
-                        "source": "vertex-ai-gemini",
-                        "target": "summarization-agent",
-                        "animated": true,
-                        "label": "Pass Dataframe"
-                },
-                {
-                        "id": "edge-summarization-fastapi",
-                        "source": "summarization-agent",
-                        "target": "fastapi-gateway",
-                        "animated": true,
-                        "label": "Stream Structured Insights"
-                },
-                {
-                        "id": "edge-fastapi-client",
-                        "source": "fastapi-gateway",
-                        "target": "client",
-                        "animated": true,
-                        "label": "Server-Sent Events (SSE)"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "user",
+              "label": "User / Frontend UI",
+              "type": "start",
+              "status": "success",
+              "groupId": "client",
+              "metadata": {
+                "description": "Sends search and analysis queries"
+              }
+            },
+            {
+              "id": "fastapi",
+              "label": "FastAPI Server",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Serves static files and /chat API"
+              }
+            },
+            {
+              "id": "adk-runner",
+              "label": "Google ADK Runner",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Manages agent sessions and orchestration"
+              }
+            },
+            {
+              "id": "vertex-ai",
+              "label": "Vertex AI (Gemini 2.5 Flash)",
+              "type": "llm",
+              "status": "success",
+              "groupId": "gcp-services",
+              "metadata": {
+                "description": "LLM for reasoning and response generation"
+              }
+            },
+            {
+              "id": "toolbox-sdk",
+              "label": "toolbox-core SDK",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Python client for MCP Toolbox"
+              }
+            },
+            {
+              "id": "mcp-server",
+              "label": "MCP Toolbox Server",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Serves 4 BigQuery SQL tools"
+              }
+            },
+            {
+              "id": "bigquery",
+              "label": "Google BigQuery",
+              "type": "database",
+              "status": "success",
+              "groupId": "gcp-services",
+              "metadata": {
+                "description": "StackOverflow public dataset"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "user",
+              "target": "fastapi",
+              "animated": true,
+              "label": "POST /chat"
+            },
+            {
+              "id": "e2",
+              "source": "fastapi",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Forward request"
+            },
+            {
+              "id": "e3",
+              "source": "adk-runner",
+              "target": "vertex-ai",
+              "animated": true,
+              "label": "Decide tool(s)"
+            },
+            {
+              "id": "e4",
+              "source": "adk-runner",
+              "target": "toolbox-sdk",
+              "animated": true,
+              "label": "Invoke tool"
+            },
+            {
+              "id": "e5",
+              "source": "toolbox-sdk",
+              "target": "mcp-server",
+              "animated": true,
+              "label": "HTTP POST :5000"
+            },
+            {
+              "id": "e6",
+              "source": "mcp-server",
+              "target": "bigquery",
+              "animated": true,
+              "label": "Execute SQL"
+            },
+            {
+              "id": "e7",
+              "source": "bigquery",
+              "target": "mcp-server",
+              "animated": true,
+              "label": "Return results"
+            },
+            {
+              "id": "e8",
+              "source": "mcp-server",
+              "target": "toolbox-sdk",
+              "animated": true,
+              "label": "Tool response"
+            },
+            {
+              "id": "e9",
+              "source": "toolbox-sdk",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Parsed data"
+            },
+            {
+              "id": "e10",
+              "source": "vertex-ai",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Analyze & format"
+            },
+            {
+              "id": "e11",
+              "source": "adk-runner",
+              "target": "fastapi",
+              "animated": true,
+              "label": "Final response"
+            },
+            {
+              "id": "e12",
+              "source": "fastapi",
+              "target": "user",
+              "animated": true,
+              "label": "Render insights"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "user",
+              "label": "User / Frontend UI",
+              "type": "start",
+              "status": "success",
+              "groupId": "client",
+              "metadata": {
+                "description": "Sends search and analysis queries"
+              }
+            },
+            {
+              "id": "fastapi",
+              "label": "FastAPI Server",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Serves static files and /chat API"
+              }
+            },
+            {
+              "id": "adk-runner",
+              "label": "Google ADK Runner",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Manages agent sessions and orchestration"
+              }
+            },
+            {
+              "id": "vertex-ai",
+              "label": "Vertex AI (Gemini 2.5 Flash)",
+              "type": "llm",
+              "status": "success",
+              "groupId": "gcp-services",
+              "metadata": {
+                "description": "LLM for reasoning and response generation"
+              }
+            },
+            {
+              "id": "toolbox-sdk",
+              "label": "toolbox-core SDK",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Python client for MCP Toolbox"
+              }
+            },
+            {
+              "id": "mcp-server",
+              "label": "MCP Toolbox Server",
+              "type": "process",
+              "status": "success",
+              "groupId": "cloud-run",
+              "metadata": {
+                "description": "Serves 4 BigQuery SQL tools"
+              }
+            },
+            {
+              "id": "bigquery",
+              "label": "Google BigQuery",
+              "type": "database",
+              "status": "success",
+              "groupId": "gcp-services",
+              "metadata": {
+                "description": "StackOverflow public dataset"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "user",
+              "target": "fastapi",
+              "animated": true,
+              "label": "POST /chat"
+            },
+            {
+              "id": "e2",
+              "source": "fastapi",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Forward request"
+            },
+            {
+              "id": "e3",
+              "source": "adk-runner",
+              "target": "vertex-ai",
+              "animated": true,
+              "label": "Decide tool(s)"
+            },
+            {
+              "id": "e4",
+              "source": "adk-runner",
+              "target": "toolbox-sdk",
+              "animated": true,
+              "label": "Invoke tool"
+            },
+            {
+              "id": "e5",
+              "source": "toolbox-sdk",
+              "target": "mcp-server",
+              "animated": true,
+              "label": "HTTP POST :5000"
+            },
+            {
+              "id": "e6",
+              "source": "mcp-server",
+              "target": "bigquery",
+              "animated": true,
+              "label": "Execute SQL"
+            },
+            {
+              "id": "e7",
+              "source": "bigquery",
+              "target": "mcp-server",
+              "animated": true,
+              "label": "Return results"
+            },
+            {
+              "id": "e8",
+              "source": "mcp-server",
+              "target": "toolbox-sdk",
+              "animated": true,
+              "label": "Tool response"
+            },
+            {
+              "id": "e9",
+              "source": "toolbox-sdk",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Parsed data"
+            },
+            {
+              "id": "e10",
+              "source": "vertex-ai",
+              "target": "adk-runner",
+              "animated": true,
+              "label": "Analyze & format"
+            },
+            {
+              "id": "e11",
+              "source": "adk-runner",
+              "target": "fastapi",
+              "animated": true,
+              "label": "Final response"
+            },
+            {
+              "id": "e12",
+              "source": "fastapi",
+              "target": "user",
+              "animated": true,
+              "label": "Render insights"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for stackoverflow-intelligence.'
+          }
         ]
-}
     }
   },
   {
@@ -2309,123 +3330,247 @@ export const ALL_PROJECTS = [
       ],
       // Architecture Flow (Animated Diagram Data)
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Client Search Request',
-          subtitle: 'Frontend Filter Trigger',
-          description: 'The student interacts with the React frontend to specify housing filters (budget, room type, distance). The action is dispatched via Redux, generating a sanitized REST API request sent to the Express backend.'
-        },
-        {
-          step: 2,
-          title: 'API Gateway & Middleware Validation',
-          subtitle: 'Security & Auth Verification',
-          description: 'The Node.js/Express gateway intercepts the incoming request, authenticates the user session via JWT verification middleware, and applies rate-limiting and NoSQL sanitization safeguards.'
-        },
-        {
-          step: 3,
-          title: 'MongoDB Aggregation Execution',
-          subtitle: 'Indexed Database Query',
-          description: 'The backend invokes a highly optimized Mongoose aggregation pipeline. Compound indexes on pricing and location match the criteria instantly, extracting only the relevant housing documents.'
-        },
-        {
-          step: 4,
-          title: 'State Dispatch & Dynamic Render',
-          subtitle: 'Redux Cache & UI Update',
-          description: 'The structured JSON response is returned to the client, where Redux updates the global store. The React component tree re-renders dynamically, displaying verified property listings seamlessly.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "react-frontend",
-                        "label": "React UI Components",
-                        "type": "service",
-                        "status": "success",
-                        "groupId": "frontend",
-                        "metadata": {
-                                "hosting": "Vercel",
-                                "optimization": "Lazy Loading & Pagination"
-                        }
-                },
-                {
-                        "id": "redux-store",
-                        "label": "Redux State Manager",
-                        "type": "service",
-                        "status": "success",
-                        "groupId": "frontend",
-                        "metadata": {
-                                "role": "Centralized State",
-                                "updates": "Optimistic UI Updates"
-                        }
-                },
-                {
-                        "id": "express-gateway",
-                        "label": "Node.js/Express API Gateway",
-                        "type": "gateway",
-                        "status": "success",
-                        "groupId": "backend-services",
-                        "metadata": {
-                                "security": "JWT, Rate Limiting, Sanitization",
-                                "architecture": "Micro-gateway"
-                        }
-                },
-                {
-                        "id": "mongodb",
-                        "label": "MongoDB Database",
-                        "type": "database",
-                        "status": "success",
-                        "groupId": "data-layer",
-                        "metadata": {
-                                "queries": "Aggregation Pipelines",
-                                "indexes": "Compound Indexes"
-                        }
-                }
+          {
+            "step": 1,
+            "title": "React UI & Material-UI",
+            "subtitle": "Component-Based UI",
+            "description": "The frontend is built with React.js using Material-UI for a responsive, accessible, and polished user interface. Custom themes and a color mode context are used for consistent styling."
+          },
+          {
+            "step": 2,
+            "title": "Client-Side Routing",
+            "subtitle": "React Router DOM",
+            "description": "React Router DOM manages navigation across public pages, guest-only auth pages, and protected routes requiring specific roles like student, owner, or admin."
+          },
+          {
+            "step": 3,
+            "title": "State & Authentication",
+            "subtitle": "Context API & Redux Toolkit",
+            "description": "Authentication and user sessions are managed globally via React Context API, while Redux Toolkit handles feature-specific global state such as reviews and complex data."
+          },
+          {
+            "step": 4,
+            "title": "API Integration",
+            "subtitle": "Axios HTTP Client",
+            "description": "Axios is used to make RESTful API calls to the backend, utilizing interceptors for automatic token injection and error handling for authenticated endpoints."
+          }
         ],
-        "edges": [
-                {
-                        "id": "e1",
-                        "source": "react-frontend",
-                        "target": "redux-store",
-                        "animated": false,
-                        "label": "Dispatch Filter Actions"
-                },
-                {
-                        "id": "e2",
-                        "source": "redux-store",
-                        "target": "express-gateway",
-                        "animated": true,
-                        "label": "Sanitized REST API Request"
-                },
-                {
-                        "id": "e3",
-                        "source": "express-gateway",
-                        "target": "mongodb",
-                        "animated": true,
-                        "label": "Indexed Database Query"
-                },
-                {
-                        "id": "e4",
-                        "source": "mongodb",
-                        "target": "express-gateway",
-                        "animated": true,
-                        "label": "JSON Document Response"
-                },
-                {
-                        "id": "e5",
-                        "source": "express-gateway",
-                        "target": "redux-store",
-                        "animated": true,
-                        "label": "Update Global Store"
-                },
-                {
-                        "id": "e6",
-                        "source": "redux-store",
-                        "target": "react-frontend",
-                        "animated": false,
-                        "label": "Trigger Dynamic Re-render"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "app",
+              "label": "App Entry (React)",
+              "type": "input",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "router",
+              "label": "React Router",
+              "type": "default",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "authContext",
+              "label": "Auth / Theme Context",
+              "type": "default",
+              "status": "success",
+              "groupId": "state"
+            },
+            {
+              "id": "reduxStore",
+              "label": "Redux Store",
+              "type": "default",
+              "status": "success",
+              "groupId": "state"
+            },
+            {
+              "id": "pages",
+              "label": "Pages & Components",
+              "type": "default",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "axios",
+              "label": "Axios API Client",
+              "type": "default",
+              "status": "success",
+              "groupId": "network"
+            },
+            {
+              "id": "backend",
+              "label": "Backend API",
+              "type": "output",
+              "status": "success",
+              "groupId": "network"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "app",
+              "target": "router",
+              "animated": true,
+              "label": "Routing"
+            },
+            {
+              "id": "e2",
+              "source": "app",
+              "target": "authContext",
+              "animated": false,
+              "label": "Wraps"
+            },
+            {
+              "id": "e3",
+              "source": "app",
+              "target": "reduxStore",
+              "animated": false,
+              "label": "Wraps"
+            },
+            {
+              "id": "e4",
+              "source": "router",
+              "target": "pages",
+              "animated": true,
+              "label": "Renders"
+            },
+            {
+              "id": "e5",
+              "source": "pages",
+              "target": "axios",
+              "animated": true,
+              "label": "API Calls"
+            },
+            {
+              "id": "e6",
+              "source": "authContext",
+              "target": "axios",
+              "animated": false,
+              "label": "JWT Tokens"
+            },
+            {
+              "id": "e7",
+              "source": "axios",
+              "target": "backend",
+              "animated": true,
+              "label": "HTTP Req/Res"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "app",
+              "label": "App Entry (React)",
+              "type": "input",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "router",
+              "label": "React Router",
+              "type": "default",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "authContext",
+              "label": "Auth / Theme Context",
+              "type": "default",
+              "status": "success",
+              "groupId": "state"
+            },
+            {
+              "id": "reduxStore",
+              "label": "Redux Store",
+              "type": "default",
+              "status": "success",
+              "groupId": "state"
+            },
+            {
+              "id": "pages",
+              "label": "Pages & Components",
+              "type": "default",
+              "status": "success",
+              "groupId": "ui"
+            },
+            {
+              "id": "axios",
+              "label": "Axios API Client",
+              "type": "default",
+              "status": "success",
+              "groupId": "network"
+            },
+            {
+              "id": "backend",
+              "label": "Backend API",
+              "type": "output",
+              "status": "success",
+              "groupId": "network"
+            }
+          ],
+          "edges": [
+            {
+              "id": "e1",
+              "source": "app",
+              "target": "router",
+              "animated": true,
+              "label": "Routing"
+            },
+            {
+              "id": "e2",
+              "source": "app",
+              "target": "authContext",
+              "animated": false,
+              "label": "Wraps"
+            },
+            {
+              "id": "e3",
+              "source": "app",
+              "target": "reduxStore",
+              "animated": false,
+              "label": "Wraps"
+            },
+            {
+              "id": "e4",
+              "source": "router",
+              "target": "pages",
+              "animated": true,
+              "label": "Renders"
+            },
+            {
+              "id": "e5",
+              "source": "pages",
+              "target": "axios",
+              "animated": true,
+              "label": "API Calls"
+            },
+            {
+              "id": "e6",
+              "source": "authContext",
+              "target": "axios",
+              "animated": false,
+              "label": "JWT Tokens"
+            },
+            {
+              "id": "e7",
+              "source": "axios",
+              "target": "backend",
+              "animated": true,
+              "label": "HTTP Req/Res"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for unihelp.'
+          }
         ]
-}
     }
   },
   {
@@ -2525,144 +3670,225 @@ export const ALL_PROJECTS = [
       ],
       // Animated Architecture Diagram Flow
       architectureFlow: [
-        {
-          step: 1,
-          title: 'Content Script & DOM Ingestion',
-          subtitle: 'MutationObserver Attachment',
-          description: 'An isolated content script attaches a low-overhead MutationObserver directly to the video player\'s caption container, capturing transient subtitle text nodes the exact millisecond they render in the DOM.'
-        },
-        {
-          step: 2,
-          title: 'In-Memory Stream Processing',
-          subtitle: 'Deduplication & Normalization',
-          description: 'Captured text cues pass through a real-time sliding window buffer that normalizes formatting, aligns timestamps, and applies overlap heuristics to filter out duplicate DOM re-renders.'
-        },
-        {
-          step: 3,
-          title: 'Ephemeral Service Worker Sync',
-          subtitle: 'Manifest V3 Messaging Port',
-          description: 'Cleaned transcript chunks are transmitted via lightweight JSON payloads over `chrome.runtime` messaging ports to the non-persistent background service worker for orchestration.'
-        },
-        {
-          step: 4,
-          title: 'Persistent Storage & State Management',
-          subtitle: 'chrome.storage.local Cache',
-          description: 'The service worker commits the incremental transcript logs to the native browser storage cache (`chrome.storage.local`), protecting state against accidental tab closures or navigation events.'
-        },
-        {
-          step: 5,
-          title: 'Export & Document Generation',
-          subtitle: 'Popup UI Serialization',
-          description: 'Upon user request, the popup action script fetches the full session cache and serializes the structured data into downloadable Markdown, JSON, or TXT formats instantly.'
-        }
-      ],
-      workflowGraph: {
-        "nodes": [
-                {
-                        "id": "content-script",
-                        "label": "Content Script & DOM Ingestion",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "MutationObserver",
-                                "feature": "DOM Ingestion"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "stream-processor",
-                        "label": "In-Memory Stream Processor",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Vanilla JS",
-                                "feature": "Deduplication"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "service-worker",
-                        "label": "Ephemeral Service Worker",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Manifest V3",
-                                "feature": "Messaging Port"
-                        },
-                        "groupId": "backend-services"
-                },
-                {
-                        "id": "local-storage",
-                        "label": "chrome.storage.local",
-                        "type": "database",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "Web Storage API",
-                                "feature": "State Management"
-                        },
-                        "groupId": "data-layer"
-                },
-                {
-                        "id": "popup-ui",
-                        "label": "Popup UI",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "tech": "HTML5/CSS3",
-                                "feature": "User Interface"
-                        },
-                        "groupId": "frontend"
-                },
-                {
-                        "id": "document-generator",
-                        "label": "Document Generator",
-                        "type": "service",
-                        "status": "success",
-                        "metadata": {
-                                "formats": "Markdown, JSON, TXT",
-                                "feature": "Serialization"
-                        },
-                        "groupId": "frontend"
-                }
+          {
+            "step": 1,
+            "title": "On-Page Execution & DOM Scraping",
+            "subtitle": "Content Script (.rc-Transcript)",
+            "description": "A content script injected into the Coursera video page monitors SPA navigation via patched history state. Upon activation, it uses robust CSS selectors to scrape rendered transcript elements from the DOM without initiating any network requests."
+          },
+          {
+            "step": 2,
+            "title": "Event Handling & State Persistence",
+            "subtitle": "Manifest V3 Background Service Worker",
+            "description": "The background service worker receives extracted transcript data via Chrome messaging and handles Alt+T keyboard shortcuts. It persists the new transcript and updates the 20-item history log within chrome.storage.local."
+          },
+          {
+            "step": 3,
+            "title": "Data Presentation & Actions",
+            "subtitle": "Popup Extension UI",
+            "description": "The popup interface reads directly from local storage to display the active transcript and historical records. It provides client-side text searching, match highlighting, and one-click options to copy or download the content as a .txt file."
+          }
         ],
-        "edges": [
-                {
-                        "id": "e1",
-                        "source": "content-script",
-                        "target": "stream-processor",
-                        "animated": true,
-                        "label": "Raw Text Cues"
-                },
-                {
-                        "id": "e2",
-                        "source": "stream-processor",
-                        "target": "service-worker",
-                        "animated": true,
-                        "label": "Clean JSON Payloads"
-                },
-                {
-                        "id": "e3",
-                        "source": "service-worker",
-                        "target": "local-storage",
-                        "animated": false,
-                        "label": "Commits Logs"
-                },
-                {
-                        "id": "e4",
-                        "source": "local-storage",
-                        "target": "popup-ui",
-                        "animated": true,
-                        "label": "Session Cache"
-                },
-                {
-                        "id": "e5",
-                        "source": "popup-ui",
-                        "target": "document-generator",
-                        "animated": true,
-                        "label": "Trigger Export"
-                }
+      workflowGraph: {
+          "nodes": [
+            {
+              "id": "coursera-dom",
+              "label": "Coursera DOM",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "source": "Rendered Page",
+                "target": ".rc-Transcript"
+              },
+              "groupId": "external"
+            },
+            {
+              "id": "content-script",
+              "label": "Content Script",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "DOM Scraping",
+                "action": "SPA Navigation"
+              },
+              "groupId": "extension-core"
+            },
+            {
+              "id": "background-sw",
+              "label": "Background Worker",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "Event Handling",
+                "type": "Manifest V3"
+              },
+              "groupId": "extension-core"
+            },
+            {
+              "id": "chrome-storage",
+              "label": "Chrome Storage Local",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "type": "Local Storage",
+                "content": "History & State"
+              },
+              "groupId": "data-layer"
+            },
+            {
+              "id": "popup-ui",
+              "label": "Popup UI",
+              "type": "frontend",
+              "status": "success",
+              "metadata": {
+                "features": "Search & Download",
+                "view": "HTML/CSS/JS"
+              },
+              "groupId": "frontend"
+            }
+          ],
+          "edges": [
+            {
+              "id": "dom-to-content",
+              "source": "coursera-dom",
+              "target": "content-script",
+              "animated": true,
+              "label": "Scrapes Text"
+            },
+            {
+              "id": "content-to-background",
+              "source": "content-script",
+              "target": "background-sw",
+              "animated": true,
+              "label": "Extract Event"
+            },
+            {
+              "id": "content-to-storage",
+              "source": "content-script",
+              "target": "chrome-storage",
+              "animated": true,
+              "label": "Reads/Writes"
+            },
+            {
+              "id": "background-to-storage",
+              "source": "background-sw",
+              "target": "chrome-storage",
+              "animated": true,
+              "label": "Persists Data"
+            },
+            {
+              "id": "storage-to-popup",
+              "source": "chrome-storage",
+              "target": "popup-ui",
+              "animated": true,
+              "label": "Loads UI State"
+            }
+          ]
+        },
+        workflows: [
+          {
+            id: 'architecture',
+            label: 'System Architecture',
+            icon: 'Layers',
+            flow: {
+          "nodes": [
+            {
+              "id": "coursera-dom",
+              "label": "Coursera DOM",
+              "type": "gateway",
+              "status": "success",
+              "metadata": {
+                "source": "Rendered Page",
+                "target": ".rc-Transcript"
+              },
+              "groupId": "external"
+            },
+            {
+              "id": "content-script",
+              "label": "Content Script",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "DOM Scraping",
+                "action": "SPA Navigation"
+              },
+              "groupId": "extension-core"
+            },
+            {
+              "id": "background-sw",
+              "label": "Background Worker",
+              "type": "service",
+              "status": "success",
+              "metadata": {
+                "role": "Event Handling",
+                "type": "Manifest V3"
+              },
+              "groupId": "extension-core"
+            },
+            {
+              "id": "chrome-storage",
+              "label": "Chrome Storage Local",
+              "type": "database",
+              "status": "success",
+              "metadata": {
+                "type": "Local Storage",
+                "content": "History & State"
+              },
+              "groupId": "data-layer"
+            },
+            {
+              "id": "popup-ui",
+              "label": "Popup UI",
+              "type": "frontend",
+              "status": "success",
+              "metadata": {
+                "features": "Search & Download",
+                "view": "HTML/CSS/JS"
+              },
+              "groupId": "frontend"
+            }
+          ],
+          "edges": [
+            {
+              "id": "dom-to-content",
+              "source": "coursera-dom",
+              "target": "content-script",
+              "animated": true,
+              "label": "Scrapes Text"
+            },
+            {
+              "id": "content-to-background",
+              "source": "content-script",
+              "target": "background-sw",
+              "animated": true,
+              "label": "Extract Event"
+            },
+            {
+              "id": "content-to-storage",
+              "source": "content-script",
+              "target": "chrome-storage",
+              "animated": true,
+              "label": "Reads/Writes"
+            },
+            {
+              "id": "background-to-storage",
+              "source": "background-sw",
+              "target": "chrome-storage",
+              "animated": true,
+              "label": "Persists Data"
+            },
+            {
+              "id": "storage-to-popup",
+              "source": "chrome-storage",
+              "target": "popup-ui",
+              "animated": true,
+              "label": "Loads UI State"
+            }
+          ]
+        },
+            desc: 'Core architecture and data flow for video-transcript-extractor.'
+          }
         ]
-}
     }
   }
 ];
@@ -2691,4 +3917,12 @@ export const FEATURED_PROJECTS = [
     hoverColor: { surface: 'rgba(1, 88, 237, 0.25)', border: 'rgba(1, 88, 237, 0.5)' },
     caseStudy: ALL_PROJECTS[1].caseStudy
   }
+];
+
+export const DEFAULT_WORKFLOWS = [
+  { id: 'rest', label: 'REST Request Lifecycle', icon: 'Globe', flow: restRequestFlow, desc: 'HTTP request journey through DNS, Load Balancers, API Gateways, Auth Middlewares, and Cache/DB tiers.' },
+  { id: 'microservices', label: 'Microservices (Event-Driven)', icon: 'Server', flow: microservicesFlow, desc: 'Asynchronous event publishing and downstream consumers communicating over a Kafka Event Bus.' },
+  { id: 'ai-agent', label: 'AI Agent Workflow', icon: 'Cpu', flow: aiAgentFlow, desc: 'Agent squad orchestration, tool calling via MCP servers, Vector DB RAG retrieval, and artifact synthesis.' },
+  { id: 'queue', label: 'Queue / Worker Pipelines', icon: 'Layers', flow: queueProcessingFlow, desc: 'AWS SQS background worker processing, error handling, Dead Letter Queue (DLQ) routing, and S3 persistence.' },
+  { id: 'auth', label: 'Authentication & Authorization', icon: 'Key', flow: authFlow, desc: 'Secure JWT exchange, multi-factor Identity Provider authentication, backchannel token minting, and session store.' }
 ];

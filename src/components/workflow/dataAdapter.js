@@ -123,16 +123,18 @@ export const adaptWorkflowData = (rawNodes = [], rawEdges = [], flowSteps = [], 
 
   // 3. Adapt all edges
   finalRawEdges.forEach((edge, index) => {
-    const edgeId = `e-${edge.from}-${edge.to}-${index}`;
+    const fromId = edge.from || edge.source;
+    const toId = edge.to || edge.target;
+    const edgeId = edge.id || `e-${fromId}-${toId}-${index}`;
     
-    const sourceNode = finalRawNodes.find(n => n.id === edge.from);
-    const targetNode = finalRawNodes.find(n => n.id === edge.to);
+    const sourceNode = finalRawNodes.find(n => n.id === fromId);
+    const targetNode = finalRawNodes.find(n => n.id === toId);
 
     // No collapsed groups, so no edges are hidden
     const isHidden = false;
 
     // Check if edge is part of highlighted execution path (connected to selectedNodeId)
-    const isExecutionPath = selectedNodeId && (edge.from === selectedNodeId || edge.to === selectedNodeId);
+    const isExecutionPath = selectedNodeId && (fromId === selectedNodeId || toId === selectedNodeId);
 
     // Determine animation
     const isAnimated = simulateExecution || edge.animated || (sourceNode && sourceNode.status === 'running') || isExecutionPath;
@@ -154,8 +156,8 @@ export const adaptWorkflowData = (rawNodes = [], rawEdges = [], flowSteps = [], 
 
     initialEdges.push({
       id: edgeId,
-      source: edge.from,
-      target: edge.to,
+      source: fromId,
+      target: toId,
       type: 'animatedPacket',
       label: edge.label || '',
       hidden: isHidden,
