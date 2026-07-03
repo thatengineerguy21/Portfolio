@@ -121,7 +121,19 @@ export const adaptWorkflowData = (rawNodes = [], rawEdges = [], flowSteps = [], 
     }
   });
 
-  // 3. Adapt all edges
+  // 3. Group edges to find siblings
+  const edgeGroups = {};
+  finalRawEdges.forEach((edge, index) => {
+    const fromId = edge.from || edge.source;
+    const toId = edge.to || edge.target;
+    const pair = [fromId, toId].sort().join('-');
+    if (!edgeGroups[pair]) {
+      edgeGroups[pair] = [];
+    }
+    edgeGroups[pair].push(index);
+  });
+
+  // 4. Adapt all edges
   finalRawEdges.forEach((edge, index) => {
     const fromId = edge.from || edge.source;
     const toId = edge.to || edge.target;
@@ -129,6 +141,12 @@ export const adaptWorkflowData = (rawNodes = [], rawEdges = [], flowSteps = [], 
     
     const sourceNode = finalRawNodes.find(n => n.id === fromId);
     const targetNode = finalRawNodes.find(n => n.id === toId);
+
+    const pair = [fromId, toId].sort().join('-');
+    const siblings = edgeGroups[pair];
+    const isSibling = siblings.length > 1;
+    const siblingIndex = siblings.indexOf(index);
+    const totalSiblings = siblings.length;
 
     // No collapsed groups, so no edges are hidden
     const isHidden = false;
@@ -174,8 +192,13 @@ export const adaptWorkflowData = (rawNodes = [], rawEdges = [], flowSteps = [], 
       },
       data: {
         label: edge.label || '',
-        isAnimated,
-        packetColor: (sourceNode?.status === 'running' || isExecutionPath || simulateExecution) ? '#3b82f6' : '#00e68a'
+        startLabel: edge.startLabel || '',
+        endLabel: edge.endLabel || '',
+        isAnimated: edge.animated !== false,
+        packetColor: (sourceNode?.status === 'running' || isExecutionPath || simulateExecution) ? '#3b82f6' : '#00e68a',
+        isSibling,
+        siblingIndex,
+        totalSiblings
       }
     });
   });

@@ -68,13 +68,13 @@ export const restRequestFlow = {
     }
   ],
   edges: [
-    { from: 'client', to: 'dns', label: '1. Resolve Domain', animated: true },
-    { from: 'dns', to: 'lb', label: '2. Route IP', animated: true },
-    { from: 'lb', to: 'api-gateway', label: '3. Forward Request', animated: true },
-    { from: 'api-gateway', to: 'service-auth', label: '4. Verify JWT', animated: true },
-    { from: 'service-auth', to: 'service-app', label: '5. Invoke Controller', animated: true },
-    { from: 'service-app', to: 'cache-redis', label: '6. Check Cache', animated: false },
-    { from: 'cache-redis', to: 'db-postgres', label: '7. Cache Miss / Query DB', animated: true }
+    { from: 'client', to: 'dns', startLabel: 'Req Domain', endLabel: '1. Resolve', animated: true },
+    { from: 'dns', to: 'lb', startLabel: 'IP Found', endLabel: '2. Route', animated: true },
+    { from: 'lb', to: 'api-gateway', startLabel: 'Proxy', endLabel: '3. Forward', animated: true },
+    { from: 'api-gateway', to: 'service-auth', startLabel: 'Auth Head', endLabel: '4. Verify JWT', animated: true },
+    { from: 'service-auth', to: 'service-app', startLabel: 'JWT Valid', endLabel: '5. Invoke', animated: true },
+    { from: 'service-app', to: 'cache-redis', startLabel: 'Fetch', endLabel: '6. Check Cache', animated: false },
+    { from: 'cache-redis', to: 'db-postgres', startLabel: 'Miss', endLabel: '7. Query DB', animated: true }
   ]
 };
 

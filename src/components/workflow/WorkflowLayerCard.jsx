@@ -11,9 +11,6 @@ const WorkflowLayerCard = ({ id, data }) => {
   // Find all standard nodes that belong to this layer
   const layerNodes = nodes.filter(n => n.data?.layer === data.id && n.id !== id && !n.hidden);
   
-  // If no nodes, we just render empty with 0 size (or default)
-  if (layerNodes.length === 0) return null;
-  
   let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
   
   layerNodes.forEach(child => {
@@ -36,7 +33,7 @@ const WorkflowLayerCard = ({ id, data }) => {
   
   // Dynamically update this node's bounds in the React Flow store
   useEffect(() => {
-    if (minX === Infinity) return;
+    if (layerNodes.length === 0 || minX === Infinity) return;
     
     setNodes(nds => {
       let changed = false;
@@ -65,7 +62,10 @@ const WorkflowLayerCard = ({ id, data }) => {
       });
       return changed ? updatedNodes : nds;
     });
-  }, [targetX, targetY, targetW, targetH, id, setNodes, minX]);
+  }, [targetX, targetY, targetW, targetH, id, setNodes, minX, layerNodes.length]);
+
+  // If no nodes, we just render empty with 0 size (or default)
+  if (layerNodes.length === 0) return null;
 
   // Premium colors mapping
   const colors = {
