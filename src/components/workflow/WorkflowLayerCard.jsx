@@ -95,9 +95,24 @@ const WorkflowLayerCard = ({ id, data }) => {
     'mcp-servers': 'rgba(244, 114, 182, 1)',
   };
 
-  const bg = colors[data.id] || 'rgba(100, 116, 139, 0.05)';
-  const border = borderColors[data.id] || 'rgba(148, 163, 184, 0.4)';
-  const textColor = textColors[data.id] || 'rgba(203, 213, 225, 1)';
+  const getDynamicColors = (id) => {
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const hue = Math.abs(hash) % 360;
+    const saturation = 70 + (Math.abs(hash) % 20); // 70-90%
+    return {
+      bg: `hsla(${hue}, ${saturation}%, 55%, 0.05)`,
+      border: `hsla(${hue}, ${saturation}%, 55%, 0.4)`,
+      text: `hsl(${hue}, ${saturation}%, 75%)`
+    };
+  };
+
+  const dynamic = colors[data.id] ? null : getDynamicColors(data.id);
+  const bg = colors[data.id] || dynamic.bg;
+  const border = borderColors[data.id] || dynamic.border;
+  const textColor = textColors[data.id] || dynamic.text;
 
   return (
     <div 

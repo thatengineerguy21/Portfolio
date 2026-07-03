@@ -182,14 +182,27 @@ const WorkflowGraphContent = ({ nodes = [], edges = [], flowSteps = [] }) => {
                 </span>
               </div>
 
-              <div className="workflow-panel-section">
-                <span className="workflow-panel-label">Metadata Payload</span>
-                <pre className="workflow-metadata-json">
-                  {JSON.stringify(selectedNode.data?.metadata || {}, null, 2)}
-                </pre>
-              </div>
+              {selectedNode.data?.metadata?.entries?.length > 0 ? (
+                selectedNode.data.metadata.entries.map((entry, idx) => (
+                  <div className="workflow-panel-section" key={entry._key || idx}>
+                    <span className="workflow-panel-label" style={{ textTransform: 'capitalize' }}>
+                      {entry.key}
+                    </span>
+                    <span className="workflow-panel-value" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                      {entry.value}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="workflow-panel-section">
+                  <span className="workflow-panel-label">Metadata Payload</span>
+                  <pre className="workflow-metadata-json">
+                    {JSON.stringify(selectedNode.data?.metadata || {}, null, 2)}
+                  </pre>
+                </div>
+              )}
 
-              {selectedNode.data?.metadata?.description && (
+              {!selectedNode.data?.metadata?.entries && selectedNode.data?.metadata?.description && (
                 <div className="workflow-panel-section">
                   <span className="workflow-panel-label">Description</span>
                   <span className="workflow-panel-value" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
