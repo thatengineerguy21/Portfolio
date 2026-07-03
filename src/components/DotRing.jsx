@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "../styles/DotRing.css";
 
 // Global state to persist cursor position across route transitions
@@ -48,6 +49,13 @@ const playClickSound = () => {
 };
 
 const DotRing = () => {
+    const location = useLocation();
+    const isProjectPageRef = useRef(location.pathname.startsWith('/projects'));
+
+    useEffect(() => {
+        isProjectPageRef.current = location.pathname.startsWith('/projects');
+    }, [location.pathname]);
+
     const ringRef = useRef(null);
     const dotRef = useRef(null);
     const hoveredElRef = useRef(null);
@@ -177,9 +185,9 @@ const DotRing = () => {
                     ring.style.borderColor = "var(--cursor-hover-ring-color)";
                     ring.style.borderWidth = "2px";
 
-                    // Hide the dot when hovering
+                    // Hide the dot when hovering, unless on Projects/Case Study pages
                     ring.style.opacity = isVisible ? "1" : "0";
-                    dot.style.opacity = "0";
+                    dot.style.opacity = (isProjectPageRef.current && isVisible) ? "1" : "0";
                 }
             } 
             
