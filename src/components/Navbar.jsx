@@ -74,28 +74,54 @@ function Navbar() {
   // ── Scroll Spy using Intersection Observer ──
   useEffect(() => {
     if (location.pathname !== '/') {
-      setCurrentSection('')
       return
     }
 
-    const sectionIds = ['about', 'socials', 'projects', 'skills', 'career', 'education', 'positions-of-responsibility', 'github-contributions', 'playlists']
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setCurrentSection(entry.target.id)
-          }
-        })
-      },
-      { rootMargin: '-20% 0px -70% 0px' }
-    )
+    let observer = null;
+    let timeoutId = null;
 
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
+    const initObserver = () => {
+      const sectionEls = document.querySelectorAll('section[id]')
+      if (sectionEls.length === 0) {
+        timeoutId = setTimeout(initObserver, 100)
+        return
+      }
 
-    return () => observer.disconnect()
+      // Synchronously determine the active section to prevent empty state flash
+      const targetY = window.innerHeight * 0.25;
+      let activeId = '';
+      sectionEls.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= targetY && rect.bottom >= targetY) {
+          activeId = el.id;
+        }
+      });
+      if (activeId) {
+        setCurrentSection(activeId);
+      } else if (sectionEls.length > 0 && !currentSection) {
+        setCurrentSection(sectionEls[0].id);
+      }
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setCurrentSection(entry.target.id)
+            }
+          })
+        },
+        { rootMargin: '-20% 0px -70% 0px' }
+      )
+
+      sectionEls.forEach((el) => observer.observe(el))
+    }
+
+    initObserver()
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      if (observer) observer.disconnect()
+    }
   }, [location.pathname])
 
   // ── Toggle mobile menu ──
@@ -109,17 +135,20 @@ function Navbar() {
   }, [])
 
   // ── Determine Dynamic Breadcrumb Segments ──
-  let dynamicSegment = ''
-  if (location.pathname === '/projects') {
-    dynamicSegment = 'projects'
-  } else if (location.pathname === '/') {
-    dynamicSegment = currentSection
+  let dynamicSegments = []
+  if (location.pathname === '/') {
+    if (currentSection) {
+      dynamicSegments = [currentSection]
+    }
+  } else {
+    // Split pathname into segments, decode them, and remove empty strings
+    dynamicSegments = location.pathname
+      .split('/')
+      .filter(Boolean)
+      .map((segment) => decodeURIComponent(segment))
   }
 
-  const currentSegments = [...(isMobile ? BREADCRUMB_SEGMENTS_MOBILE : BREADCRUMB_SEGMENTS)]
-  if (dynamicSegment) {
-    currentSegments.push(dynamicSegment)
-  }
+  const currentSegments = [...(isMobile ? BREADCRUMB_SEGMENTS_MOBILE : BREADCRUMB_SEGMENTS), ...dynamicSegments]
 
   // ── Resize merged bar to wrap both children ──
   useEffect(() => {
@@ -150,7 +179,7 @@ function Navbar() {
       window.removeEventListener('resize', debouncedResize)
       clearTimeout(resizeTimer)
     }
-  }, [scrolled, dynamicSegment])
+  }, [scrolled, location.pathname, currentSection])
 
   return (
     <>

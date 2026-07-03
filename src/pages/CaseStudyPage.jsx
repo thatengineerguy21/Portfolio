@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ALL_PROJECTS, DEFAULT_WORKFLOWS } from '../data/projects';
+
 import GlassPanel from '../components/GlassPanel';
 import ScrollReveal from '../components/ScrollReveal';
 import WorkflowGraph from '../components/workflow/WorkflowGraph';
 import WorkflowPlayground from '../components/workflow/WorkflowPlayground';
+import { useSanityData } from '../hooks/useSanityData';
+import { PROJECT_BY_SLUG_QUERY } from '../lib/sanityQueries';
+import { urlFor } from '../lib/sanityClient';
+import { fixProjectWorkflows } from '../lib/sanityHelpers';
 import '../styles/Sections.css';
 import '../styles/CaseStudy.css';
-
-
 const CaseStudyPage = () => {
   const { slug } = useParams();
-
-  const project = ALL_PROJECTS.find((p) => p.slug === slug);
+  const { data: projectRaw, loading } = useSanityData(PROJECT_BY_SLUG_QUERY, { slug }, null);
+  const project = projectRaw ? fixProjectWorkflows(projectRaw) : null;
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -26,6 +28,16 @@ const CaseStudyPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  if (loading) {
+    return (
+      <GlassPanel>
+        <div style={{ padding: '4rem 1rem', textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h2 className="section-heading" style={{ margin: 0 }}>Loading...</h2>
+        </div>
+      </GlassPanel>
+    );
+  }
 
   if (!project || !project.caseStudy) {
     return (
@@ -90,7 +102,7 @@ const CaseStudyPage = () => {
           )}
 
           {project.image && (
-            <img src={project.image} alt={project.name} className="cs-hero-image" />
+            <img src={urlFor(project.image).url()} alt={project.name} className="cs-hero-image" />
           )}
         </div>
 
@@ -444,7 +456,7 @@ const CaseStudyPage = () => {
 
             <div style={{ width: '100%', height: '700px' }}>
               <WorkflowPlayground 
-                workflows={caseStudy.workflows || DEFAULT_WORKFLOWS} 
+                workflows={caseStudy.workflows || []} 
               />
             </div>
           </ScrollReveal>

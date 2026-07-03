@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import { GlassHoverCardContainer, GlassHoverCard } from '../components/GlassHoverCard';
 import GlassPanel from '../components/GlassPanel';
 import Projects3DWorld from '../components/Projects3DWorld';
-import { ALL_PROJECTS } from '../data/projects';
+import { useSanityData } from '../hooks/useSanityData';
+import { ALL_PROJECTS_QUERY } from '../lib/sanityQueries';
+import { urlFor } from '../lib/sanityClient';
 import '../styles/Sections.css';
 
 const ProjectsPage = () => {
   const [isBrutalMode, setIsBrutalMode] = React.useState(false);
+  const { data: allProjects, loading } = useSanityData(ALL_PROJECTS_QUERY);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -46,9 +49,9 @@ const ProjectsPage = () => {
               </div>
             </div>
             <GlassHoverCardContainer className="projects-grid">
-              {ALL_PROJECTS.map((project) => (
+              {allProjects.map((project) => (
                 <GlassHoverCard
-                  key={project.name}
+                  key={project.slug || project.name}
                   hoverColor={project.hoverColor}
                   className={project.bento === 'wide' ? 'bento-wide' : ''}
                   data-cursor-hover
@@ -56,7 +59,7 @@ const ProjectsPage = () => {
                   <div className="project-card-body">
                     {project.image && (
                       <div className="project-image-preview">
-                        <img src={project.image} alt={`${project.name} preview`} style={{ width: '100%', height: 'auto' }} />
+                        <img src={urlFor(project.image).url()} alt={`${project.name} preview`} style={{ width: '100%', height: 'auto' }} />
                       </div>
                     )}
                     <span className="project-name">{project.name}</span>
@@ -65,13 +68,13 @@ const ProjectsPage = () => {
                     )}
                     <span className="project-description">{project.description}</span>
                     <div className="project-tags">
-                      {project.tags.map((tag) => (
+                      {project.tags?.map((tag) => (
                         <span key={tag} className="project-tag">{tag}</span>
                       ))}
                     </div>
-                    {(project.caseStudy || project.liveUrl || project.repoUrl || project.hackathonUrl || project.youtubeDemoUrl) && (
+                    {(project.hasCaseStudy || project.liveUrl || project.repoUrl || project.hackathonUrl || project.youtubeDemoUrl) && (
                       <div className="project-actions">
-                        {project.caseStudy && (
+                        {project.hasCaseStudy && (
                           <Link to={`/projects/${project.slug}`} className="project-btn project-btn-hackathon" data-cursor-hover>
                             Case Study
                           </Link>

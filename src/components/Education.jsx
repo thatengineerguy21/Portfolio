@@ -2,41 +2,20 @@ import React from 'react';
 import { GlassHoverCardContainer, GlassHoverCard } from './GlassHoverCard';
 import ScrollReveal from './ScrollReveal';
 import '../styles/Sections.css';
-
-const EDUCATION_ENTRIES = [
-  {
-    degree: 'Bachelor of Engineering — Information Technology',
-    institution: 'Savitribai Phule Pune University, Pune',
-    date: '2023 – 2027',
-    grade: 'CGPA: 9.23/10',
-    description: 'Relevant coursework: Data Structures & Algorithms, Operating Systems, Database Management Systems, Machine Learning, Computer Networks, Cloud Computing, Theory of Computation, Software Engineering',
-    hoverColor: { surface: 'rgba(120, 180, 255, 0.10)', border: 'rgba(120, 180, 255, 0.25)' },
-  },
-  {
-    degree: 'Bachelor of Science — Data Science and Artificial Intelligence (Online)',
-    institution: 'Indian Institute of Technology, Guwahati',
-    date: '2023 - 2028',
-
-    description: 'Relevant coursework: Statistics, Data Mining and Warehousing, Artificial Intelligence, Machine Learning, Statistical Inferencing, Optimization Methods, Probability Theory, Signals and Systems, Linear Algebra',
-    hoverColor: { surface: 'rgba(120, 255, 138, 0.1)', border: 'rgba(120, 255, 138, 0.25)' },
-  },
-  // {
-  //   degree: 'Higher Secondary Certificate (XII)',
-  //   institution: 'Your School',
-  //   date: '2020 – 2022',
-  //   description: 'Science stream — Physics, Chemistry, Mathematics, Computer Science',
-  //   hoverColor: { surface: 'rgba(160, 120, 255, 0.10)', border: 'rgba(160, 120, 255, 0.25)' },
-  // },
-  // ← Add more education entries here
-];
+import { useSanityData } from '../hooks/useSanityData';
+import { EDUCATION_QUERY } from '../lib/sanityQueries';
 
 const Education = React.memo(() => {
+  const { data: educationEntries, loading, error } = useSanityData(EDUCATION_QUERY);
+
+  if (loading) return null;
+
   return (
     <section id="education" className="section-block">
       <h2 className="section-heading">Education</h2>
       <GlassHoverCardContainer className="education-timeline">
-        {EDUCATION_ENTRIES.map((entry, index) => (
-          <ScrollReveal key={entry.degree} delay={index * 0.15}>
+        {educationEntries.map((entry, index) => (
+          <ScrollReveal key={entry._id || entry.degree} delay={index * 0.15}>
             <div className="education-entry">
               <span className="education-dot" />
               <GlassHoverCard hoverColor={entry.hoverColor} data-cursor-hover>
@@ -46,7 +25,7 @@ const Education = React.memo(() => {
                     <span className="education-institution">{entry.institution}</span>
                     <span className="education-meta-divider" />
                     <span className="education-date">{entry.date}</span>
-                    <span className="education-grade">{entry.grade}</span>
+                    {entry.grade && <span className="education-grade">{entry.grade}</span>}
                   </div>
                   <span className="education-desc">{entry.description}</span>
                 </div>
