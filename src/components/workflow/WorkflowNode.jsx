@@ -13,6 +13,7 @@ import {
   CheckCircle2, 
   AlertCircle 
 } from 'lucide-react';
+import { detectTechnology } from '../../utils/iconDetection';
 
 const getTypeIcon = (type = '') => {
   const normalized = type.toLowerCase();
@@ -78,6 +79,40 @@ const WorkflowNode = ({ data, selected }) => {
   const targetPosition = layoutDirection === 'LR' ? Position.Left : Position.Top;
   const sourcePosition = layoutDirection === 'LR' ? Position.Right : Position.Bottom;
 
+  let techMatch = detectTechnology(label);
+
+  // Fallback to searching description and metadata entries if label has no recognizable tech
+  if (!techMatch.technology && metadata) {
+    if (metadata.description) {
+      const descMatch = detectTechnology(metadata.description);
+      if (descMatch.technology) techMatch = descMatch;
+    }
+    
+    if (!techMatch.technology && metadata.entries && Array.isArray(metadata.entries)) {
+      for (const entry of metadata.entries) {
+        // We check both key and value just in case, but usually value holds the tech name
+        const entryMatch = detectTechnology(`${entry.key} ${entry.value}`);
+        if (entryMatch.technology) {
+          techMatch = entryMatch;
+          break;
+        }
+      }
+    }
+  }
+
+  const renderIcon = () => {
+    if (techMatch.iconLibrary === 'simple-icons' && techMatch.iconName) {
+      return (
+        <img 
+          src={`https://cdn.simpleicons.org/${techMatch.iconName}`} 
+          alt={techMatch.normalizedName} 
+          style={{ width: 16, height: 16, objectFit: 'contain' }} 
+        />
+      );
+    }
+    return getTypeIcon(type);
+  };
+
   return (
     <div 
       className={`workflow-node ${selected ? 'selected' : ''} ${searchHighlight ? 'search-highlight' : ''}`}
@@ -94,7 +129,7 @@ const WorkflowNode = ({ data, selected }) => {
       <div className="workflow-node-header">
         <div className="workflow-node-title-group">
           <div className="workflow-node-icon">
-            {getTypeIcon(type)}
+            {renderIcon()}
           </div>
           <div className="workflow-node-label" title={label}>
             {label}
@@ -102,8 +137,8 @@ const WorkflowNode = ({ data, selected }) => {
         </div>
         {getStatusBadge(status)}
       </div>
-
-      {/* Node Subtitle / Type */}
+      
+      {/* Node Content */}
       <div className="workflow-node-type">
         {type || 'Custom Node'}
       </div>

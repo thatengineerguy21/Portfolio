@@ -1,13 +1,15 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { 
   ReactFlow, 
   MiniMap, 
-  Controls, 
+  Controls,
+  ControlButton,
   Background, 
   useNodesState, 
   useEdgesState, 
   useReactFlow 
 } from '@xyflow/react';
+import { Maximize } from 'lucide-react';
 import WorkflowNode from './WorkflowNode';
 import WorkflowGroupNode from './WorkflowGroupNode';
 import WorkflowLayerCard from './WorkflowLayerCard';
@@ -62,6 +64,22 @@ const ReactFlowInner = ({
     }
   }, [fitViewTrigger, fitView]);
 
+  // Toggle native full screen mode for the entire workflow graph
+  const handleFullScreen = useCallback((e) => {
+    const elem = e.currentTarget.closest('.workflow-graph-wrapper');
+    if (!elem) return;
+
+    if (!document.fullscreenElement) {
+      elem.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }, []);
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -78,7 +96,11 @@ const ReactFlowInner = ({
       proOptions={{ hideAttribution: true }}
     >
       <Background color="var(--border-color, #ffffff)" gap={24} size={1.5} />
-      <Controls showInteractive={false} />
+      <Controls showInteractive={false} showFitView={false}>
+        <ControlButton onClick={handleFullScreen} title="Toggle Full Screen">
+          <Maximize size={16} />
+        </ControlButton>
+      </Controls>
       <MiniMap 
         nodeStrokeColor="var(--border-color, rgba(255,255,255,0.2))"
         nodeColor={(node) => {
