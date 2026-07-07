@@ -79,12 +79,20 @@ function Navbar() {
 
     let observer = null;
     let timeoutId = null;
+    let sectionCount = 0;
 
     const initObserver = () => {
       const sectionEls = document.querySelectorAll('section[id]')
-      if (sectionEls.length === 0) {
-        timeoutId = setTimeout(initObserver, 100)
+      if (sectionEls.length === sectionCount) {
+        if (sectionEls.length === 0) {
+          timeoutId = setTimeout(initObserver, 100)
+        }
         return
+      }
+      sectionCount = sectionEls.length;
+
+      if (observer) {
+        observer.disconnect();
       }
 
       // Synchronously determine the active section to prevent empty state flash
@@ -96,11 +104,12 @@ function Navbar() {
           activeId = el.id;
         }
       });
-      if (activeId) {
-        setCurrentSection(activeId);
-      } else if (sectionEls.length > 0 && !currentSection) {
-        setCurrentSection(sectionEls[0].id);
-      }
+      
+      setCurrentSection(prev => {
+        if (activeId) return activeId;
+        if (sectionEls.length > 0 && !prev) return sectionEls[0].id;
+        return prev;
+      });
 
       observer = new IntersectionObserver(
         (entries) => {
@@ -118,9 +127,20 @@ function Navbar() {
 
     initObserver()
 
+    const mutationObserver = new MutationObserver(() => {
+      const currentCount = document.querySelectorAll('section[id]').length;
+      if (currentCount !== sectionCount) {
+        initObserver();
+      }
+    });
+
+    const targetNode = document.getElementById('root') || document.body;
+    mutationObserver.observe(targetNode, { childList: true, subtree: true });
+
     return () => {
       if (timeoutId) clearTimeout(timeoutId)
       if (observer) observer.disconnect()
+      if (mutationObserver) mutationObserver.disconnect()
     }
   }, [location.pathname])
 
