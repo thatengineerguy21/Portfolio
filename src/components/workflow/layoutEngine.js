@@ -1,5 +1,13 @@
 import dagre from 'dagre';
 
+// These MUST match the fixed node box size defined in WorkflowTheme.css
+// (.workflow-node { width: 300px; ... }). Nodes are a fixed size rather than
+// content-sized specifically so the layout engine can reserve exact, correct
+// space for every node — mismatched sizes here are what caused nodes and
+// edges to visually overlap.
+const NODE_WIDTH = 300;
+const NODE_HEIGHT = 76;
+
 /**
  * Automatically calculates positions for nodes using Dagre DAG layout engine.
  * @param {Array} nodes - React Flow nodes
@@ -12,11 +20,14 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
   const isHorizontal = direction === 'LR';
-  dagreGraph.setGraph({ 
-    rankdir: direction, 
-    nodesep: 60, 
-    ranksep: 100, 
-    align: 'UL' 
+  dagreGraph.setGraph({
+    rankdir: direction,
+    // Generous separation so edge labels (which sit mid-edge) and the
+    // sibling-edge fan-out in AnimatedPacketEdge always have clear room
+    // and never collide with neighboring nodes or edges.
+    nodesep: 90,
+    ranksep: 170,
+    align: 'UL',
   });
 
   // Filter out layer cards for individual child layout computation
@@ -24,15 +35,27 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
 
   // Set nodes in dagre graph
   childNodes.forEach((node) => {
-    const width = 260;
-    const height = 60;
-    dagreGraph.setNode(node.id, { width, height });
+    dagreGraph.setNode(node.id, { width: NODE_WIDTH, height: NODE_HEIGHT });
   });
 
-  // Set edges in dagre graph
+  // Set edges in dagre graph with label dimensions for collision avoidance and detour routing
   edges.forEach((edge) => {
     if (!edge.hidden) {
-      dagreGraph.setEdge(edge.source, edge.target, { weight: 1 }, edge.id);
+      const label = edge.label || edge.data?.label || '';
+      const labelWidth = label ? Math.max(90, Math.min(260, label.length * 8 + 24)) : 0;
+      const labelHeight = label ? 32 : 0;
+
+      dagreGraph.setEdge(
+        edge.source,
+        edge.target,
+        {
+          weight: 1,
+          width: labelWidth,
+          height: labelHeight,
+          labelpos: 'c',
+        },
+        edge.id
+      );
     }
   });
 
@@ -47,28 +70,22 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
     const nodeWithPosition = dagreGraph.node(node.id);
     if (!nodeWithPosition) return node;
 
-    const width = 260;
-    const height = 60;
-
     return {
       ...node,
       targetPosition: isHorizontal ? 'left' : 'top',
       sourcePosition: isHorizontal ? 'right' : 'bottom',
       position: {
-        x: nodeWithPosition.x - width / 2,
-        y: nodeWithPosition.y - height / 2,
+        x: nodeWithPosition.x - NODE_WIDTH / 2,
+        y: nodeWithPosition.y - NODE_HEIGHT / 2,
       },
     };
   });
 
-  // Group edges to find siblings between the same source and target
+  // Group edges to find siblings between the same source and target (bidirectional-aware)
   const edgeGroups = {};
   edges.forEach((edge) => {
     if (!edge.hidden) {
-      // Create a unique key for the edge's direction (or bidirectional)
-      // If you want bidirectional edges to also separate, you can sort source and target:
-      // const key = [edge.source, edge.target].sort().join('-');
-      const key = `${edge.source}-${edge.target}`;
+      const key = [edge.source, edge.target].sort().join('-');
       if (!edgeGroups[key]) edgeGroups[key] = [];
       edgeGroups[key].push(edge);
     }
@@ -76,9 +93,14 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
 
   const layoutedEdges = edges.map((edge) => {
     if (!edge.hidden) {
-      const key = `${edge.source}-${edge.target}`;
+      const key = [edge.source, edge.target].sort().join('-');
       const group = edgeGroups[key] || [];
       const siblingIndex = group.findIndex(e => e.id === edge.id);
+
+      const edgeData = dagreGraph.edge(edge.source, edge.target, edge.id);
+      const points = edgeData?.points || [];
+      const labelX = edgeData?.x;
+      const labelY = edgeData?.y;
       
       return {
         ...edge,
@@ -86,42 +108,64 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
           ...edge.data,
           siblingIndex: siblingIndex >= 0 ? siblingIndex : 0,
           totalSiblings: group.length || 1,
+          points,
+          labelX,
+          labelY,
         },
       };
     }
     return edge;
   });
 
-  // Pass 2: Detect median collisions (non-sibling edges crossing at same midpoint)
-  const edgeMidpoints = layoutedEdges.map(edge => {
-    const sNode = layoutedNodes.find(n => n.id === edge.source);
-    const tNode = layoutedNodes.find(n => n.id === edge.target);
-    if (!sNode || !tNode) return null;
-    return {
-      edge,
-      midX: (sNode.position.x + tNode.position.x) / 2,
-      midY: (sNode.position.y + tNode.position.y) / 2
-    };
-  }).filter(Boolean);
+  // Pass 2: Collision safety check for edge labels to guarantee no overlaps with nodes or other labels
+  const placedLabels = [];
+  layoutedEdges.forEach((edge) => {
+    if (!edge.hidden && edge.data?.label && edge.data?.labelX != null && edge.data?.labelY != null) {
+      let lx = edge.data.labelX;
+      let ly = edge.data.labelY;
+      const label = edge.data.label;
+      const w = Math.max(90, Math.min(260, label.length * 8 + 24));
+      const h = 32;
 
-  edgeMidpoints.forEach((curr, i) => {
-    let overlapCount = 0;
-    for (let j = 0; j < i; j++) {
-      const other = edgeMidpoints[j];
-      // Check for overlap in a 30px radius. (Ignore if they are siblings, as siblings are handled by Fan-Out)
-      const isSibling = curr.edge.source === other.edge.source && curr.edge.target === other.edge.target;
-      if (!isSibling && Math.abs(curr.midX - other.midX) < 30 && Math.abs(curr.midY - other.midY) < 30) {
-        overlapCount++;
+      let changed = true;
+      let iterations = 0;
+      while (changed && iterations < 5) {
+        changed = false;
+        iterations++;
+
+        // 1. Ensure no overlap with any node bounding box
+        for (const node of layoutedNodes) {
+          if (node.type === 'layerCard') continue;
+          const nx = node.position.x + NODE_WIDTH / 2;
+          const ny = node.position.y + NODE_HEIGHT / 2;
+          if (Math.abs(lx - nx) < (w + NODE_WIDTH) / 2 + 10 && Math.abs(ly - ny) < (h + NODE_HEIGHT) / 2 + 10) {
+            if (direction === 'TB') {
+              const shiftDir = lx >= nx ? 1 : -1;
+              lx = nx + shiftDir * ((w + NODE_WIDTH) / 2 + 16);
+            } else {
+              const shiftDir = ly >= ny ? 1 : -1;
+              ly = ny + shiftDir * ((h + NODE_HEIGHT) / 2 + 16);
+            }
+            changed = true;
+          }
+        }
+
+        // 2. Ensure no overlap with previously placed labels
+        for (const placed of placedLabels) {
+          if (Math.abs(lx - placed.x) < (w + placed.w) / 2 + 8 && Math.abs(ly - placed.y) < (h + placed.h) / 2 + 8) {
+            if (direction === 'TB') {
+              lx += (w / 2 + 16) * (lx >= placed.x ? 1 : -1);
+            } else {
+              ly += (h / 2 + 12) * (ly >= placed.y ? 1 : -1);
+            }
+            changed = true;
+          }
+        }
       }
-    }
-    
-    // Assign labelShift (0, 1, -1, 2, -2...)
-    if (overlapCount > 0) {
-       const shiftMag = Math.ceil(overlapCount / 2);
-       const shiftSign = overlapCount % 2 === 1 ? 1 : -1;
-       curr.edge.data.labelShift = shiftMag * shiftSign;
-    } else {
-       curr.edge.data.labelShift = 0;
+
+      edge.data.labelX = lx;
+      edge.data.labelY = ly;
+      placedLabels.push({ x: lx, y: ly, w, h });
     }
   });
 

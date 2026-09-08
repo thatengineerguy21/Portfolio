@@ -196,6 +196,10 @@ export const adaptWorkflowData = (rawNodes = [], rawEdges = [], flowSteps = [], 
         endLabel: edge.endLabel || '',
         isAnimated: edge.animated !== false,
         packetColor: (sourceNode?.status === 'running' || isExecutionPath || simulateExecution) ? '#3b82f6' : '#00e68a',
+        // Semantic status color, when one applies, takes priority over the
+        // per-edge hash color so highlighted / simulated paths are always
+        // clearly distinguishable from ordinary edges.
+        statusColor: isExecutionPath ? '#3b82f6' : simulateExecution ? '#10b981' : null,
         isSibling,
         siblingIndex,
         totalSiblings

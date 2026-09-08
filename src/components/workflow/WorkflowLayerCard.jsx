@@ -2,7 +2,11 @@ import { memo, useEffect } from 'react';
 import { useNodes, useReactFlow } from '@xyflow/react';
 import { Layers } from 'lucide-react';
 
-const PADDING = 40;
+const PADDING = 48;
+// Must match NODE_WIDTH / NODE_HEIGHT in layoutEngine.js and the fixed
+// .workflow-node size in WorkflowTheme.css.
+const NODE_WIDTH = 300;
+const NODE_HEIGHT = 76;
 
 const WorkflowLayerCard = ({ id, data }) => {
   const nodes = useNodes();
@@ -17,8 +21,8 @@ const WorkflowLayerCard = ({ id, data }) => {
     const x = child.position.x;
     const y = child.position.y;
     // Fallbacks if not yet measured
-    const w = child.measured?.width || 260;
-    const h = child.measured?.height || 60;
+    const w = child.measured?.width || NODE_WIDTH;
+    const h = child.measured?.height || NODE_HEIGHT;
     
     minX = Math.min(minX, x);
     minY = Math.min(minY, y);

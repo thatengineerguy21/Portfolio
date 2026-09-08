@@ -176,9 +176,12 @@
   border: 1px solid var(--node-border);
   border-radius: 0.75rem;
   padding: 1rem 1.25rem;
-  min-width: 280px;
-  width: max-content;
-  max-width: 420px;
+  /* Fixed width — MUST stay in sync with NODE_WIDTH in layoutEngine.js.
+     A fixed (non-content-based) width is what lets the dagre layout engine
+     reserve exactly the right amount of space for every node, which is what
+     stops nodes/edges from overlapping. Long labels are truncated with an
+     ellipsis (see .workflow-node-label) rather than growing the box. */
+  width: 300px;
   box-sizing: border-box;
   box-shadow: var(--node-shadow);
   display: flex;
@@ -186,14 +189,10 @@
   gap: 0.5rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: grab;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
   position: relative;
   overflow: hidden;
-}
-
-.workflow-node:active {
-  cursor: grabbing;
 }
 
 .workflow-node:hover {

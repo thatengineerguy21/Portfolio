@@ -53,14 +53,14 @@ const ReactFlowInner = ({
 
     // Fit view after layout computation
     setTimeout(() => {
-      fitView({ padding: 0.2, duration: 800 });
+      fitView({ padding: 0.25, duration: 800 });
     }, 100);
   }, [initialNodes, initialEdges, layoutDirection, setNodes, setEdges, fitView]);
 
   // Trigger fit view externally via toolbar button
   useEffect(() => {
     if (fitViewTrigger > 0) {
-      fitView({ padding: 0.2, duration: 800 });
+      fitView({ padding: 0.25, duration: 800 });
     }
   }, [fitViewTrigger, fitView]);
 
@@ -94,6 +94,14 @@ const ReactFlowInner = ({
       minZoom={0.1}
       maxZoom={4}
       proOptions={{ hideAttribution: true }}
+      // Nodes are positioned entirely by the dagre layout engine. Letting
+      // people drag them around broke the layer-card bounding boxes and
+      // made the diagram look randomly scattered, so dragging/connecting
+      // is disabled — the graph stays exactly as laid out, always readable.
+      nodesDraggable={false}
+      nodesConnectable={false}
+      elementsSelectable={true}
+      panOnDrag={true}
     >
       <Background color="var(--border-color, #ffffff)" gap={24} size={1.5} />
       <Controls showInteractive={false} showFitView={false}>
