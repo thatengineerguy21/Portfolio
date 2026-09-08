@@ -48,17 +48,32 @@ export function fixProjectWorkflows(project) {
 
   const fixed = { ...project }
 
-  // Fix top-level workflowGraph
+  // Fix top-level or caseStudy workflowGraph
   if (fixed.workflowGraph) {
     fixed.workflowGraph = fixWorkflowMetadata(fixed.workflowGraph)
   }
+  if (fixed.caseStudy?.workflowGraph) {
+    fixed.caseStudy = {
+      ...fixed.caseStudy,
+      workflowGraph: fixWorkflowMetadata(fixed.caseStudy.workflowGraph)
+    }
+  }
 
-  // Fix each workflow's flow
+  // Fix top-level or caseStudy workflows
   if (fixed.workflows) {
     fixed.workflows = fixed.workflows.map((wf) => ({
       ...wf,
       flow: fixWorkflowMetadata(wf.flow),
     }))
+  }
+  if (fixed.caseStudy?.workflows) {
+    fixed.caseStudy = {
+      ...fixed.caseStudy,
+      workflows: fixed.caseStudy.workflows.map((wf) => ({
+        ...wf,
+        flow: fixWorkflowMetadata(wf.flow),
+      }))
+    }
   }
 
   return fixed
