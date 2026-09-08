@@ -1,28 +1,23 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from '../context/ThemeContext';
 import Navbar from './Navbar';
-import { describe, it, expect, vi } from 'vitest';
-
-// Mock IntersectionObserver
-class MockIntersectionObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-}
-window.IntersectionObserver = MockIntersectionObserver;
+import { describe, it, expect } from 'vitest';
 
 describe('Navbar Component', () => {
   it('renders the navbar with breadcrumbs and links', () => {
     render(
-      <MemoryRouter>
-        <Navbar />
-      </MemoryRouter>
+      <ThemeProvider>
+        <MemoryRouter>
+          <Navbar />
+        </MemoryRouter>
+      </ThemeProvider>
     );
     
     // Check if basic links are present
-    expect(screen.getByText('Projects')).toBeInTheDocument();
-    expect(screen.getByText('Career')).toBeInTheDocument();
-    expect(screen.getByText('Skills')).toBeInTheDocument();
+    expect(screen.getAllByText('Projects')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Career')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Skills')[0]).toBeInTheDocument();
     
     // Check if initial breadcrumbs are present
     expect(screen.getByText('~')).toBeInTheDocument();

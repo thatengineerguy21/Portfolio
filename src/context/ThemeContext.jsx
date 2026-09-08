@@ -6,7 +6,7 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState('dark'); // Default to dark
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = typeof window !== 'undefined' && window.localStorage ? window.localStorage.getItem('theme') : null;
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -22,7 +22,9 @@ export const ThemeProvider = ({ children }) => {
   const toggleTheme = () => {
     setTheme((prevTheme) => {
       const newTheme = prevTheme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', newTheme);
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem('theme', newTheme);
+      }
       document.documentElement.setAttribute('data-theme', newTheme);
       return newTheme;
     });

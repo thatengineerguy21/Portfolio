@@ -36,7 +36,6 @@ class PerformanceManager {
   #isCritical = false;
   #rafId = null;
   #running = false;
-  #lastFrameTime = 0;
   #styleInjected = false;
   #toastTimeout = null;
 
@@ -75,7 +74,6 @@ class PerformanceManager {
     if (this.#running) return;
     this.#running = true;
     this.#lastSampleTime = performance.now();
-    this.#lastFrameTime = performance.now();
     this.#frameCount = 0;
     this.#injectToastStyles();
     this.#tick();
