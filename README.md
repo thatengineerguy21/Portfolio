@@ -15,7 +15,7 @@ Personal developer portfolio built with React 19, Vite, Tailwind CSS v4, and San
 
 ### 1. Prerequisites
 
-- [Node.js](https://nodejs.org/) (v20+ recommended)
+- [Node.js](https://nodejs.org/) (v26+ recommended)
 - `npm` (bundled with Node)
 
 ### 2. Environment Setup

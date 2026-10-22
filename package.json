@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=26.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,7 +14,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@sanity/client": "^7.23.0",
+    "@sanity/client": "^8.10.1",
     "@sanity/image-url": "^2.1.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
@@ -21,7 +24,7 @@
     "lucide-react": "^1.21.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-github-calendar": "^5.0.6",
+    "react-github-calendar": "^5.0.9",
     "react-router-dom": "^7.13.1",
     "simple-icons": "^16.24.1"
   },
